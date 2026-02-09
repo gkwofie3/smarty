@@ -1,0 +1,2358 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Color Admin | POS - Table Booking</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- ================== BEGIN core-css ================== -->
+<link href="..\assets\css\vendor.min.css" rel="stylesheet"/>
+<link href="..\assets\css\default\app.min.css" rel="stylesheet"/>
+<!-- ================== END core-css ================== -->
+</head>
+<body class="pace-top">
+<!-- BEGIN #loader -->
+<div class="app-loader" id="loader">
+<span class="spinner"></span>
+</div>
+<!-- END #loader -->
+<!-- BEGIN #app -->
+<div class="app app-content-full-height app-without-sidebar app-without-header" id="app">
+<!-- BEGIN #content -->
+<div class="app-content p-0" id="content">
+<!-- BEGIN pos -->
+<div class="pos pos-with-header" id="pos">
+<!-- BEGIN pos-header -->
+<div class="pos-header">
+<div class="logo">
+<a href="index.html">
+<div class="logo-img"><i class="fa fa-bowl-rice fs-2"></i></div>
+<div class="logo-text">Pine &amp; Dine</div>
+</a>
+</div>
+<div class="time" id="time">00:00</div>
+<div class="nav">
+<div class="nav-item">
+<a class="nav-link" href="pos_counter_checkout.html">
+<i class="far fa-credit-card nav-icon"></i>
+</a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="pos_kitchen_order.html">
+<i class="far fa-clock nav-icon"></i>
+</a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="pos_table_booking.html">
+<i class="far fa-calendar-check nav-icon"></i>
+</a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="pos_menu_stock.html">
+<i class="fa fa-chart-pie nav-icon"></i>
+</a>
+</div>
+</div>
+</div>
+<!-- END pos-header -->
+<!-- BEGIN pos-content -->
+<div class="pos-content">
+<div class="pos-content-container p-4">
+<div class="d-md-flex align-items-center mb-4">
+<div class="pos-booking-title flex-1">
+<div class="fs-24px mb-1">Available Table (8/20)</div>
+<div class="mb-2 mb-md-0 d-flex">
+<div class="d-flex align-items-center me-3">
+<i class="fa fa-circle fa-fw text-gray-700 fs-9px me-1"></i> Completed
+									</div>
+<div class="d-flex align-items-center me-3">
+<i class="fa fa-circle fa-fw text-warning fs-9px me-1"></i> Upcoming
+									</div>
+<div class="d-flex align-items-center me-3">
+<i class="fa fa-circle fa-fw text-success fs-9px me-1"></i> In-progress
+									</div>
+</div>
+</div>
+<div>
+<div class="w-200px">
+<input class="form-control form-control-lg fs-13px" placeholder="Today's" type="date"/>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">01</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="text-theme display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Reserved by Sean</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info">Reserved by Irene Wong (4pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">Reserved by Irene Wong (4pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">02</div>
+<div class="desc">max 8 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Reserved by John (8pax)</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">Reserved by Terry (6pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">03</div>
+<div class="desc">max 8 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">Reserved by Lisa (8pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">Reserved by Lisa (8pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">Reserved by Terry</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">04</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">Reserved by Richard (4pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">Reserved by Richard (4pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">Reserved by Paul (3pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">Reserved by Paul (3pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">Reserved by Paul (3pax)</div>
+<div class="status upcoming"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">05</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">06</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="pe-1 text-theme display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">07</div>
+<div class="desc">max 6 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">08</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">09</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="pe-1 text-theme display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">10</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">11</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="pe-1 text-theme display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">12</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="pe-1 text-theme display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">13</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="pe-1 text-theme display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">14</div>
+<div class="desc">max 6 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">15</div>
+<div class="desc">max 6 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">16</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="pe-1 text-theme display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">17</div>
+<div class="desc">max 4 pax</div>
+</div>
+<div class="pe-1 text-theme display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">18</div>
+<div class="desc">max 6 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">19</div>
+<div class="desc">max 6 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+<a class="pos-table-booking" data-bs-target="#modalPosBooking" data-bs-toggle="modal" href="pos_table_booking.html">
+<div class="pos-table-booking-container">
+<div class="pos-table-booking-header">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="title">TABLE</div>
+<div class="no">20</div>
+<div class="desc">max 6 pax</div>
+</div>
+<div class="text-gray-600 display-5">
+<iconify-icon icon="solar:check-circle-line-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pos-table-booking-body">
+<div class="booking">
+<div class="time">08:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">09:00am</div>
+<div class="info">Walk in breakfast</div>
+<div class="status completed"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">10:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">11:00am</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking highlight">
+<div class="time">12:00pm</div>
+<div class="info">Walk in lunch</div>
+<div class="status in-progress"><i class="fa fa-circle"></i></div>
+</div>
+<div class="booking">
+<div class="time">01:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">02:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">03:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">04:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">05:00pm</div>
+<div class="info-title">-</div>
+<div class="info-desc"></div>
+</div>
+<div class="booking">
+<div class="time">06:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">07:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">08:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">09:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+<div class="booking">
+<div class="time">10:00pm</div>
+<div class="info">-</div>
+<div class="status"></div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- END pos-content -->
+</div>
+<!-- END pos -->
+</div>
+<!-- END #content -->
+<!-- BEGIN theme-panel -->
+<div class="theme-panel">
+<a class="theme-collapse-btn" data-toggle="theme-panel-expand" href="..\..\..\;"><i class="fa fa-cog"></i></a>
+<div class="theme-panel-content" data-height="100%" data-scrollbar="true">
+<h5>App Settings</h5>
+<!-- BEGIN theme-list -->
+<div class="theme-list">
+<div class="theme-list-item"><a class="theme-list-link bg-red" data-bs-container="body" data-bs-title="Red" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-red" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-pink" data-bs-container="body" data-bs-title="Pink" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-pink" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-orange" data-bs-container="body" data-bs-title="Orange" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-orange" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-yellow" data-bs-container="body" data-bs-title="Yellow" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-yellow" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-lime" data-bs-container="body" data-bs-title="Lime" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-lime" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-green" data-bs-container="body" data-bs-title="Green" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-green" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item active"><a class="theme-list-link bg-teal" data-bs-container="body" data-bs-title="Default" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-cyan" data-bs-container="body" data-bs-title="Cyan" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-cyan" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-blue" data-bs-container="body" data-bs-title="Blue" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-blue" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-purple" data-bs-container="body" data-bs-title="Purple" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-purple" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-indigo" data-bs-container="body" data-bs-title="Indigo" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-indigo" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-black" data-bs-container="body" data-bs-title="Black" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-gray-600" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+</div>
+<!-- END theme-list -->
+<div class="theme-panel-divider"></div>
+<div class="row mt-10px">
+<div class="col-8 control-label text-body fw-bold">
+<div class="d-flex">Dark Mode <span class="badge bg-primary ms-1 position-relative d-flex align-items-center">NEW</span></div>
+<div class="lh-14">
+<small class="text-body opacity-50">
+								Adjust the appearance to reduce glare and give your eyes a break.
+							</small>
+</div>
+</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appThemeDarkMode" name="app-theme-dark-mode" type="checkbox" value="1"/>
+<label class="form-check-label" for="appThemeDarkMode"></label>
+</div>
+</div>
+</div>
+<div class="theme-panel-divider"></div>
+<!-- BEGIN theme-switch -->
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Header Fixed</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input checked="" class="form-check-input" id="appHeaderFixed" name="app-header-fixed" type="checkbox" value="1"/>
+<label class="form-check-label" for="appHeaderFixed"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Header Inverse</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appHeaderInverse" name="app-header-inverse" type="checkbox" value="1"/>
+<label class="form-check-label" for="appHeaderInverse"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Sidebar Fixed</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input checked="" class="form-check-input" id="appSidebarFixed" name="app-sidebar-fixed" type="checkbox" value="1"/>
+<label class="form-check-label" for="appSidebarFixed"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Sidebar Grid</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appSidebarGrid" name="app-sidebar-grid" type="checkbox" value="1"/>
+<label class="form-check-label" for="appSidebarGrid"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Gradient Enabled</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appGradientEnabled" name="app-gradient-enabled" type="checkbox" value="1"/>
+<label class="form-check-label" for="appGradientEnabled"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label d-flex text-body fw-bold">RTL Enabled <span class="badge bg-primary ms-1 position-relative d-flex align-items-center">NEW</span></div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appRtlMode" name="app-rtl-mode" type="checkbox" value="1"/>
+<label class="form-check-label" for="appRtlMode"></label>
+</div>
+</div>
+</div>
+<!-- END theme-switch -->
+<div class="theme-panel-divider"></div>
+<h5>Admin Design (6)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link active" href="index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/default.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\transparent\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/transparent.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\apple\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/apple.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\material\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/material.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\facebook\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/facebook.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\google\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/google.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<h5>Language Version (9)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link active" href="index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/html.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\ajax\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/ajax.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\angularjs\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/angular1x.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\angularjs20\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/angular20x.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\svelte\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/svelte.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('Laravel Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/laravel.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('Django Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/django.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\vue3\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/vuejs.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\react\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/reactjs.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('.NET Core MVC Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/dotnet.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\nextjs\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/nextjs.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<h5>Frontend Design (5)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\one-page-parallax\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/one-page-parallax.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\e-commerce\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/e-commerce.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\blog\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/blog.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\forum\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/forum.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\corporate\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/corporate.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<a class="btn btn-dark d-block w-100 rounded-pill mb-10px" href="..\..\documentation\index.html" target="_blank"><b>Documentation</b></a>
+<a class="btn btn-default d-block w-100 rounded-pill" data-toggle="reset-local-storage" href="..\..\..\;"><b>Reset Local Storage</b></a>
+</div>
+</div>
+<!-- END theme-panel -->
+<!-- BEGIN scroll-top-btn -->
+<a class="btn btn-icon btn-circle btn-theme btn-scroll-to-top" data-toggle="scroll-to-top" href="..\..\..\;"><i class="fa fa-angle-up"></i></a>
+<!-- END scroll-top-btn -->
+</div>
+<!-- END #app -->
+<!-- BEGIN #modalPosBooking -->
+<div class="modal modal-pos-booking fade" id="modalPosBooking">
+<div class="modal-dialog modal-lg">
+<div class="modal-content border-0">
+<div class="modal-body">
+<div class="d-flex align-items-center mb-3">
+<h4 class="modal-title d-flex align-items-center"><i class="fa fa-bowl-rice fs-2 me-2 my-n1"></i> Table 01 <small class="fs-13px fw-bold ms-2">max 4 pax</small></h4>
+<a class="ms-auto btn-close" data-bs-dismiss="modal" href="pos_table_booking.html"></a>
+</div>
+<div class="row">
+<div class="col-lg-6">
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">08:00am</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">09:00am</div>
+<input class="form-control" placeholder="" type="text" value="Reserved by Sean"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">10:00am</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">11:00am</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">12:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">01:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">02:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">03:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">04:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">05:00pm</div>
+<input class="form-control" placeholder="" type="text" value="Reserved by Irene Wong (4pax)"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">06:00pm</div>
+<input class="form-control" placeholder="" type="text" value="Reserved by Irene Wong (4pax)"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">07:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">08:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">09:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+<div class="form-group mb-2">
+<div class="input-group">
+<div class="input-group-text fw-bold">10:00pm</div>
+<input class="form-control" placeholder="" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<a class="btn btn-default w-100px" data-bs-dismiss="modal" href="pos_table_booking.html">Cancel</a>
+<button class="btn btn-success w-100px" type="submit">Book</button>
+</div>
+</div>
+</div>
+</div>
+<!-- END #modalPosBooking -->
+<!-- ================== BEGIN core-js ================== -->
+<script src="..\assets\js\vendor.min.js"></script>
+<script src="..\assets\js\app.min.js"></script>
+<!-- ================== END core-js ================== -->
+<!-- ================== BEGIN page-js ================== -->
+<script src="..\assets\js\demo\pos-header.demo.js"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<!-- ================== END page-js ================== -->
+<!-- Google Analytics Code -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-6KZ93349XS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-6KZ93349XS");
+</script>
+</body>
+</html>

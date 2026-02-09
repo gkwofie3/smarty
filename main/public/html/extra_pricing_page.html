@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Color Admin | Pricing Page</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- ================== BEGIN core-css ================== -->
+<link href="..\assets\css\vendor.min.css" rel="stylesheet"/>
+<link href="..\assets\css\default\app.min.css" rel="stylesheet"/>
+<!-- ================== END core-css ================== -->
+</head>
+<body>
+<!-- BEGIN #loader -->
+<div class="app-loader" id="loader">
+<span class="spinner"></span>
+</div>
+<!-- END #loader -->
+<!-- BEGIN #app -->
+<div class="app app-header-fixed app-sidebar-fixed" id="app">
+<!-- BEGIN #header -->
+<div class="app-header" id="header">
+<!-- BEGIN navbar-header -->
+<div class="navbar-header">
+<a class="navbar-brand" href="index.html"><span class="navbar-logo"></span> <b class="me-3px">Color</b> Admin</a>
+<button class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile" type="button">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+</div>
+<!-- END navbar-header -->
+<!-- BEGIN header-nav -->
+<div class="navbar-nav">
+<div class="navbar-item navbar-form">
+<form action="" method="POST" name="search">
+<div class="form-group">
+<input class="form-control" placeholder="Enter keyword" type="text"/>
+<button class="btn btn-search" type="submit"><i class="fa fa-search"></i></button>
+</div>
+</form>
+</div>
+<div class="navbar-item dropdown">
+<a class="navbar-link dropdown-toggle icon" data-bs-toggle="dropdown" href="extra_pricing_page.html">
+<i class="fa fa-bell"></i>
+<span class="badge">5</span>
+</a>
+<div class="dropdown-menu media-list dropdown-menu-end">
+<div class="dropdown-header">NOTIFICATIONS (5)</div>
+<a class="dropdown-item media" href="..\..\..\;">
+<div class="media-left">
+<i class="fa fa-bug media-object bg-gray-500"></i>
+</div>
+<div class="media-body">
+<h6 class="media-heading">Server Error Reports <i class="fa fa-exclamation-circle text-danger"></i></h6>
+<div class="text-muted fs-10px">3 minutes ago</div>
+</div>
+</a>
+<a class="dropdown-item media" href="..\..\..\;">
+<div class="media-left">
+<img alt="" class="media-object" src="..\assets\img\user\user-1.jpg"/>
+<i class="fab fa-facebook-messenger text-blue media-object-icon"></i>
+</div>
+<div class="media-body">
+<h6 class="media-heading">John Smith</h6>
+<p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
+<div class="text-muted fs-10px">25 minutes ago</div>
+</div>
+</a>
+<a class="dropdown-item media" href="..\..\..\;">
+<div class="media-left">
+<img alt="" class="media-object" src="..\assets\img\user\user-2.jpg"/>
+<i class="fab fa-facebook-messenger text-blue media-object-icon"></i>
+</div>
+<div class="media-body">
+<h6 class="media-heading">Olivia</h6>
+<p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
+<div class="text-muted fs-10px">35 minutes ago</div>
+</div>
+</a>
+<a class="dropdown-item media" href="..\..\..\;">
+<div class="media-left">
+<i class="fa fa-plus media-object bg-gray-500"></i>
+</div>
+<div class="media-body">
+<h6 class="media-heading"> New User Registered</h6>
+<div class="text-muted fs-10px">1 hour ago</div>
+</div>
+</a>
+<a class="dropdown-item media" href="..\..\..\;">
+<div class="media-left">
+<i class="fa fa-envelope media-object bg-gray-500"></i>
+<i class="fab fa-google text-warning media-object-icon fs-14px"></i>
+</div>
+<div class="media-body">
+<h6 class="media-heading"> New Email From John</h6>
+<div class="text-muted fs-10px">2 hour ago</div>
+</div>
+</a>
+<div class="dropdown-footer text-center">
+<a class="text-decoration-none" href="..\..\..\;">View more</a>
+</div>
+</div>
+</div>
+<div class="navbar-item navbar-user dropdown">
+<a class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" href="extra_pricing_page.html">
+<img alt="" src="..\assets\img\user\user-13.jpg"/>
+<span>
+<span class="d-none d-md-inline fw-bold">Adam Schwartz</span>
+<b class="caret"></b>
+</span>
+</a>
+<div class="dropdown-menu dropdown-menu-end me-1">
+<a class="dropdown-item" href="extra_profile.html">Edit Profile</a>
+<a class="dropdown-item d-flex align-items-center" href="email_inbox.html">
+							Inbox
+							<span class="badge bg-danger rounded-pill ms-auto pb-4px">2</span>
+</a>
+<a class="dropdown-item" href="calendar.html">Calendar</a>
+<a class="dropdown-item" href="extra_settings_page.html">Settings</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="login.html">Log Out</a>
+</div>
+</div>
+</div>
+<!-- END header-nav -->
+</div>
+<!-- END #header -->
+<!-- BEGIN #sidebar -->
+<div class="app-sidebar" data-bs-theme="dark" id="sidebar">
+<!-- BEGIN scrollbar -->
+<div class="app-sidebar-content" data-height="100%" data-scrollbar="true">
+<!-- BEGIN menu -->
+<div class="menu">
+<div class="menu-profile">
+<a class="menu-profile-link" data-target="#appSidebarProfileMenu" data-toggle="app-sidebar-profile" href="..\..\..\;">
+<div class="menu-profile-cover with-shadow"></div>
+<div class="menu-profile-image">
+<img alt="" src="..\assets\img\user\user-13.jpg"/>
+</div>
+<div class="menu-profile-info">
+<div class="d-flex align-items-center">
+<div class="flex-grow-1">
+										
+									</div>
+<div class="menu-caret ms-auto"></div>
+</div>
+<small>Frontend developer</small>
+</div>
+</a>
+</div>
+<div class="collapse" id="appSidebarProfileMenu">
+<div class="menu-item pt-5px">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon"><i class="fa fa-cog"></i></div>
+<div class="menu-text">Settings</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon"><i class="fa fa-pencil-alt"></i></div>
+<div class="menu-text"> Send Feedback</div>
+</a>
+</div>
+<div class="menu-item pb-5px">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon"><i class="fa fa-question-circle"></i></div>
+<div class="menu-text"> Helps</div>
+</a>
+</div>
+<div class="menu-divider m-0"></div>
+</div>
+<div class="menu-header">Navigation</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-sitemap"></i> </div>
+<div class="menu-text">Dashboard</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="index.html"><div class="menu-text">Dashboard v1</div></a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="index_v2.html"><div class="menu-text">Dashboard v2</div></a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="index_v3.html"><div class="menu-text">Dashboard v3</div></a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-microchip"></i>
+</div>
+<div class="menu-text">AI Studio <span class="menu-label">NEW</span></div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="ai_chat.html">
+<div class="menu-text">AI Chat</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ai_image_generator.html">
+<div class="menu-text">AI Image Generator</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-hdd"></i>
+</div>
+<div class="menu-text">Email</div>
+<div class="menu-badge">10</div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="email_inbox.html">
+<div class="menu-text">Inbox</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="email_compose.html">
+<div class="menu-text">Compose</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="email_detail.html">
+<div class="menu-text">Detail</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="widget.html">
+<div class="menu-icon">
+<i class="fab fa-simplybuilt"></i>
+</div>
+<div class="menu-text">Widgets <span class="menu-label">NEW</span></div>
+</a>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-gem"></i>
+</div>
+<div class="menu-text">UI Elements <span class="menu-label">NEW</span></div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="ui_general.html">
+<div class="menu-text">General <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_typography.html">
+<div class="menu-text">Typography</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_tabs_accordions.html">
+<div class="menu-text">Tabs &amp; Accordions</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_unlimited_tabs.html">
+<div class="menu-text">Unlimited Nav Tabs</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_modal_notification.html">
+<div class="menu-text">Modal &amp; Notification <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_widget_boxes.html">
+<div class="menu-text">Widget Boxes</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_media_object.html">
+<div class="menu-text">Media Object</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_buttons.html">
+<div class="menu-text">Buttons <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_icon_fontawesome.html">
+<div class="menu-text">FontAwesome</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_icon_bootstrap.html">
+<div class="menu-text">Bootstrap Icons <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_icon_duotone.html">
+<div class="menu-text">Duotone Icons <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_icon_simple_line_icons.html">
+<div class="menu-text">Simple Line Icons</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_icon_ionicons.html">
+<div class="menu-text">Ionicons</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_tree.html">
+<div class="menu-text">Tree View</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_language_bar_icon.html">
+<div class="menu-text">Language Bar &amp; Icon</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_social_buttons.html">
+<div class="menu-text">Social Buttons</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_tour.html">
+<div class="menu-text">Intro JS</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="ui_offcanvas_toasts.html">
+<div class="menu-text">Offcanvas &amp; Toasts <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="bootstrap_5.html">
+<div class="menu-icon-img">
+<img alt="" src="..\assets\img\logo\logo-bs5.png"/>
+</div>
+<div class="menu-text">Bootstrap 5 <span class="menu-label">NEW</span></div>
+</a>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-list-ol"></i>
+</div>
+<div class="menu-text">Form Stuff <span class="menu-label">NEW</span></div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="form_elements.html">
+<div class="menu-text">Form Elements <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_plugins.html">
+<div class="menu-text">Form Plugins <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_slider_switcher.html">
+<div class="menu-text">Form Slider + Switcher</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_validation.html">
+<div class="menu-text">Form Validation</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_wizards.html">
+<div class="menu-text">Wizards <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_wysiwyg.html">
+<div class="menu-text">WYSIWYG</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_editable.html">
+<div class="menu-text">X-Editable</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_multiple_upload.html">
+<div class="menu-text">Multiple File Upload</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_summernote.html">
+<div class="menu-text">Summernote</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="form_dropzone.html">
+<div class="menu-text">Dropzone</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-table"></i>
+</div>
+<div class="menu-text">Tables</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="table_basic.html">
+<div class="menu-text">Basic Tables</div>
+</a>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-text">Managed Tables</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="table_manage.html">
+<div class="menu-text">Default</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_buttons.html">
+<div class="menu-text">Buttons</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_colreorder.html">
+<div class="menu-text">ColReorder</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_fixed_columns.html">
+<div class="menu-text">Fixed Column</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_fixed_header.html">
+<div class="menu-text">Fixed Header</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_keytable.html">
+<div class="menu-text">KeyTable</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_responsive.html">
+<div class="menu-text">Responsive</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_rowreorder.html">
+<div class="menu-text">RowReorder</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_scroller.html">
+<div class="menu-text">Scroller</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_select.html">
+<div class="menu-text">Select</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="table_manage_combine.html">
+<div class="menu-text">Extension Combination</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-cash-register"></i>
+</div>
+<div class="menu-text">POS System <span class="menu-label">NEW</span></div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="pos_customer_order.html" target="_blank">
+<div class="menu-text">Customer Order</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="pos_kitchen_order.html" target="_blank">
+<div class="menu-text">Kitchen Order</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="pos_counter_checkout.html" target="_blank">
+<div class="menu-text">Counter Checkout</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="pos_table_booking.html" target="_blank">
+<div class="menu-text">Table Booking</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="pos_menu_stock.html" target="_blank">
+<div class="menu-text">Menu Stock</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-star"></i>
+</div>
+<div class="menu-text">Front End <span class="menu-label">NEW</span></div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="..\..\frontend\one-page-parallax\index.html" target="_blank">
+<div class="menu-text">One Page Parallax</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\..\frontend\blog\index.html" target="_blank">
+<div class="menu-text">Blog</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\..\frontend\forum\index.html" target="_blank">
+<div class="menu-text">Forum</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\..\frontend\e-commerce\index.html" target="_blank">
+<div class="menu-text">E-Commerce</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\..\frontend\corporate\index.html" target="_blank">
+<div class="menu-text">Corporate <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-envelope"></i>
+</div>
+<div class="menu-text">Email Template</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="email_system.html">
+<div class="menu-text">System Template</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="email_newsletter.html">
+<div class="menu-text">Newsletter Template</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-chart-pie"></i>
+</div>
+<div class="menu-text">Chart</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="chart-flot.html">
+<div class="menu-text">Flot Chart</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="chart-js.html">
+<div class="menu-text">Chart JS</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="chart-d3.html">
+<div class="menu-text">d3 Chart</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="chart-apex.html">
+<div class="menu-text">Apex Chart</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="landing.html">
+<div class="menu-icon">
+<i class="fa fa-crown"></i>
+</div>
+<div class="menu-text">Landing Page <span class="menu-label">NEW</span></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="calendar.html">
+<div class="menu-icon">
+<i class="fa fa-calendar"></i>
+</div>
+<div class="menu-text">Calendar</div>
+</a>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-map"></i>
+</div>
+<div class="menu-text">Map</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="map_vector.html">
+<div class="menu-text">Vector Map</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="map_google.html">
+<div class="menu-text">Google Map</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-image"></i>
+</div>
+<div class="menu-text">Gallery</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="gallery.html">
+<div class="menu-text">Gallery v1</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="gallery_v2.html">
+<div class="menu-text">Gallery v2</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-cogs"></i>
+</div>
+<div class="menu-text">Page Options <span class="menu-label">NEW</span></div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="page_blank.html">
+<div class="menu-text">Blank Page</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_footer.html">
+<div class="menu-text">Page with Footer</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_fixed_footer.html">
+<div class="menu-text">Page with Fixed Footer <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_without_sidebar.html">
+<div class="menu-text">Page without Sidebar</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_right_sidebar.html">
+<div class="menu-text">Page with Right Sidebar</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_minified_sidebar.html">
+<div class="menu-text">Page with Minified Sidebar</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_two_sidebar.html">
+<div class="menu-text">Page with Two Sidebar</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_line_icons.html">
+<div class="menu-text">Page with Line Icons</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_ionicons.html">
+<div class="menu-text">Page with Ionicons</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_full_height.html">
+<div class="menu-text">Full Height Content</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_wide_sidebar.html">
+<div class="menu-text">Page with Wide Sidebar</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_light_sidebar.html">
+<div class="menu-text">Page with Light Sidebar</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_mega_menu.html">
+<div class="menu-text">Page with Mega Menu</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_top_menu.html">
+<div class="menu-text">Page with Top Menu</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_boxed_layout.html">
+<div class="menu-text">Page with Boxed Layout</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_mixed_menu.html">
+<div class="menu-text">Page with Mixed Menu</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_boxed_layout_with_mixed_menu.html">
+<div class="menu-text">Boxed Layout with Mixed Menu</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_transparent_sidebar.html">
+<div class="menu-text">Page with Transparent Sidebar</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_search_sidebar.html">
+<div class="menu-text">Page with Search Sidebar <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="page_with_hover_sidebar.html">
+<div class="menu-text">Page with Hover Sidebar <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub active">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-gift"></i>
+</div>
+<div class="menu-text">Extra <span class="menu-label">NEW</span></div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="extra_timeline.html">
+<div class="menu-text">Timeline</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_coming_soon.html">
+<div class="menu-text">Coming Soon Page</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_search_results.html">
+<div class="menu-text">Search Results</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_invoice.html">
+<div class="menu-text">Invoice</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_404_error.html">
+<div class="menu-text">404 Error Page</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_profile.html">
+<div class="menu-text">Profile Page</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_scrum_board.html">
+<div class="menu-text">Scrum Board <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_cookie_acceptance_banner.html">
+<div class="menu-text">Cookie Acceptance Banner <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_orders.html">
+<div class="menu-text">Orders <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_order_details.html">
+<div class="menu-text">Order Details <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_products.html">
+<div class="menu-text">Products <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_product_details.html">
+<div class="menu-text">Product Details <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_file_manager.html">
+<div class="menu-text">File Manager <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item active">
+<a class="menu-link" href="extra_pricing_page.html">
+<div class="menu-text">Pricing Page <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_messenger_page.html">
+<div class="menu-text">Messenger Page <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_data_management.html">
+<div class="menu-text">Data Management <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="extra_settings_page.html">
+<div class="menu-text">Settings Page <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-key"></i>
+</div>
+<div class="menu-text">Login &amp; Register</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="login.html">
+<div class="menu-text">Login</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="login_v2.html">
+<div class="menu-text">Login v2</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="login_v3.html">
+<div class="menu-text">Login v3</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="register_v3.html">
+<div class="menu-text">Register v3</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-cubes"></i>
+</div>
+<div class="menu-text">Version <span class="menu-label">NEW</span></div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="index_v3.html" target="_blank">
+<div class="menu-text">HTML</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\ajax\index.html" target="_blank">
+<div class="menu-text">AJAX</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\angularjs\index.html" target="_blank">
+<div class="menu-text">ANGULAR JS</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\angularjs20\index.html" target="_blank">
+<div class="menu-text">ANGULAR JS 20</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\..\..\alert('Laravel Version only available in downloaded version.');">
+<div class="menu-text">LARAVEL 12</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\vue3\index.html" target="_blank">
+<div class="menu-text">VUE 3 + Vite JS</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\react\index.html" target="_blank">
+<div class="menu-text">REACT 19</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\nextjs\index.html" target="_blank">
+<div class="menu-text">NEXT.JS</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\..\..\alert('.NET Core MVC Version only available in downloaded version.');">
+<div class="menu-text">ASP.NET <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\..\..\alert('Django Version only available in downloaded version.');">
+<div class="menu-text">DJANGO <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\svelte\index.html" target="_blank">
+<div class="menu-text">SVELTE <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\material\index_v3.html" target="_blank">
+<div class="menu-text">MATERIAL DESIGN</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\apple\index_v3.html" target="_blank">
+<div class="menu-text">APPLE DESIGN</div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\transparent\index_v3.html" target="_blank">
+<div class="menu-text">TRANSPARENT DESIGN <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\facebook\index_v3.html" target="_blank">
+<div class="menu-text">FACEBOOK DESIGN <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+<div class="menu-item">
+<a class="menu-link" href="..\google\index_v3.html" target="_blank">
+<div class="menu-text">GOOGLE DESIGN <i class="fa fa-paper-plane text-theme"></i></div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-medkit"></i>
+</div>
+<div class="menu-text">Helper</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item">
+<a class="menu-link" href="helper_css.html">
+<div class="menu-text">Predefined CSS Classes</div>
+</a>
+</div>
+</div>
+</div>
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-icon">
+<i class="fa fa-align-left"></i>
+</div>
+<div class="menu-text">Menu Level</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-text">Menu 1.1</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item has-sub">
+<a class="menu-link" href="..\..\..\;">
+<div class="menu-text">Menu 2.1</div>
+<div class="menu-caret"></div>
+</a>
+<div class="menu-submenu">
+<div class="menu-item"><a class="menu-link" href="..\..\..\;"><div class="menu-text">Menu 3.1</div></a></div>
+<div class="menu-item"><a class="menu-link" href="..\..\..\;"><div class="menu-text">Menu 3.2</div></a></div>
+</div>
+</div>
+<div class="menu-item"><a class="menu-link" href="..\..\..\;"><div class="menu-text">Menu 2.2</div></a></div>
+<div class="menu-item"><a class="menu-link" href="..\..\..\;"><div class="menu-text">Menu 2.3</div></a></div>
+</div>
+</div>
+<div class="menu-item"><a class="menu-link" href="..\..\..\;"><div class="menu-text">Menu 1.2</div></a></div>
+<div class="menu-item"><a class="menu-link" href="..\..\..\;"><div class="menu-text">Menu 1.3</div></a></div>
+</div>
+</div>
+<!-- BEGIN minify-button -->
+<div class="menu-item d-flex">
+<a class="app-sidebar-minify-btn ms-auto d-flex align-items-center text-decoration-none" data-toggle="app-sidebar-minify" href="..\..\..\;"><i class="fa fa-angle-double-left"></i></a>
+</div>
+<!-- END minify-button -->
+</div>
+<!-- END menu -->
+</div>
+<!-- END scrollbar -->
+</div>
+<div class="app-sidebar-bg" data-bs-theme="dark"></div>
+<div class="app-sidebar-mobile-backdrop"><a class="stretched-link" data-dismiss="app-sidebar-mobile" href="extra_pricing_page.html"></a></div>
+<!-- END #sidebar -->
+<!-- BEGIN #content -->
+<div class="app-content" id="content">
+<!-- BEGIN breadcrumb -->
+<ol class="breadcrumb float-xl-end">
+<li class="breadcrumb-item"><a href="..\..\..\;">Home</a></li>
+<li class="breadcrumb-item"><a href="..\..\..\;">Extra</a></li>
+<li class="breadcrumb-item active">Pricing Page</li>
+</ol>
+<!-- END breadcrumb -->
+<!-- BEGIN page-header -->
+<h1 class="page-header">Pricing Page <small>header small text goes here...</small></h1>
+<!-- END page-header -->
+<div class="card border-0 theme-gray-600 rounded-4 overflow-hidden" data-bs-theme="dark">
+<div class="row gx-0">
+<div class="col-xl-7 position-relative">
+<div class="p-5">
+<div class="display-5 fw-bold mb-3">Web Hosting Plan</div>
+<div class="fs-13px mb-4 font-monospace">
+							Discover the <b class="text-theme d-inline-flex border-bottom border-1 border-gray-500">perfect plan</b> for your online presence. In a digital landscape where your website is the gateway to your brand, we offer an array of meticulously crafted hosting plans to suit every ambition and requirement.
+						</div>
+<div class="row mb-n3">
+<div class="col-lg-6">
+<div class="d-flex align-items-center mb-3">
+<iconify-icon class="fs-30px text-theme" icon="solar:cup-star-bold-duotone"></iconify-icon>
+<div class="flex-1 ps-2 fs-13px fw-bold">
+										Robust Performance
+									</div>
+</div>
+<div class="d-flex align-items-center mb-3">
+<iconify-icon class="fs-30px text-theme" icon="solar:cpu-bolt-bold-duotone"></iconify-icon>
+<div class="flex-1 ps-2 fs-13px fw-bold">
+										Scalability Options
+									</div>
+</div>
+<div class="d-flex align-items-center mb-3">
+<iconify-icon class="fs-30px text-theme" icon="solar:shield-bold-duotone"></iconify-icon>
+<div class="flex-1 ps-2 fs-13px fw-bold">
+										Security First
+									</div>
+</div>
+<div class="d-flex align-items-center mb-3">
+<iconify-icon class="fs-30px text-theme" icon="solar:headphones-round-sound-bold-duotone"></iconify-icon>
+<div class="flex-1 ps-2 fs-13px fw-bold">
+										24/7 Support
+									</div>
+</div>
+</div>
+<div class="col-lg-6">
+<div class="d-flex align-items-center mb-3">
+<iconify-icon class="fs-30px text-theme" icon="solar:monitor-smartphone-bold-duotone"></iconify-icon>
+<div class="flex-1 ps-2 fs-13px fw-bold">
+										User-Friendly Control Panel
+									</div>
+</div>
+<div class="d-flex align-items-center mb-3">
+<iconify-icon class="fs-30px text-theme" icon="solar:mouse-bold-duotone"></iconify-icon>
+<div class="flex-1 ps-2 fs-13px fw-bold">
+										One-Click Installations
+									</div>
+</div>
+<div class="d-flex align-items-center mb-3">
+<iconify-icon class="fs-30px text-theme" icon="solar:gift-bold-duotone"></iconify-icon>
+<div class="flex-1 ps-2 fs-13px fw-bold">
+										Value-Added Features
+									</div>
+</div>
+<div class="d-flex align-items-center mb-3">
+<iconify-icon class="fs-30px text-theme" icon="solar:dollar-bold-duotone"></iconify-icon>
+<div class="flex-1 ps-2 fs-13px fw-bold">
+										Money-Back Guarantee
+									</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xl-5 d-xl-block d-none">
+<div class="ms-n5 h-100 d-flex align-items-center justify-content-end">
+<img src="..\assets\img\pricing\img-1.svg" style="height: 110%;"/>
+</div>
+</div>
+</div>
+</div>
+<div class="row gx-4 py-5" data-bs-theme="dark">
+<div class="col-xl-3 col-md-6 py-3 py-xl-5">
+<div class="card border-0 rounded-4 h-100">
+<div class="card-body fs-14px p-30px d-flex flex-column">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="h5 font-monospace">Starter Plan</div>
+<div class="display-6 fw-bold mb-0">$5 <small class="h5 text-body text-opacity-50">/month*</small></div>
+</div>
+<div>
+<iconify-icon class="display-4 text-theme rounded-3" icon="solar:usb-bold-duotone"></iconify-icon>
+</div>
+</div>
+<hr class="my-4"/>
+<div class="mb-5 text-body text-opacity-75 flex-1">
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Storage:</span> <b class="text-body">10 GB</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Bandwidth:</span> <b class="text-body">100 GB</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Domain Names:</span> <b class="text-body">1</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">SSL Certificate:</span> <b class="text-body"> Shared</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Email Accounts:</span> <b class="text-body"> 5</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">24/7 Support:</span> <b class="text-body"> Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Backup:</span> <b class="text-body"> Daily</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Uptime Guarantee:</span> <b class="text-body"> 99.9%</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">FTP Access:</span> <b class="text-body"> Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Control Panel:</span> <b class="text-body"> cPanel</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Free Domain:</span> <b class="text-body"> No</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Firewall:</span> <b class="text-body"> No</b></div>
+</div>
+</div>
+<div class="mx-n2">
+<a class="btn btn-default btn-lg w-100 font-monospace" href="extra_pricing_page.html">Get Started <i class="fa fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xl-3 col-md-6 py-3 py-xl-5">
+<div class="card border-0 rounded-4 h-100">
+<div class="card-body fs-14px p-30px d-flex flex-column">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="h5 font-monospace">Booster Plan</div>
+<div class="display-6 fw-bold mb-0">$10 <small class="h5 text-body text-opacity-50">/month*</small></div>
+</div>
+<div>
+<iconify-icon class="display-4 text-theme rounded-3" icon="solar:map-arrow-up-bold-duotone"></iconify-icon>
+</div>
+</div>
+<hr class="my-4"/>
+<div class="mb-5 text-body text-opacity-75 flex-1">
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Storage:</span> <b class="text-body">20 GB</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Bandwidth:</span> <b class="text-body">200 GB</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Domain Names:</span> <b class="text-body">2</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">SSL Certificate:</span> <b class="text-body"> Free</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Email Accounts:</span> <b class="text-body"> 10</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">24/7 Support:</span> <b class="text-body"> Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Backup:</span> <b class="text-body"> Daily</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Uptime Guarantee:</span> <b class="text-body"> 99.9%</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">FTP Access:</span> <b class="text-body"> Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Control Panel:</span> <b class="text-body"> cPanel</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Free Domain:</span> <b class="text-body"> No</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Firewall:</span> <b class="text-body"> No</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-times fa-lg text-body text-opacity-25"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">45-Day Money-Back Guarantee</span></div>
+</div>
+</div>
+<div class="mx-n2">
+<a class="btn btn-default btn-lg w-100 font-monospace" href="extra_pricing_page.html">Get Started <i class="fa fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xl-3 col-md-6 py-3 py-xl-0">
+<div class="card border-0 rounded-4 shadow-lg bg-gradient-blue-indigo text-white h-100">
+<div class="card-body fs-15px p-30px h-100 d-flex flex-column">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="h5 font-monospace">Premium Plan</div>
+<div class="display-6 fw-bold mb-0">$15 <small class="h5 text-body text-opacity-50">/month*</small></div>
+</div>
+<div>
+<iconify-icon class="display-3 text-black text-opacity-50 rounded-3" icon="solar:cup-first-bold-duotone"></iconify-icon>
+</div>
+</div>
+<hr class="my-4"/>
+<div class="mb-5 text-body flex-1">
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Storage:</span> <b class="text-white">50 GB</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Bandwidth:</span> <b class="text-white">500 GB</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Domain Names:</span> <b class="text-white">Unlimited</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">SSL Certificate:</span> <b class="text-white">Free</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Email Accounts:</span> <b class="text-white">Unlimited</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">24/7 Support:</span> <b class="text-white">Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Backup:</span> <b class="text-white">Daily</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Uptime Guarantee:</span> <b class="text-white">99.9%</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">FTP Access:</span> <b class="text-white">Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Control Panel:</span> <b class="text-white">cPanel</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Free Domain:</span> <b class="text-white">No</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Firewall:</span> <b class="text-white">Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">E-commerce Support</span></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-white text-opacity-50 fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">45-Day Money-Back Guarantee</span></div>
+</div>
+</div>
+<a class="btn btn-light btn-lg w-100 text-black font-monospace" href="extra_pricing_page.html">Get Started <i class="fa fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+<div class="col-xl-3 col-md-6 py-3 py-xl-5">
+<div class="card border-0 rounded-4 h-100">
+<div class="card-body fs-14px p-30px d-flex flex-column">
+<div class="d-flex align-items-center">
+<div class="flex-1">
+<div class="h5 font-monospace">Business Plan</div>
+<div class="display-6 fw-bold mb-0">$99 <small class="h5 text-body text-opacity-50">/month*</small></div>
+</div>
+<div>
+<iconify-icon class="display-4 text-theme rounded-3" icon="solar:buildings-bold-duotone"></iconify-icon>
+</div>
+</div>
+<hr class="my-4"/>
+<div class="mb-5 text-body text-opacity-75 flex-1">
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Storage:</span> <b class="text-body">1 TB</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Bandwidth:</span> <b class="text-body">20 TB</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Domain Names:</span> <b class="text-body">Unlimited</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">SSL Certificate:</span> <b class="text-body">Free</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Email Accounts:</span> <b class="text-body">Unlimited</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check fa-lg text-theme"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">24/7 Support:</span> <b class="text-body">Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-theme fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Backup:</span> <b class="text-body"> Daily</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-theme fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Uptime Guarantee:</span> <b class="text-body">99.9%</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-theme fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">FTP Access:</span> <b class="text-body">Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-theme fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Control Panel:</span> <b class="text-body">cPanel</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-theme fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Free Domain:</span> <b class="text-body">Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-theme fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">Firewall:</span> <b class="text-body">Yes</b></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-theme fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">E-commerce Support</span></div>
+</div>
+<div class="d-flex align-items-center mb-1">
+<i class="fa fa-check text-theme fa-lg"></i>
+<div class="flex-1 ps-3"><span class="font-monospace small">45-Day Money-Back Guarantee</span></div>
+</div>
+</div>
+<div class="mx-n2">
+<a class="btn btn-default btn-lg w-100 font-monospace" href="extra_pricing_page.html">Get Started <i class="fa fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END #content -->
+<!-- BEGIN theme-panel -->
+<div class="theme-panel">
+<a class="theme-collapse-btn" data-toggle="theme-panel-expand" href="..\..\..\;"><i class="fa fa-cog"></i></a>
+<div class="theme-panel-content" data-height="100%" data-scrollbar="true">
+<h5>App Settings</h5>
+<!-- BEGIN theme-list -->
+<div class="theme-list">
+<div class="theme-list-item"><a class="theme-list-link bg-red" data-bs-container="body" data-bs-title="Red" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-red" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-pink" data-bs-container="body" data-bs-title="Pink" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-pink" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-orange" data-bs-container="body" data-bs-title="Orange" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-orange" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-yellow" data-bs-container="body" data-bs-title="Yellow" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-yellow" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-lime" data-bs-container="body" data-bs-title="Lime" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-lime" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-green" data-bs-container="body" data-bs-title="Green" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-green" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item active"><a class="theme-list-link bg-teal" data-bs-container="body" data-bs-title="Default" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-cyan" data-bs-container="body" data-bs-title="Cyan" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-cyan" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-blue" data-bs-container="body" data-bs-title="Blue" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-blue" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-purple" data-bs-container="body" data-bs-title="Purple" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-purple" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-indigo" data-bs-container="body" data-bs-title="Indigo" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-indigo" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-black" data-bs-container="body" data-bs-title="Black" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-gray-600" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+</div>
+<!-- END theme-list -->
+<div class="theme-panel-divider"></div>
+<div class="row mt-10px">
+<div class="col-8 control-label text-body fw-bold">
+<div class="d-flex">Dark Mode <span class="badge bg-primary ms-1 position-relative d-flex align-items-center">NEW</span></div>
+<div class="lh-14">
+<small class="text-body opacity-50">
+								Adjust the appearance to reduce glare and give your eyes a break.
+							</small>
+</div>
+</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appThemeDarkMode" name="app-theme-dark-mode" type="checkbox" value="1"/>
+<label class="form-check-label" for="appThemeDarkMode"></label>
+</div>
+</div>
+</div>
+<div class="theme-panel-divider"></div>
+<!-- BEGIN theme-switch -->
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Header Fixed</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input checked="" class="form-check-input" id="appHeaderFixed" name="app-header-fixed" type="checkbox" value="1"/>
+<label class="form-check-label" for="appHeaderFixed"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Header Inverse</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appHeaderInverse" name="app-header-inverse" type="checkbox" value="1"/>
+<label class="form-check-label" for="appHeaderInverse"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Sidebar Fixed</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input checked="" class="form-check-input" id="appSidebarFixed" name="app-sidebar-fixed" type="checkbox" value="1"/>
+<label class="form-check-label" for="appSidebarFixed"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Sidebar Grid</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appSidebarGrid" name="app-sidebar-grid" type="checkbox" value="1"/>
+<label class="form-check-label" for="appSidebarGrid"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Gradient Enabled</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appGradientEnabled" name="app-gradient-enabled" type="checkbox" value="1"/>
+<label class="form-check-label" for="appGradientEnabled"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label d-flex text-body fw-bold">RTL Enabled <span class="badge bg-primary ms-1 position-relative d-flex align-items-center">NEW</span></div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appRtlMode" name="app-rtl-mode" type="checkbox" value="1"/>
+<label class="form-check-label" for="appRtlMode"></label>
+</div>
+</div>
+</div>
+<!-- END theme-switch -->
+<div class="theme-panel-divider"></div>
+<h5>Admin Design (6)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link active" href="index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/default.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\transparent\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/transparent.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\apple\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/apple.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\material\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/material.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\facebook\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/facebook.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\google\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/google.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<h5>Language Version (9)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link active" href="index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/html.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\ajax\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/ajax.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\angularjs\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/angular1x.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\angularjs20\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/angular20x.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\svelte\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/svelte.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('Laravel Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/laravel.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('Django Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/django.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\vue3\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/vuejs.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\react\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/reactjs.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('.NET Core MVC Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/dotnet.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\nextjs\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/nextjs.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<h5>Frontend Design (5)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\one-page-parallax\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/one-page-parallax.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\e-commerce\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/e-commerce.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\blog\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/blog.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\forum\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/forum.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\corporate\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/corporate.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<a class="btn btn-dark d-block w-100 rounded-pill mb-10px" href="..\..\documentation\index.html" target="_blank"><b>Documentation</b></a>
+<a class="btn btn-default d-block w-100 rounded-pill" data-toggle="reset-local-storage" href="..\..\..\;"><b>Reset Local Storage</b></a>
+</div>
+</div>
+<!-- END theme-panel -->
+<!-- BEGIN scroll-top-btn -->
+<a class="btn btn-icon btn-circle btn-theme btn-scroll-to-top" data-toggle="scroll-to-top" href="..\..\..\;"><i class="fa fa-angle-up"></i></a>
+<!-- END scroll-top-btn -->
+</div>
+<!-- END #app -->
+<!-- ================== BEGIN core-js ================== -->
+<script src="..\assets\js\vendor.min.js"></script>
+<script src="..\assets\js\app.min.js"></script>
+<!-- ================== END core-js ================== -->
+<!-- ================== BEGIN page-js ================== -->
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<!-- ================== END page-js ================== -->
+<!-- Google Analytics Code -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-6KZ93349XS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-6KZ93349XS");
+</script>
+</body>
+</html>

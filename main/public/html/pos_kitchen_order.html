@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Color Admin | POS - Kitchen Order System</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- ================== BEGIN core-css ================== -->
+<link href="..\assets\css\vendor.min.css" rel="stylesheet"/>
+<link href="..\assets\css\default\app.min.css" rel="stylesheet"/>
+<!-- ================== END core-css ================== -->
+</head>
+<body class="pace-top">
+<!-- BEGIN #loader -->
+<div class="app-loader" id="loader">
+<span class="spinner"></span>
+</div>
+<!-- END #loader -->
+<!-- BEGIN #app -->
+<div class="app app-content-full-height app-without-sidebar app-without-header" id="app">
+<!-- BEGIN #content -->
+<div class="app-content p-0" id="content">
+<!-- BEGIN pos -->
+<div class="pos pos-with-header" id="pos">
+<!-- BEGIN pos-header -->
+<div class="pos-header">
+<div class="logo">
+<a href="index.html">
+<div class="logo-img"><i class="fa fa-bowl-rice fs-2"></i></div>
+<div class="logo-text">Pine &amp; Dine</div>
+</a>
+</div>
+<div class="time" id="time">00:00</div>
+<div class="nav">
+<div class="nav-item">
+<a class="nav-link" href="pos_counter_checkout.html">
+<i class="far fa-credit-card nav-icon"></i>
+</a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="pos_kitchen_order.html">
+<i class="far fa-clock nav-icon"></i>
+</a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="pos_table_booking.html">
+<i class="far fa-calendar-check nav-icon"></i>
+</a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="pos_menu_stock.html">
+<i class="fa fa-chart-pie nav-icon"></i>
+</a>
+</div>
+</div>
+</div>
+<!-- END pos-header -->
+<!-- BEGIN pos-content -->
+<div class="pos-content">
+<div class="pos-task-row">
+<div class="pos-task">
+<div class="pos-task-info">
+<div class="table-no">
+									Table <b>05</b>
+</div>
+<div class="order-no">
+									Order No: #9049
+								</div>
+<div class="order-type">
+<span class="badge bg-success">Dine-in</span>
+</div>
+<div class="time-pass" data-start-time="3">
+									07:13 time
+								</div>
+</div>
+<div class="pos-task-body">
+<div class="pos-task-completed">
+									Completed: <b>(1/3)</b>
+</div>
+<div class="pos-task-product-row">
+<div class="pos-task-product">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-2.jpg);"></div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Pork Burger</div>
+<div class="desc">
+													- large size<br/>
+													- extra cheese<br/>
+</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-14.jpg);"></div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Macarons</div>
+<div class="desc">
+													- serve after dishes
+												</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-8.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Vita C Detox Juice</div>
+<div class="desc">
+													- large size<br/>
+													- less ice<br/>
+</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pos-task">
+<div class="pos-task-info">
+<div class="table-no">
+									Table <b>14</b>
+</div>
+<div class="order-no">
+									Order No: #9047
+								</div>
+<div class="order-type">
+<span class="badge bg-success">Dine-in</span>
+</div>
+<div class="time-pass" data-start-time="3">
+<span class="text-danger">12:13</span> time
+								</div>
+</div>
+<div class="pos-task-body">
+<div class="pos-task-completed">
+									Completed: <b>(3/4)</b>
+</div>
+<div class="pos-task-product-row">
+<div class="pos-task-product">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-11.jpg);"></div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Baked chicken wing</div>
+<div class="desc">
+													- 6 pieces<br/>
+													- honey source<br/>
+</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-12.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Veggie Spaghetti</div>
+<div class="desc">
+													- size: large <br/>
+													- spicy level: light
+												</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-7.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Coffee Latte</div>
+<div class="desc">
+													- no sugar<br/>
+													- more cream<br/>
+</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-1.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Grill Chicken Chop</div>
+<div class="desc">
+													- ala carte
+												</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pos-task">
+<div class="pos-task-info">
+<div class="table-no">
+									Table <b>17</b>
+</div>
+<div class="order-no">
+									Order No: #9046
+								</div>
+<div class="order-type">
+<span class="badge bg-gray-500">Dine-in</span>
+</div>
+<div class="time-pass" data-start-time="3">
+									All dish served<br/>12:30 total time
+								</div>
+</div>
+<div class="pos-task-body">
+<div class="pos-task-completed">
+									Completed: <b>(3/3)</b>
+</div>
+<div class="pos-task-product-row">
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-2.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Pork Burger</div>
+<div class="desc">
+													- large size<br/>
+													- extra cheese<br/>
+</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-10.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Mushroom soup</div>
+<div class="desc">
+													- ala carte<br/>
+													- more cheese<br/>
+</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-8.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Vita C Detox Juice</div>
+<div class="desc">
+													- large size<br/>
+													- less ice<br/>
+</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pos-task">
+<div class="pos-task-info">
+<div class="table-no">
+									Table <b>18</b>
+</div>
+<div class="order-no">
+									Order No: #9045
+								</div>
+<div class="order-type">
+<span class="badge bg-gray-500">Dine-in</span>
+</div>
+<div class="time-pass" data-start-time="3">
+									All dish served<br/>12:30 total time
+								</div>
+</div>
+<div class="pos-task-body">
+<div class="pos-task-completed">
+									Completed: <b>(2/2)</b>
+</div>
+<div class="pos-task-product-row">
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-13.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Vanilla Ice Cream</div>
+<div class="desc">
+													- ala carte
+												</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-9.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Pancake</div>
+<div class="desc">
+													- ala carte
+												</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pos-task">
+<div class="pos-task-info">
+<div class="table-no">
+									Table <b>02</b>
+</div>
+<div class="order-no">
+									Order No: #9045
+								</div>
+<div class="order-type">
+<span class="badge bg-gray-500">Take Away</span>
+</div>
+<div class="time-pass" data-start-time="3">
+									All dish served<br/>22:28 total time
+								</div>
+</div>
+<div class="pos-task-body">
+<div class="pos-task-completed">
+									Completed: <b>(3/3)</b>
+</div>
+<div class="pos-task-product-row">
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-4.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Vegan Salad Bowl®</div>
+<div class="desc">
+													- ala carte
+												</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-6.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Avocado Shake</div>
+<div class="desc">
+													- ala carte
+												</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+<div class="pos-task-product completed">
+<div class="pos-task-product-img">
+<div class="cover" style="background-image: url(../assets/img/pos/product-5.jpg);"></div>
+<div class="caption">
+<div>Completed</div>
+</div>
+</div>
+<div class="pos-task-product-info">
+<div class="info">
+<div class="title">Hawaiian Pizza®</div>
+<div class="desc">
+													- ala carte
+												</div>
+</div>
+<div class="qty">
+												x1
+											</div>
+</div>
+<div class="pos-task-product-action">
+<a class="btn btn-success disabled" href="pos_kitchen_order.html">Complete</a>
+<a class="btn btn-outline-inverse disabled" href="pos_kitchen_order.html">Cancel</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END pos-content -->
+</div>
+<!-- END pos -->
+</div>
+<!-- END #content -->
+<!-- BEGIN theme-panel -->
+<div class="theme-panel">
+<a class="theme-collapse-btn" data-toggle="theme-panel-expand" href="..\..\..\;"><i class="fa fa-cog"></i></a>
+<div class="theme-panel-content" data-height="100%" data-scrollbar="true">
+<h5>App Settings</h5>
+<!-- BEGIN theme-list -->
+<div class="theme-list">
+<div class="theme-list-item"><a class="theme-list-link bg-red" data-bs-container="body" data-bs-title="Red" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-red" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-pink" data-bs-container="body" data-bs-title="Pink" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-pink" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-orange" data-bs-container="body" data-bs-title="Orange" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-orange" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-yellow" data-bs-container="body" data-bs-title="Yellow" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-yellow" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-lime" data-bs-container="body" data-bs-title="Lime" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-lime" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-green" data-bs-container="body" data-bs-title="Green" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-green" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item active"><a class="theme-list-link bg-teal" data-bs-container="body" data-bs-title="Default" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-cyan" data-bs-container="body" data-bs-title="Cyan" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-cyan" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-blue" data-bs-container="body" data-bs-title="Blue" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-blue" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-purple" data-bs-container="body" data-bs-title="Purple" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-purple" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-indigo" data-bs-container="body" data-bs-title="Indigo" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-indigo" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-black" data-bs-container="body" data-bs-title="Black" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-gray-600" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+</div>
+<!-- END theme-list -->
+<div class="theme-panel-divider"></div>
+<div class="row mt-10px">
+<div class="col-8 control-label text-body fw-bold">
+<div class="d-flex">Dark Mode <span class="badge bg-primary ms-1 position-relative d-flex align-items-center">NEW</span></div>
+<div class="lh-14">
+<small class="text-body opacity-50">
+								Adjust the appearance to reduce glare and give your eyes a break.
+							</small>
+</div>
+</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appThemeDarkMode" name="app-theme-dark-mode" type="checkbox" value="1"/>
+<label class="form-check-label" for="appThemeDarkMode"></label>
+</div>
+</div>
+</div>
+<div class="theme-panel-divider"></div>
+<!-- BEGIN theme-switch -->
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Header Fixed</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input checked="" class="form-check-input" id="appHeaderFixed" name="app-header-fixed" type="checkbox" value="1"/>
+<label class="form-check-label" for="appHeaderFixed"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Header Inverse</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appHeaderInverse" name="app-header-inverse" type="checkbox" value="1"/>
+<label class="form-check-label" for="appHeaderInverse"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Sidebar Fixed</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input checked="" class="form-check-input" id="appSidebarFixed" name="app-sidebar-fixed" type="checkbox" value="1"/>
+<label class="form-check-label" for="appSidebarFixed"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Sidebar Grid</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appSidebarGrid" name="app-sidebar-grid" type="checkbox" value="1"/>
+<label class="form-check-label" for="appSidebarGrid"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Gradient Enabled</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appGradientEnabled" name="app-gradient-enabled" type="checkbox" value="1"/>
+<label class="form-check-label" for="appGradientEnabled"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label d-flex text-body fw-bold">RTL Enabled <span class="badge bg-primary ms-1 position-relative d-flex align-items-center">NEW</span></div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appRtlMode" name="app-rtl-mode" type="checkbox" value="1"/>
+<label class="form-check-label" for="appRtlMode"></label>
+</div>
+</div>
+</div>
+<!-- END theme-switch -->
+<div class="theme-panel-divider"></div>
+<h5>Admin Design (6)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link active" href="index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/default.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\transparent\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/transparent.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\apple\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/apple.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\material\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/material.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\facebook\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/facebook.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\google\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/google.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<h5>Language Version (9)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link active" href="index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/html.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\ajax\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/ajax.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\angularjs\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/angular1x.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\angularjs20\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/angular20x.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\svelte\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/svelte.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('Laravel Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/laravel.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('Django Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/django.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\vue3\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/vuejs.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\react\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/reactjs.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('.NET Core MVC Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/dotnet.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\nextjs\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/nextjs.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<h5>Frontend Design (5)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\one-page-parallax\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/one-page-parallax.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\e-commerce\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/e-commerce.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\blog\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/blog.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\forum\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/forum.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\corporate\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/corporate.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<a class="btn btn-dark d-block w-100 rounded-pill mb-10px" href="..\..\documentation\index.html" target="_blank"><b>Documentation</b></a>
+<a class="btn btn-default d-block w-100 rounded-pill" data-toggle="reset-local-storage" href="..\..\..\;"><b>Reset Local Storage</b></a>
+</div>
+</div>
+<!-- END theme-panel -->
+<!-- BEGIN scroll-top-btn -->
+<a class="btn btn-icon btn-circle btn-theme btn-scroll-to-top" data-toggle="scroll-to-top" href="..\..\..\;"><i class="fa fa-angle-up"></i></a>
+<!-- END scroll-top-btn -->
+</div>
+<!-- END #app -->
+<!-- ================== BEGIN core-js ================== -->
+<script src="..\assets\js\vendor.min.js"></script>
+<script src="..\assets\js\app.min.js"></script>
+<!-- ================== END core-js ================== -->
+<!-- ================== BEGIN page-js ================== -->
+<script src="..\assets\js\demo\pos-header.demo.js"></script>
+<!-- ================== END page-js ================== -->
+<!-- Google Analytics Code -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-6KZ93349XS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-6KZ93349XS");
+</script>
+</body>
+</html>

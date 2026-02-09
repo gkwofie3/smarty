@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Color Admin | POS - Customer Order System</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- ================== BEGIN core-css ================== -->
+<link href="..\assets\css\vendor.min.css" rel="stylesheet"/>
+<link href="..\assets\css\default\app.min.css" rel="stylesheet"/>
+<!-- ================== END core-css ================== -->
+</head>
+<body class="pace-top">
+<!-- BEGIN #loader -->
+<div class="app-loader" id="loader">
+<span class="spinner"></span>
+</div>
+<!-- END #loader -->
+<!-- BEGIN #app -->
+<div class="app app-content-full-height app-without-sidebar app-without-header" id="app">
+<!-- BEGIN #content -->
+<div class="app-content p-0" id="content">
+<!-- BEGIN pos -->
+<div class="pos pos-with-menu pos-with-sidebar" id="pos">
+<!-- BEGIN pos-menu -->
+<div class="pos-menu">
+<div class="logo">
+<a href="index_v3.html">
+<div class="logo-img"><i class="fa fa-bowl-rice"></i></div>
+<div class="logo-text">Pine &amp; Dine</div>
+</a>
+</div>
+<div class="nav-container">
+<div data-height="100%" data-scrollbar="true" data-skip-mobile="true">
+<ul class="nav nav-tabs">
+<li class="nav-item">
+<a class="nav-link active" data-filter="all" href="pos_customer_order.html">
+<div class="nav-icon"><i class="fa fa-fw fa-utensils"></i></div>
+<div class="nav-text">All Dishes</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-filter="meat" href="pos_customer_order.html">
+<div class="nav-icon"><i class="fa fa-fw fa-drumstick-bite"></i></div>
+<div class="nav-text">Meat</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-filter="burger" href="pos_customer_order.html">
+<div class="nav-icon"><i class="fa fa-fw fa-hamburger"></i></div>
+<div class="nav-text">Burger</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-filter="pizza" href="pos_customer_order.html">
+<div class="nav-icon"><i class="fa fa-fw fa-pizza-slice"></i></div>
+<div class="nav-text">Pizza</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-filter="drinks" href="pos_customer_order.html">
+<div class="nav-icon"><i class="fa fa-fw fa-cocktail"></i></div>
+<div class="nav-text">Drinks</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-filter="desserts" href="pos_customer_order.html">
+<div class="nav-icon"><i class="fa fa-fw fa-ice-cream"></i></div>
+<div class="nav-text">Desserts</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-filter="snacks" href="pos_customer_order.html">
+<div class="nav-icon"><i class="fa fa-fw fa-cookie-bite"></i></div>
+<div class="nav-text">Snacks</div>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- END pos-menu -->
+<!-- BEGIN pos-content -->
+<div class="pos-content">
+<div class="pos-content-container h-100">
+<div class="product-row">
+<div class="product-container" data-type="meat">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-1.jpg)"></div>
+<div class="text">
+<div class="title">Grill Chicken Chop®</div>
+<div class="desc">chicken, egg, mushroom, salad</div>
+<div class="price">$10.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="meat">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-2.jpg)"></div>
+<div class="text">
+<div class="title">Grill Pork Chop®</div>
+<div class="desc">pork, egg, mushroom, salad</div>
+<div class="price">$12.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="meat">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-3.jpg)"></div>
+<div class="text">
+<div class="title">Capellini Tomato Sauce®</div>
+<div class="desc">spaghetti, tomato, mushroom </div>
+<div class="price">$11.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="meat">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-4.jpg)"></div>
+<div class="text">
+<div class="title">Vegan Salad Bowl®</div>
+<div class="desc">apple, carrot, tomato </div>
+<div class="price">$6.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="pizza">
+<div class="product not-available">
+<div class="img" style="background-image: url(../assets/img/pos/product-5.jpg)"></div>
+<div class="text">
+<div class="title">Hawaiian Pizza®</div>
+<div class="desc">pizza, crab meat, pineapple </div>
+<div class="price">$20.99</div>
+</div>
+<div class="not-available-text">
+<div>Not Available</div>
+</div>
+</div>
+</div>
+<div class="product-container" data-type="burger">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-17.jpg)"></div>
+<div class="text">
+<div class="title">Perfect Burger</div>
+<div class="desc">Dill pickle, cheddar cheese, tomato, red onion, ground chuck beef</div>
+<div class="price">$8.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="drinks">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-6.jpg)"></div>
+<div class="text">
+<div class="title">Avocado Shake</div>
+<div class="desc">avocado, milk, vanilla</div>
+<div class="price">$3.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="drinks">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-7.jpg)"></div>
+<div class="text">
+<div class="title">Coffee Latte</div>
+<div class="desc">espresso, milk</div>
+<div class="price">$2.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="drinks">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-8.jpg)"></div>
+<div class="text">
+<div class="title">Vita C Detox Juice</div>
+<div class="desc">apricot, apple, carrot and ginger juice</div>
+<div class="price">$2.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="snacks">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-9.jpg)"></div>
+<div class="text">
+<div class="title">Pancake</div>
+<div class="desc">Non dairy, egg, baking soda, sugar, all purpose flour</div>
+<div class="price">$5.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="snacks">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-10.jpg)"></div>
+<div class="text">
+<div class="title">Mushroom soup</div>
+<div class="desc">Evaporated milk, marsala wine, beef cubes, chicken broth, butter</div>
+<div class="price">$3.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="snacks">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-11.jpg)"></div>
+<div class="text">
+<div class="title">Baked chicken wing</div>
+<div class="desc">Chicken wings, a1 steak sauce, honey, cayenne pepper</div>
+<div class="price">$6.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="meat">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-12.jpg)"></div>
+<div class="text">
+<div class="title">Veggie Spaghetti</div>
+<div class="desc">Yellow squash, pasta, roasted red peppers, zucchini</div>
+<div class="price">$12.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="desserts">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-13.jpg)"></div>
+<div class="text">
+<div class="title">Vanilla Ice Cream</div>
+<div class="desc">Heavy whipping cream, white sugar, vanilla extract</div>
+<div class="price">$3.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="desserts">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-15.jpg)"></div>
+<div class="text">
+<div class="title">Perfect Yeast Doughnuts</div>
+<div class="desc">Chocolate hazelnut spread, bread flour, doughnuts, quick rise yeast, butter</div>
+<div class="price">$2.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="desserts">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-14.jpg)"></div>
+<div class="text">
+<div class="title">Macarons</div>
+<div class="desc">Almond flour, egg whites, heavy cream, food coloring, powdered sugar</div>
+<div class="price">$4.99</div>
+</div>
+</a>
+</div>
+<div class="product-container" data-type="desserts">
+<a class="product" data-bs-target="#modalPos" data-bs-toggle="modal" href="pos_customer_order.html">
+<div class="img" style="background-image: url(../assets/img/pos/product-16.jpg)"></div>
+<div class="text">
+<div class="title">Perfect Vanilla Cupcake</div>
+<div class="desc">Baking powder, all purpose flour, plain kefir, vanilla extract</div>
+<div class="price">$2.99</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- END pos-content -->
+<!-- BEGIN pos-sidebar -->
+<div class="pos-sidebar">
+<div class="h-100 d-flex flex-column p-0">
+<div class="pos-sidebar-header">
+<div class="back-btn">
+<button class="btn border-0" data-dismiss-class="pos-sidebar-mobile-toggled" data-target="#pos" type="button">
+<i class="fa fa-chevron-left"></i>
+</button>
+</div>
+<div class="icon"><i class="fa fa-plate-wheat"></i></div>
+<div class="title">Table 01</div>
+<div class="order">Order: <b>#0056</b></div>
+</div>
+<div class="pos-sidebar-nav">
+<ul class="nav nav-tabs nav-fill">
+<li class="nav-item">
+<a class="nav-link active" data-bs-target="#newOrderTab" data-bs-toggle="tab" href="pos_customer_order.html">New Order (5)</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-bs-target="#orderHistoryTab" data-bs-toggle="tab" href="pos_customer_order.html">Order History (0)</a>
+</li>
+</ul>
+</div>
+<div class="pos-sidebar-body tab-content" data-height="100%" data-scrollbar="true">
+<div class="tab-pane fade h-100 show active" id="newOrderTab">
+<div class="pos-table">
+<div class="row pos-table-row">
+<div class="col-9">
+<div class="pos-product-thumb">
+<div class="img" style="background-image: url(../assets/img/pos/product-2.jpg)"></div>
+<div class="info">
+<div class="title">Grill Pork Chop</div>
+<div class="single-price">$12.99</div>
+<div class="desc">- size: large</div>
+<div class="input-group qty">
+<div class="input-group-append">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-minus"></i></a>
+</div>
+<input class="form-control" type="text" value="01"/>
+<div class="input-group-prepend">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-plus"></i></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-3 total-price">$12.99</div>
+</div>
+<div class="row pos-table-row">
+<div class="col-9">
+<div class="pos-product-thumb">
+<div class="img" style="background-image: url(../assets/img/pos/product-8.jpg)"></div>
+<div class="info">
+<div class="title">Orange Juice</div>
+<div class="single-price">$5.00</div>
+<div class="desc">
+														- size: large<br/>
+														- less ice
+													</div>
+<div class="input-group qty">
+<div class="input-group-append">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-minus"></i></a>
+</div>
+<input class="form-control" type="text" value="02"/>
+<div class="input-group-prepend">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-plus"></i></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-3 total-price">$10.00</div>
+</div>
+<div class="row pos-table-row">
+<div class="col-9">
+<div class="pos-product-thumb">
+<div class="img" style="background-image: url(../assets/img/pos/product-1.jpg)"></div>
+<div class="info">
+<div class="title">Grill chicken chop</div>
+<div class="single-price">$10.99</div>
+<div class="desc">
+														- size: large<br/>
+														- spicy: medium
+													</div>
+<div class="input-group qty">
+<div class="input-group-append">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-minus"></i></a>
+</div>
+<input class="form-control" type="text" value="01"/>
+<div class="input-group-prepend">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-plus"></i></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-3 total-price">$10.99</div>
+</div>
+<div class="row pos-table-row">
+<div class="col-9">
+<div class="pos-product-thumb">
+<div class="img" style="background-image: url(../assets/img/pos/product-5.jpg)"></div>
+<div class="info">
+<div class="title">Hawaiian Pizza</div>
+<div class="single-price">$15.00</div>
+<div class="desc">
+														- size: large<br/>
+														- more onion
+													</div>
+<div class="input-group qty">
+<div class="input-group-append">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-minus"></i></a>
+</div>
+<input class="form-control" type="text" value="01"/>
+<div class="input-group-prepend">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-plus"></i></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-3 total-price">$15.00</div>
+<div class="pos-remove-confirmation">
+<div class="text-center mx-auto">
+<div><i class="far fa-trash-can fa-2x text-body text-opacity-50"></i></div>
+<div class="mt-1 mb-2">Confirm to remove this item? </div>
+<div>
+<a class="btn btn-default w-60px me-2" href="pos_customer_order.html">No</a>
+<a class="btn btn-danger w-60px" href="pos_customer_order.html">Yes</a>
+</div>
+</div>
+</div>
+</div>
+<div class="row pos-table-row">
+<div class="col-9">
+<div class="pos-product-thumb">
+<div class="img" style="background-image: url(../assets/img/pos/product-10.jpg)"></div>
+<div class="info">
+<div class="title">Mushroom Soup</div>
+<div class="single-price">$3.99</div>
+<div class="desc">
+														- size: large<br/>
+														- more cheese
+													</div>
+<div class="input-group qty">
+<div class="input-group-append">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-minus"></i></a>
+</div>
+<input class="form-control" type="text" value="01"/>
+<div class="input-group-prepend">
+<a class="btn btn-default" href="pos_customer_order.html"><i class="fa fa-plus"></i></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-3 total-price">$3.99</div>
+</div>
+</div>
+</div>
+<div class="tab-pane fade h-100" id="orderHistoryTab">
+<div class="h-100 d-flex align-items-center justify-content-center text-center p-20">
+<div>
+<div class="mb-3 mt-n5">
+<svg class="text-gray-300" fill="currentColor" height="6em" viewbox="0 0 16 16" width="6em" xmlns="http://www.w3.org/2000/svg">
+<path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z" fill-rule="evenodd"></path>
+<path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"></path>
+</svg>
+</div>
+<h4>No order history found</h4>
+</div>
+</div>
+</div>
+</div>
+<div class="pos-sidebar-footer">
+<div class="d-flex align-items-center mb-2">
+<div>Subtotal</div>
+<div class="flex-1 text-end h6 mb-0">$30.98</div>
+</div>
+<div class="d-flex align-items-center">
+<div>Taxes (6%)</div>
+<div class="flex-1 text-end h6 mb-0">$2.12</div>
+</div>
+<hr class="opacity-1 my-10px"/>
+<div class="d-flex align-items-center mb-2">
+<div>Total</div>
+<div class="flex-1 text-end h4 mb-0">$33.10</div>
+</div>
+<div class="d-flex align-items-center mt-3">
+<a class="btn btn-default rounded-3 text-center me-10px w-70px" href="pos_customer_order.html"><i class="fa fa-bell d-block fs-18px my-1"></i> Service</a>
+<a class="btn btn-default rounded-3 text-center me-10px w-70px" href="pos_customer_order.html"><i class="fa fa-receipt d-block fs-18px my-1"></i> Bill</a>
+<a class="btn btn-theme rounded-3 text-center flex-1" href="pos_customer_order.html"><i class="fa fa-shopping-cart d-block fs-18px my-1"></i> Submit Order</a>
+</div>
+</div>
+</div>
+</div>
+<!-- END pos-sidebar -->
+</div>
+<!-- END pos -->
+<!-- BEGIN pos-mobile-sidebar-toggler -->
+<a class="pos-mobile-sidebar-toggler" data-target="#pos" data-toggle-class="pos-sidebar-mobile-toggled" href="pos_customer_order.html">
+<iconify-icon class="display-6" icon="solar:bag-smile-bold-duotone"></iconify-icon>
+<span class="badge">5</span>
+</a>
+<!-- END pos-mobile-sidebar-toggler -->
+</div>
+<!-- END #content -->
+<!-- BEGIN theme-panel -->
+<div class="theme-panel">
+<a class="theme-collapse-btn" data-toggle="theme-panel-expand" href="..\..\..\;"><i class="fa fa-cog"></i></a>
+<div class="theme-panel-content" data-height="100%" data-scrollbar="true">
+<h5>App Settings</h5>
+<!-- BEGIN theme-list -->
+<div class="theme-list">
+<div class="theme-list-item"><a class="theme-list-link bg-red" data-bs-container="body" data-bs-title="Red" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-red" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-pink" data-bs-container="body" data-bs-title="Pink" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-pink" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-orange" data-bs-container="body" data-bs-title="Orange" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-orange" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-yellow" data-bs-container="body" data-bs-title="Yellow" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-yellow" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-lime" data-bs-container="body" data-bs-title="Lime" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-lime" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-green" data-bs-container="body" data-bs-title="Green" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-green" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item active"><a class="theme-list-link bg-teal" data-bs-container="body" data-bs-title="Default" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-cyan" data-bs-container="body" data-bs-title="Cyan" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-cyan" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-blue" data-bs-container="body" data-bs-title="Blue" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-blue" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-purple" data-bs-container="body" data-bs-title="Purple" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-purple" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-indigo" data-bs-container="body" data-bs-title="Indigo" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-indigo" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+<div class="theme-list-item"><a class="theme-list-link bg-black" data-bs-container="body" data-bs-title="Black" data-bs-toggle="tooltip" data-bs-trigger="hover" data-theme-class="theme-gray-600" data-toggle="theme-selector" href="..\..\..\;"> </a></div>
+</div>
+<!-- END theme-list -->
+<div class="theme-panel-divider"></div>
+<div class="row mt-10px">
+<div class="col-8 control-label text-body fw-bold">
+<div class="d-flex">Dark Mode <span class="badge bg-primary ms-1 position-relative d-flex align-items-center">NEW</span></div>
+<div class="lh-14">
+<small class="text-body opacity-50">
+								Adjust the appearance to reduce glare and give your eyes a break.
+							</small>
+</div>
+</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appThemeDarkMode" name="app-theme-dark-mode" type="checkbox" value="1"/>
+<label class="form-check-label" for="appThemeDarkMode"></label>
+</div>
+</div>
+</div>
+<div class="theme-panel-divider"></div>
+<!-- BEGIN theme-switch -->
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Header Fixed</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input checked="" class="form-check-input" id="appHeaderFixed" name="app-header-fixed" type="checkbox" value="1"/>
+<label class="form-check-label" for="appHeaderFixed"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Header Inverse</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appHeaderInverse" name="app-header-inverse" type="checkbox" value="1"/>
+<label class="form-check-label" for="appHeaderInverse"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Sidebar Fixed</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input checked="" class="form-check-input" id="appSidebarFixed" name="app-sidebar-fixed" type="checkbox" value="1"/>
+<label class="form-check-label" for="appSidebarFixed"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Sidebar Grid</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appSidebarGrid" name="app-sidebar-grid" type="checkbox" value="1"/>
+<label class="form-check-label" for="appSidebarGrid"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label text-body fw-bold">Gradient Enabled</div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appGradientEnabled" name="app-gradient-enabled" type="checkbox" value="1"/>
+<label class="form-check-label" for="appGradientEnabled"></label>
+</div>
+</div>
+</div>
+<div class="row mt-10px align-items-center">
+<div class="col-8 control-label d-flex text-body fw-bold">RTL Enabled <span class="badge bg-primary ms-1 position-relative d-flex align-items-center">NEW</span></div>
+<div class="col-4 d-flex">
+<div class="form-check form-switch ms-auto mb-0">
+<input class="form-check-input" id="appRtlMode" name="app-rtl-mode" type="checkbox" value="1"/>
+<label class="form-check-label" for="appRtlMode"></label>
+</div>
+</div>
+</div>
+<!-- END theme-switch -->
+<div class="theme-panel-divider"></div>
+<h5>Admin Design (6)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link active" href="index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/default.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\transparent\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/transparent.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\apple\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/apple.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\material\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/material.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\facebook\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/facebook.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\google\index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/google.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<h5>Language Version (9)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link active" href="index_v3.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/html.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\ajax\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/ajax.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\angularjs\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/angular1x.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\angularjs20\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/angular20x.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\svelte\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/svelte.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('Laravel Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/laravel.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('Django Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/django.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\vue3\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/vuejs.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\react\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/reactjs.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\..\alert('.NET Core MVC Version only available in downloaded version.');">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/dotnet.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\nextjs\index.html">
+<span class="theme-version-cover" style="background-image: url(../assets/img/version/nextjs.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<h5>Frontend Design (5)</h5>
+<!-- BEGIN theme-version -->
+<div class="theme-version">
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\one-page-parallax\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/one-page-parallax.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\e-commerce\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/e-commerce.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\blog\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/blog.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\forum\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/forum.jpg);"></span>
+</a>
+</div>
+<div class="theme-version-item">
+<a class="theme-version-link" href="..\..\frontend\corporate\index.html" target="_blank">
+<span class="theme-version-cover" style="background-image: url(../assets/img/theme/corporate.jpg);"></span>
+</a>
+</div>
+</div>
+<!-- END theme-version -->
+<div class="theme-panel-divider"></div>
+<a class="btn btn-dark d-block w-100 rounded-pill mb-10px" href="..\..\documentation\index.html" target="_blank"><b>Documentation</b></a>
+<a class="btn btn-default d-block w-100 rounded-pill" data-toggle="reset-local-storage" href="..\..\..\;"><b>Reset Local Storage</b></a>
+</div>
+</div>
+<!-- END theme-panel -->
+<!-- BEGIN scroll-top-btn -->
+<a class="btn btn-icon btn-circle btn-theme btn-scroll-to-top" data-toggle="scroll-to-top" href="..\..\..\;"><i class="fa fa-angle-up"></i></a>
+<!-- END scroll-top-btn -->
+</div>
+<!-- END #app -->
+<!-- BEGIN #modalPos -->
+<div class="modal modal-pos fade" id="modalPos">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-body p-0">
+<a class="btn-close position-absolute top-0 end-0 m-4" data-bs-dismiss="modal" href="pos_customer_order.html"></a>
+<div class="modal-pos-product">
+<div class="modal-pos-product-img">
+<div class="img" style="background-image: url(../assets/img/pos/product-1.jpg)"></div>
+</div>
+<div class="modal-pos-product-info">
+<div class="fs-4 fw-bold">Grill Chicken Chop</div>
+<div class="fs-6 text-body text-opacity-50 mb-2">
+								chicken, egg, mushroom, salad
+							</div>
+<div class="fs-3 fw-bolder mb-3">$10.99</div>
+<div class="option-row">
+<div class="d-flex mb-3">
+<a class="btn btn-default d-flex align-items-center" href="pos_customer_order.html"><i class="fa fa-minus"></i></a>
+<input class="form-control w-30px fw-bold fs-5 px-0 mx-2 text-center border-0" name="qty" type="text" value="1"/>
+<a class="btn btn-default d-flex align-items-center" href="pos_customer_order.html"><i class="fa fa-plus"></i></a>
+</div>
+</div>
+<hr>
+<div class="mb-3">
+<div class="fw-bold fs-6">Size</div>
+<div class="option-list">
+<div class="option">
+<input checked="" class="option-input" id="size3" name="size" type="radio">
+<label class="option-label" for="size3">
+<span class="option-text">Small</span>
+<span class="option-price">+0.00</span>
+</label>
+</input></div>
+<div class="option">
+<input class="option-input" id="size1" name="size" type="radio"/>
+<label class="option-label" for="size1">
+<span class="option-text">Large</span>
+<span class="option-price">+3.00</span>
+</label>
+</div>
+<div class="option">
+<input class="option-input" id="size2" name="size" type="radio"/>
+<label class="option-label" for="size2">
+<span class="option-text">Medium</span>
+<span class="option-price">+1.50</span>
+</label>
+</div>
+</div>
+</div>
+<div class="mb-3">
+<div class="fw-bold fs-6">Add On</div>
+<div class="option-list">
+<div class="option">
+<input class="option-input" id="addon1" name="addon[sos]" type="checkbox" value="true"/>
+<label class="option-label" for="addon1">
+<span class="option-text">More BBQ sos</span>
+<span class="option-price">+0.00</span>
+</label>
+</div>
+<div class="option">
+<input class="option-input" id="addon2" name="addon[ff]" type="checkbox" value="true"/>
+<label class="option-label" for="addon2">
+<span class="option-text">Extra french fries</span>
+<span class="option-price">+1.00</span>
+</label>
+</div>
+<div class="option">
+<input class="option-input" id="addon3" name="addon[ms]" type="checkbox" value="true"/>
+<label class="option-label" for="addon3">
+<span class="option-text">Mushroom soup</span>
+<span class="option-price">+3.50</span>
+</label>
+</div>
+<div class="option">
+<input class="option-input" id="addon4" name="addon[ms]" type="checkbox" value="true"/>
+<label class="option-label" for="addon4">
+<span class="option-text">Lemon Juice (set)</span>
+<span class="option-price">+2.50</span>
+</label>
+</div>
+</div>
+</div>
+<hr/>
+<div class="row gx-3">
+<div class="col-4">
+<a class="btn btn-default fs-14px rounded-3 fw-bold mb-0 d-block py-3" data-bs-dismiss="modal" href="pos_customer_order.html">Cancel</a>
+</div>
+<div class="col-8">
+<a class="btn btn-theme fs-14px rounded-3 fw-bold d-flex justify-content-center align-items-center py-3 m-0" href="pos_customer_order.html">Add to cart <i class="fa fa-plus ms-3"></i></a>
+</div>
+</div>
+</hr></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END #modalPos -->
+<!-- ================== BEGIN core-js ================== -->
+<script src="..\assets\js\vendor.min.js"></script>
+<script src="..\assets\js\app.min.js"></script>
+<!-- ================== END core-js ================== -->
+<!-- ================== BEGIN page-js ================== -->
+<script src="..\assets\js\demo\pos-customer-order.demo.js"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<!-- ================== END page-js ================== -->
+<!-- Google Analytics Code -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-6KZ93349XS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-6KZ93349XS");
+</script>
+</body>
+</html>
