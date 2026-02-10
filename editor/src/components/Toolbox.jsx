@@ -9,8 +9,8 @@ const Toolbox = () => {
         'Shapes': ['Line', 'Rectangle', 'Ellipse/Circle', 'Polygon', 'Arc'],
         'Text': ['Static Text Label', 'Dynamic Text (Variable Text)'],
         'Media': ['Static Image', 'Animated Image', 'Video Player', 'Web View', 'Icon'],
-        'Controls': ['Push Button', 'Toggle Button/Switch', 'Slider', 'Knob'],
-        'Gauges & Charts': ['Vertical Gauge', 'Horizontal Gauge', 'Circular Gauge', 'Bar Chart', 'Trend Chart/Graph'],
+        'Controls': ['Push Button', 'Toggle Button/Switch', 'Slider', 'Knob', 'Text Input', 'Number Input', 'Increase Button', 'Decrease Button'],
+        'Gauges & Charts': ['Vertical Gauge', 'Horizontal Gauge', 'Circular Gauge', 'Bar Chart', 'Trend Chart/Graph', 'Pie Chart', 'Donut Chart'],
         'Lists & Tables': ['Data Table', 'Alarm List/Table'],
         'Others': ['Indicator Light/LED', 'Symbol/Component', 'Group', 'Hyperlink/Goto Tag', 'Snippet']
     };

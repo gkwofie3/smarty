@@ -13,6 +13,32 @@ export const ELEMENT_SCHEMA = {
             ]
         },
         {
+            "name": "Pie Chart",
+            "properties": [
+                "x_position", "y_position", "width", "height", "chart_title", "chart_title_font_family", "chart_title_font_size", "chart_title_font_weight", "chart_title_color", "slices_list", "background_color", "border_color", "border_width", "visibility_condition", "enabled_condition", "z_index", "opacity", "security_level", "audit_trail_enabled"
+            ]
+        },
+        {
+            "name": "Line Chart",
+            "properties": [
+                "x_position", "y_position", "width", "height", "chart_title", "chart_title_font_family", "chart_title_font_size", "chart_title_font_weight", "chart_title_color",
+                "x_axis_label", "x_axis_label_font_family", "x_axis_label_font_size", "x_axis_label_font_weight", "x_axis_label_font_color",
+                "y_axis_label", "y_axis_label_font_family", "y_axis_label_font_size", "y_axis_label_font_weight", "y_axis_label_font_color",
+                "line_type", // spline, step, state
+                "line_color", "line_width", "point_radius", "fill_area", "area_opacity",
+                "y_axis_mode", "y_min", "y_max",
+                "background_color", "border_color", "border_width", "axis_color", "axis_thickness", "tick_thickness",
+                "points_list", // array of { label, value/point_id }
+                "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "security_level", "audit_trail_enabled"
+            ]
+        },
+        {
+            "name": "Donut Chart",
+            "properties": [
+                "x_position", "y_position", "width", "height", "inner_radius", "chart_title", "chart_title_font_family", "chart_title_font_size", "chart_title_font_weight", "chart_title_color", "slices_list", "background_color", "border_color", "border_width", "visibility_condition", "enabled_condition", "z_index", "opacity", "security_level", "audit_trail_enabled"
+            ]
+        },
+        {
             "name": "Ellipse/Circle",
             "properties": [
                 "x_position", "y_position", "width", "height", "fill_color", "border_color", "border_width", "border_style", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "shadow_color", "shadow_offset", "gradient_fill", "animation_type", "data_binding_source", "security_level", "audit_trail_enabled", "start_angle", "end_angle", "event_on_click"
@@ -55,21 +81,45 @@ export const ELEMENT_SCHEMA = {
             ]
         },
         {
+            "name": "Increase Button",
+            "properties": [
+                "x_position", "y_position", "width", "height", "label_text", "font_family", "font_size", "font_weight", "font_color", "background_color", "background_color_hover", "background_color_active", "border_color", "border_width", "corner_radius", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "action_on_click", "action_on_press", "action_on_release", "target_element_id", "step_size", "security_level", "audit_trail_enabled"
+            ]
+        },
+        {
+            "name": "Decrease Button",
+            "properties": [
+                "x_position", "y_position", "width", "height", "label_text", "font_family", "font_size", "font_weight", "font_color", "background_color", "background_color_hover", "background_color_active", "border_color", "border_width", "corner_radius", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "action_on_click", "action_on_press", "action_on_release", "target_element_id", "step_size", "security_level", "audit_trail_enabled"
+            ]
+        },
+        {
             "name": "Push Button",
             "properties": [
-                "x_position", "y_position", "width", "height", "label_text", "font_family", "font_size", "font_color", "background_color", "border_color", "border_width", "corner_radius", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "action_on_click", "action_on_press", "action_on_release", "toggle_mode", "image_icon", "security_level", "audit_trail_enabled", "confirmation_prompt", "navigation_target_page_id"
+                "x_position", "y_position", "width", "height", "label_text", "font_family", "font_size", "font_weight", "font_color", "background_color", "background_color_hover", "background_color_active", "border_color", "border_width", "corner_radius", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "action_on_click", "action_on_press", "action_on_release", "toggle_mode", "image_icon", "security_level", "audit_trail_enabled", "confirmation_prompt", "navigation_target_page_id"
             ]
         },
         {
             "name": "Toggle Button/Switch",
             "properties": [
-                "x_position", "y_position", "width", "height", "label_on", "label_off", "font_family", "font_size", "font_color_on", "font_color_off", "background_color_on", "background_color_off", "border_color", "border_width", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "data_binding_source", "action_on_toggle", "image_on", "image_off", "security_level", "audit_trail_enabled"
+                "x_position", "y_position", "width", "height", "label_on", "label_off", "font_family", "font_size", "font_weight", "font_color_on", "font_color_off", "background_color_on", "background_color_off", "border_color", "border_width", "corner_radius", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "data_binding_source", "action_on_toggle", "image_on", "image_off", "security_level", "audit_trail_enabled"
             ]
         },
         {
             "name": "Slider",
             "properties": [
-                "x_position", "y_position", "width", "height", "orientation", "min_value", "max_value", "step_size", "default_value", "handle_color", "track_color", "fill_color", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "data_binding_source", "event_on_change", "tick_marks", "labels_enabled", "security_level", "audit_trail_enabled", "confirmation_required"
+                "x_position", "y_position", "width", "height", "orientation", "min_value", "max_value", "step_size", "default_value", "handle_color", "track_color", "fill_color", "handle_size", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "data_binding_source", "event_on_change", "tick_marks", "labels_enabled", "security_level", "audit_trail_enabled", "confirmation_required"
+            ]
+        },
+        {
+            "name": "Text Input",
+            "properties": [
+                "x_position", "y_position", "width", "height", "default_value", "placeholder_text", "font_family", "font_size", "font_weight", "font_color", "background_color", "border_color", "border_width", "corner_radius", "text_align", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "data_binding_source", "event_on_change", "security_level", "audit_trail_enabled", "read_only"
+            ]
+        },
+        {
+            "name": "Number Input",
+            "properties": [
+                "x_position", "y_position", "width", "height", "default_value", "min_value", "max_value", "step_size", "font_family", "font_size", "font_weight", "font_color", "background_color", "border_color", "border_width", "corner_radius", "text_align", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "data_binding_source", "event_on_change", "security_level", "audit_trail_enabled", "read_only", "show_spinner"
             ]
         },
         {

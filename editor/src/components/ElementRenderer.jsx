@@ -977,7 +977,7 @@ const ElementRenderer = ({ element, isSelected, onSelect, onChange }) => {
                             {(() => {
                                 let ticks = [];
                                 const div = element.y_axis_divisions ? parseInt(element.y_axis_divisions) : 0;
-                                
+
                                 if (div > 0) {
                                     // Custom Divisions
                                     for (let i = 0; i <= div; i++) {
@@ -992,19 +992,19 @@ const ElementRenderer = ({ element, isSelected, onSelect, onChange }) => {
                                     const normalized = Math.max(yMin, Math.min(yMax, tickVal));
                                     const ratio = (normalized - yMin) / (yMax - yMin);
                                     const yPos = chartHeight - (ratio * chartHeight);
-                                    
+
                                     return (
                                         <Group key={tIdx}>
-                                             <Line points={[-5, yPos, 0, yPos]} stroke={axisColor} strokeWidth={tickThickness} />
-                                             <Text 
-                                                text={tickVal.toFixed(1)} 
-                                                x={-45} 
-                                                y={yPos - 5} 
-                                                width={40} 
-                                                align="right" 
-                                                fontSize={10} 
+                                            <Line points={[-5, yPos, 0, yPos]} stroke={axisColor} strokeWidth={tickThickness} />
+                                            <Text
+                                                text={tickVal.toFixed(1)}
+                                                x={-45}
+                                                y={yPos - 5}
+                                                width={40}
+                                                align="right"
+                                                fontSize={10}
                                                 fill={axisColor}
-                                             />
+                                            />
                                         </Group>
                                     );
                                 });
@@ -1096,6 +1096,572 @@ const ElementRenderer = ({ element, isSelected, onSelect, onChange }) => {
                             />
 
                         </Group>
+                    </Group>
+                );
+
+            }
+
+        case 'Line Chart':
+            {
+                // Line Chart Logic
+                // Support Spline (Curved), Step, Linear (Straight), State
+                const chartTitle = element.chart_title || "Chart Title";
+                const xAxisLabel = element.x_axis_label || "X Axis";
+                const yAxisLabel = element.y_axis_label || "Y Axis";
+
+                const margin = { top: 30, right: 30, bottom: 40, left: 50 };
+                const chartWidth = width - margin.left - margin.right;
+                const chartHeight = height - margin.top - margin.bottom;
+
+                // Parse Points
+                // Points list expected as [{ label: '', value: 10, point_id: 123 }]
+                // Binding happens in CanvasStage
+                const points = element.points_list || [];
+
+                // If no points, show dummy data
+                const displayPoints = points.length > 0 ? points : [
+                    { label: 'T1', value: 10 },
+                    { label: 'T2', value: 40 },
+                    { label: 'T3', value: 25 },
+                    { label: 'T4', value: 60 },
+                    { label: 'T5', value: 30 }
+                ];
+
+                const values = displayPoints.map(p => Number(p.value) || 0);
+
+                const axisColor = element.axis_color || 'black';
+                const axisThickness = Number(element.axis_thickness) || 1;
+                const tickThickness = Number(element.tick_thickness) || 1;
+                const lineColor = element.line_color || '#3498db';
+                const lineWidth = Number(element.line_width) || 2;
+                const pointRadius = Number(element.point_radius) || 3;
+
+                const lineType = element.line_type || 'spline'; // spline, step, linear, state
+                const isState = lineType === 'state';
+
+                // Y Axis Scale
+                let yMin = 0;
+                let yMax = 100;
+
+                if (isState) {
+                    yMin = 0;
+                    yMax = 1; // Binary State
+                } else if (element.y_axis_mode === 'manual') {
+                    yMin = Number(element.y_min) || 0;
+                    yMax = Number(element.y_max);
+                    if (isNaN(yMax)) yMax = 100;
+                } else {
+                    // Auto scale
+                    if (values.length > 0) {
+                        yMin = Math.min(...values);
+                        yMax = Math.max(...values);
+                        // Add padding
+                        const range = yMax - yMin;
+                        if (range === 0) {
+                            yMax += 10;
+                            yMin = Math.max(0, yMin - 10);
+                        } else {
+                            yMax += range * 0.1;
+                            yMin = Math.max(0, yMin - range * 0.1); // Keep 0 base if relevant? Maybe not always.
+                        }
+                    }
+                }
+
+                // X Axis Scale (Categorical/Ordinal)
+                const pointCount = displayPoints.length;
+                const xStep = pointCount > 1 ? chartWidth / (pointCount - 1) : chartWidth;
+
+                // Path Construction
+                let pathData = "";
+                const coordinatePoints = displayPoints.map((p, i) => {
+                    const val = Number(p.value) || 0;
+                    const clampedVal = Math.max(yMin, Math.min(yMax, val));
+                    const ratio = (clampedVal - yMin) / (yMax - yMin);
+
+                    // Invert Y (Canvas Y is down)
+                    const py = chartHeight - (ratio * chartHeight);
+                    const px = i * xStep; // Start at 0? Or centered in slot? 
+                    // Line chart points usually are on ticks.
+                    return { x: px, y: py, val: val, label: p.label, point: p };
+                });
+
+
+                if (displayPoints.length > 0) {
+                    if (lineType === 'linear') {
+                        pathData = `M ${coordinatePoints[0].x} ${coordinatePoints[0].y}`;
+                        for (let i = 1; i < coordinatePoints.length; i++) {
+                            pathData += ` L ${coordinatePoints[i].x} ${coordinatePoints[i].y}`;
+                        }
+                    } else if (lineType === 'step' || isState) {
+                        // Step: Horizontal then Vertical
+                        pathData = `M ${coordinatePoints[0].x} ${coordinatePoints[0].y}`;
+                        for (let i = 1; i < coordinatePoints.length; i++) {
+                            // Move horizontal to new X, keeping old Y
+                            pathData += ` L ${coordinatePoints[i].x} ${coordinatePoints[i - 1].y}`;
+                            // Move vertical to new Y
+                            pathData += ` L ${coordinatePoints[i].x} ${coordinatePoints[i].y}`;
+                        }
+                    } else {
+                        // Spline (Simple Cardinal or Catmull-Rom? Or simple Quadratic Bezier?)
+                        // Konva.Line has bezier=true/false and tension.
+                        // But we are constructing a Path or using Line?
+                        // If we use Konva.Line with points array, we can set tension.
+                        // Let's use Konva.Line for Spline/Linear, and Path for Step.
+                    }
+                }
+
+
+                return (
+                    <Group {...commonProps}>
+                        {/* Main Container Background */}
+                        <Rect
+                            width={width}
+                            height={height}
+                            fill={element.background_color || 'transparent'}
+                            stroke={element.border_color || null}
+                            strokeWidth={element.border_width !== undefined ? Number(element.border_width) : 0}
+                        />
+
+                        {/* Chart Area Group (Translated by margin) */}
+                        <Group x={margin.left} y={margin.top}>
+                            {/* Chart Title */}
+                            <Text
+                                text={chartTitle}
+                                x={0}
+                                y={-25}
+                                width={chartWidth}
+                                align="center"
+                                fontSize={element.chart_title_font_size || 14}
+                                fontFamily={element.chart_title_font_family || 'Arial'}
+                                fontStyle={element.chart_title_font_weight || 'bold'}
+                                fill={element.chart_title_color || 'black'}
+                            />
+
+                            {/* Axes */}
+                            {/* Y Axis line */}
+                            <Line
+                                points={[0, 0, 0, chartHeight]}
+                                stroke={axisColor}
+                                strokeWidth={axisThickness}
+                            />
+                            {/* X Axis line */}
+                            <Line
+                                points={[0, chartHeight, chartWidth, chartHeight]}
+                                stroke={axisColor}
+                                strokeWidth={axisThickness}
+                            />
+
+                            {/* Y Axis Ticks & Labels */}
+                            {(() => {
+                                const tickCount = 5;
+                                return Array.from({ length: tickCount + 1 }).map((_, i) => {
+                                    const ratio = i / tickCount;
+                                    const yPos = chartHeight - (ratio * chartHeight);
+                                    const tickVal = yMin + (ratio * (yMax - yMin));
+
+                                    return (
+                                        <Group key={`ytick-${i}`}>
+                                            <Line
+                                                points={[-5, yPos, 0, yPos]}
+                                                stroke={axisColor}
+                                                strokeWidth={tickThickness}
+                                            />
+                                            {/* Grid Line (Optional) */}
+                                            {/* <Line points={[0, yPos, chartWidth, yPos]} stroke="#eee" strokeWidth={1} /> */}
+
+                                            <Text
+                                                text={isState ? (Math.round(tickVal) ? 'ON' : 'OFF') : tickVal.toFixed(1)}
+                                                x={-45}
+                                                y={yPos - 5}
+                                                width={40}
+                                                align="right"
+                                                fontSize={10}
+                                                fill={axisColor}
+                                            />
+                                        </Group>
+                                    );
+                                });
+                            })()}
+
+                            {/* X Axis Ticks & Labels */}
+                            {/* X Axis Ticks & Labels */}
+                            {coordinatePoints.map((p, i) => (
+                                <Group key={`xtick-${i}`}>
+                                    <Line
+                                        points={[p.x, chartHeight, p.x, chartHeight + 5]}
+                                        stroke={axisColor}
+                                        strokeWidth={tickThickness}
+                                    />
+                                    <Text
+                                        text={p.label || ''}
+                                        x={p.x - 20} // Center approx
+                                        y={chartHeight + 5}
+                                        width={40}
+                                        align="center"
+                                        fontSize={p.point.label_font_size || 10}
+                                        fontFamily={p.point.label_font_family || 'Arial'}
+                                        fontStyle={p.point.label_font_weight || 'normal'}
+                                        fill={p.point.label_font_color || axisColor}
+                                    />
+                                </Group>
+                            ))}
+
+                            {/* The Line */}
+                            {(lineType === 'linear' || lineType === 'spline') && (
+                                <Line
+                                    points={coordinatePoints.flatMap(p => [p.x, p.y])}
+                                    stroke={lineColor}
+                                    strokeWidth={lineWidth}
+                                    tension={lineType === 'spline' ? 0.4 : 0}
+                                    bezier={false}
+                                />
+                            )}
+
+                            {(lineType === 'step' || isState) && (
+                                <Path
+                                    data={pathData}
+                                    stroke={lineColor}
+                                    strokeWidth={lineWidth}
+                                    fill={null} // Area fill later?
+                                />
+                            )}
+
+                            {/* Points (Dots) */}
+                            {coordinatePoints.map((p, i) => (
+                                <Circle
+                                    key={`pt-${i}`}
+                                    x={p.x}
+                                    y={p.y}
+                                    radius={pointRadius}
+                                    fill={p.point.color || lineColor}
+                                    stroke="white"
+                                    strokeWidth={1}
+                                />
+                            ))}
+
+
+                            {/* Axis Labels */}
+                            <Text text={yAxisLabel} x={-40} y={chartHeight / 2} rotation={-90} align="center" width={chartHeight} fontSize={10} offsetX={chartWidth / 2} />
+                            {/* The above rotation/offset is tricky in Konva Group logic without specific Group wrapper. 
+                                Using Group + Rotation is safer. */}
+                            <Group x={-40} y={chartHeight / 2} rotation={-90}>
+                                <Text
+                                    text={yAxisLabel}
+                                    x={-chartHeight / 2}
+                                    y={0}
+                                    width={chartHeight}
+                                    align="center"
+                                    fontSize={element.y_axis_label_font_size || 12}
+                                    fill={element.y_axis_label_font_color || axisColor}
+                                />
+                            </Group>
+
+                            <Text
+                                text={xAxisLabel}
+                                x={0}
+                                y={chartHeight + 25}
+                                width={chartWidth}
+                                align="center"
+                                fontSize={element.x_axis_label_font_size || 12}
+                                fill={element.x_axis_label_font_color || axisColor}
+                            />
+
+                        </Group>
+                    </Group>
+                );
+            }
+
+        case 'Push Button':
+        case 'Increase Button':
+        case 'Decrease Button':
+            {
+                let label = element.label_text;
+                if (!label) {
+                    if (element.type === 'Increase Button') label = '+';
+                    else if (element.type === 'Decrease Button') label = '-';
+                    else label = 'Button';
+                }
+
+                return (
+                    <Group {...commonProps}>
+                        <Rect
+                            width={width}
+                            height={height}
+                            fill={element.background_color || '#007bff'}
+                            cornerRadius={element.corner_radius || 4}
+                            stroke={element.border_color || null}
+                            strokeWidth={element.border_width || 0}
+                            shadowColor={element.shadow_color || 'black'}
+                            shadowBlur={element.shadow_color ? 5 : 0}
+                            shadowOpacity={0.3}
+                        />
+                        <Text
+                            text={label}
+                            width={width}
+                            height={height}
+                            align="center"
+                            verticalAlign="middle"
+                            fontFamily={element.font_family || 'Arial'}
+                            fontSize={element.font_size || 14}
+                            fontStyle={element.font_weight || 'normal'}
+                            fill={element.font_color || '#ffffff'}
+                        />
+                    </Group>
+                );
+            }
+
+        case 'Toggle Button/Switch':
+            {
+                const isOn = false; // Static in editor
+                const label = isOn ? (element.label_on || 'ON') : (element.label_off || 'OFF');
+                const bgColor = isOn ? (element.background_color_on || '#28a745') : (element.background_color_off || '#6c757d');
+                const fontColor = isOn ? (element.font_color_on || '#ffffff') : (element.font_color_off || '#ffffff');
+
+                return (
+                    <Group {...commonProps}>
+                        <Rect
+                            width={width}
+                            height={height}
+                            fill={bgColor}
+                            cornerRadius={element.corner_radius || height / 2}
+                            stroke={element.border_color}
+                            strokeWidth={element.border_width}
+                        />
+                        <Circle
+                            x={height / 2}
+                            y={height / 2}
+                            radius={(height / 2) - 4}
+                            fill="#ffffff"
+                        />
+                        <Text
+                            text={label}
+                            x={height}
+                            y={0}
+                            width={width - height}
+                            height={height}
+                            align="center"
+                            verticalAlign="middle"
+                            fontFamily={element.font_family || 'Arial'}
+                            fontSize={element.font_size || 12}
+                            fontStyle={element.font_weight || 'bold'}
+                            fill={fontColor}
+                        />
+                    </Group>
+                );
+            }
+
+        case 'Slider':
+            {
+                const orientation = element.orientation || 'horizontal';
+                const isVert = orientation === 'vertical';
+                const trackColor = element.track_color || '#e9ecef';
+                const fillColor = element.fill_color || '#007bff';
+                const handleColor = element.handle_color || '#ffffff';
+                const handleSize = Number(element.handle_size) || 15;
+
+                return (
+                    <Group {...commonProps}>
+                        <Rect
+                            x={isVert ? (width / 2 - 4) : 0}
+                            y={isVert ? 0 : (height / 2 - 4)}
+                            width={isVert ? 8 : width}
+                            height={isVert ? height : 8}
+                            fill={trackColor}
+                            cornerRadius={4}
+                        />
+                        <Rect
+                            x={isVert ? (width / 2 - 4) : 0}
+                            y={isVert ? height / 2 : (height / 2 - 4)}
+                            width={isVert ? 8 : width / 2}
+                            height={isVert ? height / 2 : 8}
+                            fill={fillColor}
+                            cornerRadius={4}
+                        />
+                        <Circle
+                            x={width / 2}
+                            y={height / 2}
+                            radius={handleSize}
+                            fill={handleColor}
+                            stroke="#ccc"
+                            strokeWidth={1}
+                            shadowColor="black"
+                            shadowBlur={2}
+                            shadowOpacity={0.2}
+                        />
+                    </Group>
+                );
+            }
+
+        case 'Text Input':
+        case 'Number Input':
+            {
+                return (
+                    <Group {...commonProps}>
+                        <Rect
+                            width={width}
+                            height={height}
+                            fill={element.background_color || '#ffffff'}
+                            stroke={element.border_color || '#ced4da'}
+                            strokeWidth={element.border_width || 1}
+                            cornerRadius={element.corner_radius || 4}
+                        />
+                        <Text
+                            text={element.placeholder_text || (element.type === 'Number Input' ? '0' : 'Text Input')}
+                            width={width - 10}
+                            height={height}
+                            x={5}
+                            align={element.text_align || 'left'}
+                            verticalAlign="middle"
+                            fontFamily={element.font_family || 'Arial'}
+                            fontSize={element.font_size || 14}
+                            fontStyle={element.font_weight || 'normal'}
+                            fill={element.font_color || '#495057'}
+                            opacity={0.7}
+                        />
+                        {element.type === 'Number Input' && element.show_spinner && (
+                            <Group x={width - 20} y={0}>
+                                <Rect width={20} height={height / 2} fill="#e9ecef" stroke="#dee2e6" strokeWidth={1} />
+                                <Rect y={height / 2} width={20} height={height / 2} fill="#e9ecef" stroke="#dee2e6" strokeWidth={1} />
+                                <Text text="▲" fontSize={8} x={5} y={2} fill="#666" />
+                                <Text text="▼" fontSize={8} x={5} y={height / 2 + 2} fill="#666" />
+                            </Group>
+                        )}
+                    </Group>
+                );
+            }
+
+        case 'Pie Chart':
+        case 'Donut Chart':
+            {
+                // Pie/Donut Chart Logic
+                const isDonut = element.type === 'Donut Chart';
+                const chartTitle = element.chart_title || "Chart Title";
+
+                const cx = width / 2;
+                const cy = height / 2;
+                const radius = Math.min(width, height) / 2 - 20; // 20px padding for title/labels?
+
+                let innerRadius = 0;
+                if (isDonut) {
+                    if (element.inner_radius) {
+                        // If percentage string "50%"
+                        if (String(element.inner_radius).includes('%')) {
+                            const pct = parseFloat(element.inner_radius) / 100;
+                            innerRadius = radius * pct;
+                        } else {
+                            innerRadius = Number(element.inner_radius);
+                        }
+                    } else {
+                        innerRadius = radius * 0.5; // Default 50%
+                    }
+                }
+
+                const slices = element.slices_list || [];
+                // Default data if empty
+                const effectiveSlices = slices.length > 0 ? slices : [
+                    { label: 'Slice A', value: 30, color: '#e74c3c' },
+                    { label: 'Slice B', value: 50, color: '#3498db' },
+                    { label: 'Slice C', value: 20, color: '#2ecc71' }
+                ];
+
+                const total = effectiveSlices.reduce((acc, slice) => acc + (Number(slice.value) || 0), 0);
+
+                let currentAngle = 0;
+
+                return (
+                    <Group {...commonProps}>
+                        {/* Background (Optional) */}
+                        <Rect
+                            width={width}
+                            height={height}
+                            fill={element.background_color || 'transparent'}
+                            stroke={element.border_color || null}
+                            strokeWidth={element.border_width !== undefined ? Number(element.border_width) : 0}
+                        />
+
+                        {/* Chart Title */}
+                        {element.chart_title && (
+                            <Text
+                                text={chartTitle}
+                                x={0}
+                                y={5}
+                                width={width}
+                                align="center"
+                                fontSize={element.chart_title_font_size || 14}
+                                fontFamily={element.chart_title_font_family || 'Arial'}
+                                fontStyle={element.chart_title_font_weight || 'bold'}
+                                fill={element.chart_title_color || 'black'}
+                            />
+                        )}
+
+                        {/* Slices */}
+                        <Group x={cx} y={cy}>
+                            {effectiveSlices.map((slice, i) => {
+                                const val = Number(slice.value) || 0;
+                                if (val <= 0) return null;
+
+                                const sliceAngle = (val / total) * 360;
+                                const startAngle = currentAngle;
+                                const endAngle = currentAngle + sliceAngle;
+
+                                const midAngle = startAngle + sliceAngle / 2;
+                                const rad = (midAngle * Math.PI) / 180;
+
+                                // Update for next iteration
+                                currentAngle += sliceAngle;
+
+                                // Label Position (Centroid)
+                                const labelRadius = innerRadius + (radius - innerRadius) / 2;
+                                const lx = labelRadius * Math.cos(rad);
+                                const ly = labelRadius * Math.sin(rad);
+
+                                // Construct Label Text: "Label: Value"
+                                let labelText = slice.label || '';
+                                if (labelText) labelText += ': ';
+                                labelText += val.toString();
+
+                                return (
+                                    <Group key={i}>
+                                        <Arc
+                                            innerRadius={innerRadius}
+                                            outerRadius={radius}
+                                            angle={sliceAngle}
+                                            rotation={startAngle}
+                                            fill={slice.color || '#ccc'}
+                                            stroke="white"
+                                            strokeWidth={1}
+                                            onMouseEnter={(e) => {
+                                                // Optional Hover Effect
+                                                const container = e.target.getStage().container();
+                                                container.style.cursor = 'pointer';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                const container = e.target.getStage().container();
+                                                container.style.cursor = 'default';
+                                            }}
+                                        />
+
+                                        {/* Slice Label */}
+                                        <Text
+                                            text={labelText}
+                                            x={lx - 30}
+                                            y={ly - 5}
+                                            width={60}
+                                            align="center"
+                                            fontSize={slice.label_font_size || 10}
+                                            fontFamily={slice.label_font_family || 'Arial'}
+                                            fontStyle={slice.label_font_weight || 'bold'}
+                                            fill={slice.label_color || 'white'}
+                                        />
+                                    </Group>
+                                );
+                            })}
+                        </Group>
+
+                        {/* Redraw Labels on top? Or just trust z-order. 
+                            If slice text color is black, it might be hard to see on dark slice.
+                            Let's use slice.label_color if present.
+                        */}
                     </Group>
                 );
             }

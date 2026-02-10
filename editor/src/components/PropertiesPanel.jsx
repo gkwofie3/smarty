@@ -15,10 +15,21 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
     const [pages, setPages] = React.useState([]);
     const [points, setPoints] = React.useState([]);
 
+
     // Bar Chart Modal State
     const [showBarModal, setShowBarModal] = React.useState(false);
     const [editingBarIndex, setEditingBarIndex] = React.useState(null);
     const [editingBarData, setEditingBarData] = React.useState({});
+
+    // Pie/Donut Slice Modal State
+    const [showSliceModal, setShowSliceModal] = React.useState(false);
+    const [editingSliceIndex, setEditingSliceIndex] = React.useState(null);
+    const [editingSliceData, setEditingSliceData] = React.useState({});
+
+    // Line Chart Point Modal State
+    const [showPointModal, setShowPointModal] = React.useState(false);
+    const [editingPointIndex, setEditingPointIndex] = React.useState(null);
+    const [editingPointData, setEditingPointData] = React.useState({});
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -270,6 +281,121 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
             );
         }
 
+        if (prop === 'slices_list') {
+            return (
+                <div className="bg-light p-2 rounded border">
+                    {(element[prop] || []).map((slice, idx) => (
+                        <div key={idx} className="bg-white border rounded p-2 mb-2 shadow-sm d-flex justify-content-between align-items-center">
+                            <div>
+                                <div className="fw-bold small">{slice.label || `Slice ${idx + 1}`}</div>
+                                <div className="text-muted" style={{ fontSize: '0.75rem' }}>Value: {slice.value}</div>
+                                <div className="d-flex align-items-center mt-1">
+                                    <div style={{ width: 12, height: 12, backgroundColor: slice.color, marginRight: 4, border: '1px solid #ccc' }}></div>
+                                </div>
+                            </div>
+                            <div>
+                                <Button
+                                    variant="link"
+                                    className="text-primary p-0 me-2"
+                                    size="sm"
+                                    onClick={() => {
+                                        setEditingSliceIndex(idx);
+                                        setEditingSliceData({ ...slice });
+                                        setShowSliceModal(true);
+                                    }}
+                                    title="Edit Slice"
+                                >
+                                    <BiEdit />
+                                </Button>
+                                <Button
+                                    variant="link"
+                                    className="text-danger p-0"
+                                    size="sm"
+                                    onClick={() => {
+                                        const newList = [...(element[prop] || [])];
+                                        newList.splice(idx, 1);
+                                        handleChange(prop, newList);
+                                    }}
+                                    title="Delete Slice"
+                                >
+                                    <BiTrash />
+                                </Button>
+                            </div>
+                        </div>
+                    ))}
+                    <Button
+                        variant="outline-primary"
+                        size="sm"
+                        className="w-100"
+                        onClick={() => {
+                            setEditingSliceIndex((element[prop] || []).length);
+                            setEditingSliceData({ label: 'New Slice', value: 10, color: '#e74c3c' });
+                            setShowSliceModal(true);
+                        }}
+                    >
+                        + Add Slice
+                    </Button>
+                </div>
+            );
+        }
+
+        if (prop === 'points_list') {
+            return (
+                <div className="bg-light p-2 rounded border">
+                    {(element[prop] || []).map((point, idx) => (
+                        <div key={idx} className="bg-white border rounded p-2 mb-2 shadow-sm d-flex justify-content-between align-items-center">
+                            <div>
+                                <div className="fw-bold small">{point.label || `Point ${idx + 1}`}</div>
+                                <div className="text-muted" style={{ fontSize: '0.75rem' }}>
+                                    {point.point_id ? `Source: ${points.find(p => p.id == point.point_id)?.name || point.point_id}` : `Val: ${point.value}`}
+                                </div>
+                            </div>
+                            <div>
+                                <Button
+                                    variant="link"
+                                    className="text-primary p-0 me-2"
+                                    size="sm"
+                                    onClick={() => {
+                                        setEditingPointIndex(idx);
+                                        setEditingPointData({ ...point });
+                                        setShowPointModal(true);
+                                    }}
+                                    title="Edit Point"
+                                >
+                                    <BiEdit />
+                                </Button>
+                                <Button
+                                    variant="link"
+                                    className="text-danger p-0"
+                                    size="sm"
+                                    onClick={() => {
+                                        const newList = [...(element[prop] || [])];
+                                        newList.splice(idx, 1);
+                                        handleChange(prop, newList);
+                                    }}
+                                    title="Delete Point"
+                                >
+                                    <BiTrash />
+                                </Button>
+                            </div>
+                        </div>
+                    ))}
+                    <Button
+                        variant="outline-primary"
+                        size="sm"
+                        className="w-100"
+                        onClick={() => {
+                            setEditingPointIndex((element[prop] || []).length);
+                            setEditingPointData({ label: 'New Point', value: 0 }); // Default
+                            setShowPointModal(true);
+                        }}
+                    >
+                        + Add Data Point
+                    </Button>
+                </div>
+            );
+        }
+
         if (prop === 'image_source_url' || prop === 'video_source_url' || prop === 'image_icon') {
             const handleFileChange = async (e) => {
                 const file = e.target.files[0];
@@ -324,12 +450,36 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
 
         // Strict Number Check (avoiding 'text' matching 'x' or similar)
         const numberKeywords = ['width', 'height', 'radius', 'opacity', 'rotation', 'angle', 'sides', 'z_index', 'size', 'stroke', 'border', 'thickness', 'min_', 'max_', 'mid_', 'current_value', 'divisions'];
-        const isNumber = (numberKeywords.some(k => prop.includes(k)) || prop === 'x_position' || prop === 'y_position') && !prop.includes('text') && !prop.includes('content') && prop !== 'data_binding_source';
+        const isNumber = (numberKeywords.some(k => prop.includes(k)) || prop === 'x_position' || prop === 'y_position') && !prop.includes('text') && !prop.includes('content') && prop !== 'data_binding_source' && prop !== 'inner_radius';
 
-        const isBoolean = ['visible', 'checked', 'enabled', 'show_', 'is_'].some(k => prop.includes(k)) && !prop.includes('condition');
+        const isBoolean = ['visible', 'checked', 'enabled', 'show_', 'is_', 'toggle'].some(k => prop.includes(k)) && !prop.includes('condition');
 
         // Exclude specific text fields from Select inference if needed
-        const isSelect = ['style', 'alignment', 'type', 'orientation'].some(k => prop.includes(k)) && !prop.includes('type') && !prop.includes('text') && !prop.includes('content');
+        const isSelect = ['style', 'alignment', 'align', 'type', 'orientation', 'line_type', 'font_weight'].some(k => prop.includes(k)) && !prop.includes('content') && prop !== 'tooltip_text' || prop === 'line_type';
+
+        if (isSelect) {
+            let options = [];
+            if (prop.includes('orientation')) options = ['vertical', 'horizontal'];
+            else if (prop.includes('align')) options = ['left', 'center', 'right', 'justify'];
+            else if (prop.includes('style')) options = ['solid', 'dashed', 'dotted'];
+            else if (prop.includes('weight')) options = ['normal', 'bold', 'bolder', 'lighter', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
+            else if (prop === 'line_type') options = ['spline', 'step', 'linear', 'state'];
+            // Add more as needed
+
+            if (options.length > 0) {
+                return (
+                    <Form.Select
+                        size="sm"
+                        value={element[prop] || options[0]}
+                        onChange={(e) => handleChange(prop, e.target.value)}
+                    >
+                        {options.map(opt => (
+                            <option key={opt} value={opt}>{opt.charAt(0).toUpperCase() + opt.slice(1)}</option>
+                        ))}
+                    </Form.Select>
+                );
+            }
+        }
 
         if (isColor) {
             return (
@@ -1069,11 +1219,250 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                             // Add
                             newList.push(editingBarData);
                         }
+                        newList[editingBarIndex] = editingBarData;
                         handleChange('bars_list', newList);
                         setShowBarModal(false);
-                    }}>Save Changes</Button>
+                    }}>Save</Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* Slice Edit Modal */}
+            <Modal show={showSliceModal} onHide={() => setShowSliceModal(false)} size="sm">
+                <Modal.Header closeButton>
+                    <Modal.Title className="h6">Edit Slice</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Group className="mb-2">
+                        <Form.Label className="small">Label</Form.Label>
+                        <Form.Control
+                            type="text"
+                            size="sm"
+                            value={editingSliceData.label || ''}
+                            onChange={(e) => setEditingSliceData({ ...editingSliceData, label: e.target.value })}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-2">
+                        <Form.Label className="small">Value / Point</Form.Label>
+                        <InputGroup size="sm">
+                            <Form.Select
+                                value={editingSliceData.point_id || ''}
+                                onChange={(e) => setEditingSliceData({ ...editingSliceData, point_id: e.target.value })}
+                            >
+                                <option value="">-- Manual --</option>
+                                <option disabled>Select Point (TODO)</option>
+                                {/* Re-use points from props or context if available, currently 'points' state exists in component */}
+                                {points.map(p => (
+                                    <option key={p.id} value={p.id}>{p.name}</option>
+                                ))}
+                            </Form.Select>
+                            <Form.Control
+                                type="number"
+                                placeholder={editingSliceData.point_id ? "Preview Val" : "Value"}
+                                value={editingSliceData.value !== undefined ? editingSliceData.value : ''}
+                                onChange={(e) => setEditingSliceData({ ...editingSliceData, value: parseFloat(e.target.value) })}
+                            />
+                        </InputGroup>
+                    </Form.Group>
+                    <Form.Group className="mb-2">
+                        <Form.Label className="small">Color</Form.Label>
+                        <Form.Control
+                            type="color"
+                            size="sm"
+                            className="w-100 p-0"
+                            value={editingSliceData.color || '#e74c3c'}
+                            onChange={(e) => setEditingSliceData({ ...editingSliceData, color: e.target.value })}
+                            style={{ height: 30 }}
+                        />
+                    </Form.Group>
+
+                    <hr className="my-2" />
+                    <h6 className="small fw-bold text-muted">Label Font</h6>
+                    <Row className="g-1 mb-2">
+                        <Col xs={12}>
+                            <Form.Select
+                                size="sm"
+                                value={editingSliceData.label_font_family || 'Arial'}
+                                onChange={(e) => setEditingSliceData({ ...editingSliceData, label_font_family: e.target.value })}
+                            >
+                                {fontFamilies.map(f => (
+                                    <option key={f} value={f} style={{ fontFamily: f }}>{f}</option>
+                                ))}
+                            </Form.Select>
+                        </Col>
+                    </Row>
+                    <Row className="g-1">
+                        <Col xs={4}>
+                            <Form.Control
+                                type="number"
+                                size="sm"
+                                placeholder="Size"
+                                value={editingSliceData.label_font_size || 10}
+                                onChange={(e) => setEditingSliceData({ ...editingSliceData, label_font_size: parseInt(e.target.value) })}
+                            />
+                        </Col>
+                        <Col xs={4}>
+                            <Form.Select
+                                size="sm"
+                                value={editingSliceData.label_font_weight || 'normal'}
+                                onChange={(e) => setEditingSliceData({ ...editingSliceData, label_font_weight: e.target.value })}
+                            >
+                                <option value="normal">Normal</option>
+                                <option value="bold">Bold</option>
+                            </Form.Select>
+                        </Col>
+                        <Col xs={4}>
+                            <Form.Control
+                                type="color"
+                                size="sm"
+                                className="w-100 p-0"
+                                value={editingSliceData.label_color || '#ffffff'}
+                                onChange={(e) => setEditingSliceData({ ...editingSliceData, label_color: e.target.value })}
+                                style={{ height: 31 }}
+                                title="Label Color"
+                            />
+                        </Col>
+                    </Row>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" size="sm" onClick={() => setShowSliceModal(false)}>Cancel</Button>
+                    <Button variant="primary" size="sm" onClick={() => {
+                        const newList = [...(element.slices_list || [])];
+                        newList[editingSliceIndex] = editingSliceData;
+                        handleChange('slices_list', newList);
+                        setShowSliceModal(false);
+                    }}>Save Slice</Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/* Line Chart Point Modal */}
+            <Modal show={showPointModal} onHide={() => setShowPointModal(false)} centered size="md">
+                <Modal.Header closeButton>
+                    <Modal.Title>{editingPointIndex !== null && element.points_list && element.points_list[editingPointIndex] ? 'Edit Data Point' : 'Add Data Point'}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Label (X-Axis)</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={editingPointData.label || ''}
+                                onChange={(e) => setEditingPointData({ ...editingPointData, label: e.target.value })}
+                                placeholder="Time, Category, etc."
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Data Source (Point)</Form.Label>
+                            <Form.Select
+                                value={editingPointData.point_id || ''}
+                                onChange={(e) => setEditingPointData({ ...editingPointData, point_id: e.target.value })}
+                            >
+                                <option value="">-- Select IO Point --</option>
+                                {points.map(p => (
+                                    <option key={p.id} value={p.id}>{p.name} (ID: {p.id})</option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
+                        {/* Optional: Add override value for static testing? */}
+                        <Form.Group className="mb-3">
+                            <Form.Label>Static Value (Testing)</Form.Label>
+                            <Form.Control
+                                type="number"
+                                value={editingPointData.value !== undefined ? editingPointData.value : 0}
+                                onChange={(e) => setEditingPointData({ ...editingPointData, value: parseFloat(e.target.value) })}
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Point Color</Form.Label>
+                            <Form.Control
+                                type="color"
+                                value={editingPointData.color || '#3498db'}
+                                onChange={(e) => setEditingPointData({ ...editingPointData, color: e.target.value })}
+                                style={{ height: '38px' }}
+                            />
+                        </Form.Group>
+
+                        <hr />
+                        <h6 className="text-muted mb-3">Label Typography</h6>
+                        <Row className="g-2">
+                            <Col md={6}>
+                                <Form.Group className="mb-2">
+                                    <Form.Label className="small">Font Family</Form.Label>
+                                    <Form.Select
+                                        size="sm"
+                                        value={editingPointData.label_font_family || 'Arial'}
+                                        onChange={(e) => {
+                                            loadGoogleFont(e.target.value);
+                                            setEditingPointData({ ...editingPointData, label_font_family: e.target.value });
+                                        }}
+                                        style={{ fontFamily: editingPointData.label_font_family || 'Arial' }}
+                                    >
+                                        {fontFamilies.map(f => <option key={f} value={f} style={{ fontFamily: f }}>{f}</option>)}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col md={3}>
+                                <Form.Group className="mb-2">
+                                    <Form.Label className="small">Size</Form.Label>
+                                    <InputGroup size="sm">
+                                        <Form.Control
+                                            type="number"
+                                            value={editingPointData.label_font_size || 10}
+                                            onChange={(e) => setEditingPointData({ ...editingPointData, label_font_size: parseInt(e.target.value) })}
+                                        />
+                                    </InputGroup>
+                                </Form.Group>
+                            </Col>
+                            <Col md={3}>
+                                <Form.Group className="mb-2">
+                                    <Form.Label className="small">Weight</Form.Label>
+                                    <Form.Select
+                                        size="sm"
+                                        value={editingPointData.label_font_weight || 'normal'}
+                                        onChange={(e) => setEditingPointData({ ...editingPointData, label_font_weight: e.target.value })}
+                                        style={{ fontWeight: editingPointData.label_font_weight || 'normal' }}
+                                    >
+                                        {fontWeights.map(w => <option key={w} value={w} style={{ fontWeight: w }}>{w}</option>)}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col md={12}>
+                                <Form.Group className="mb-2">
+                                    <Form.Label className="small">Text Color</Form.Label>
+                                    <div className="d-flex align-items-center">
+                                        <Form.Control
+                                            type="color"
+                                            value={editingPointData.label_font_color || '#000000'}
+                                            onChange={(e) => setEditingPointData({ ...editingPointData, label_font_color: e.target.value })}
+                                            style={{ width: '40px', height: '31px', padding: 0, border: 'none' }}
+                                            className="me-2"
+                                        />
+                                        <Form.Control
+                                            type="text"
+                                            size="sm"
+                                            value={editingPointData.label_font_color || '#000000'}
+                                            onChange={(e) => setEditingPointData({ ...editingPointData, label_font_color: e.target.value })}
+                                        />
+                                    </div>
+                                </Form.Group>
+                            </Col>
+
+                        </Row>
+                    </Form>
+                </Modal.Body >
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowPointModal(false)}>Cancel</Button>
+                    <Button variant="primary" onClick={() => {
+                        const newList = [...(element.points_list || [])];
+                        // If static value is used, it overrides live? Or use as fallback?
+                        // Let's store both.
+                        console.log("Saving Point Data:", editingPointData);
+                        newList[editingPointIndex] = editingPointData;
+                        handleChange('points_list', newList);
+                        setShowPointModal(false);
+                    }}>Save Point</Button>
+                </Modal.Footer>
+            </Modal >
         </div >
     );
 };

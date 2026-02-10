@@ -218,6 +218,35 @@ const CanvasStage = ({
                                 if (val !== undefined) liveEl.current_value = val;
                             }
 
+                            // 3. Charts (Pie, Donut, Bar)
+                            if (liveEl.slices_list && Array.isArray(liveEl.slices_list)) {
+                                liveEl.slices_list = liveEl.slices_list.map(slice => {
+                                    if (slice.point_id) {
+                                        const val = getLiveValue(slice.point_id);
+                                        if (val !== undefined) return { ...slice, value: val };
+                                    }
+                                    return slice;
+                                });
+                            }
+                            if (liveEl.bars_list && Array.isArray(liveEl.bars_list)) {
+                                liveEl.bars_list = liveEl.bars_list.map(bar => {
+                                    if (bar.point_id) {
+                                        const val = getLiveValue(bar.point_id);
+                                        if (val !== undefined) return { ...bar, value: val };
+                                    }
+                                    return bar;
+                                });
+                            }
+                            if (liveEl.points_list && Array.isArray(liveEl.points_list)) {
+                                liveEl.points_list = liveEl.points_list.map(point => {
+                                    if (point.point_id) {
+                                        const val = getLiveValue(point.point_id);
+                                        if (val !== undefined) return { ...point, value: val };
+                                    }
+                                    return point;
+                                });
+                            }
+
                             return (
                                 <ElementRenderer
                                     key={el.id}

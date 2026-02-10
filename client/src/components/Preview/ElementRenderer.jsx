@@ -48,6 +48,266 @@ const getConvertValueStyle = (value, rules) => {
     return null;
 };
 
+const RenderPushButton = ({ element, commonProps, width, height }) => {
+    const [pressed, setPressed] = useState(false);
+
+    let label = element.label_text;
+    if (!label) {
+        if (element.type === 'Increase Button') label = '+';
+        else if (element.type === 'Decrease Button') label = '-';
+        else label = 'Button';
+    }
+
+    return (
+        <Group
+            {...commonProps}
+            onMouseDown={(e) => {
+                e.cancelBubble = true;
+                setPressed(true);
+                if (commonProps.onMouseDown) commonProps.onMouseDown(e);
+            }}
+            onMouseUp={(e) => {
+                e.cancelBubble = true;
+                setPressed(false);
+                if (commonProps.onMouseUp) commonProps.onMouseUp(e);
+            }}
+            onMouseLeave={() => setPressed(false)}
+        >
+            <Rect
+                width={width}
+                height={height}
+                fill={pressed ? (element.background_color_active || '#0056b3') : (element.background_color || '#007bff')}
+                cornerRadius={element.corner_radius || 4}
+                stroke={element.border_color || null}
+                strokeWidth={element.border_width || 0}
+                shadowColor={element.shadow_color || 'black'}
+                shadowBlur={element.shadow_color ? 5 : 0}
+                shadowOpacity={pressed ? 0.1 : 0.3}
+                shadowOffset={pressed ? { x: 1, y: 1 } : { x: element.shadow_offset || 5, y: element.shadow_offset || 5 }}
+            />
+            <Text
+                text={label}
+                width={width}
+                height={height}
+                align="center"
+                verticalAlign="middle"
+                fontFamily={element.font_family || 'Arial'}
+                fontSize={element.font_size || 14}
+                fontStyle={element.font_weight || 'normal'}
+                fill={element.font_color || '#ffffff'}
+                listening={false}
+            />
+        </Group>
+    );
+};
+
+const RenderToggleButton = ({ element, commonProps, width, height }) => {
+    const [isOn, setIsOn] = useState(false);
+
+    const toggle = (e) => {
+        e.cancelBubble = true;
+        setIsOn(!isOn);
+    };
+
+    const label = isOn ? (element.label_on || 'ON') : (element.label_off || 'OFF');
+    const bgColor = isOn ? (element.background_color_on || '#28a745') : (element.background_color_off || '#6c757d');
+    const fontColor = isOn ? (element.font_color_on || '#ffffff') : (element.font_color_off || '#ffffff');
+
+    return (
+        <Group {...commonProps} onClick={toggle} onTap={toggle}>
+            <Rect
+                width={width}
+                height={height}
+                fill={bgColor}
+                cornerRadius={element.corner_radius || height / 2}
+                stroke={element.border_color}
+                strokeWidth={element.border_width}
+            />
+            <Circle
+                x={isOn ? width - height / 2 : height / 2}
+                y={height / 2}
+                radius={(height / 2) - 4}
+                fill="#ffffff"
+                shadowColor="black"
+                shadowBlur={2}
+                shadowOpacity={0.2}
+            />
+            <Text
+                text={label}
+                x={isOn ? 0 : height}
+                y={0}
+                width={width - height}
+                height={height}
+                align="center"
+                verticalAlign="middle"
+                fontFamily={element.font_family || 'Arial'}
+                fontSize={element.font_size || 12}
+                fontStyle={element.font_weight || 'bold'}
+                fill={fontColor}
+                listening={false}
+            />
+        </Group>
+    );
+};
+
+const RenderSlider = ({ element, commonProps, width, height }) => {
+    const isVert = element.orientation === 'vertical';
+    const min = Number(element.min_value) || 0;
+    const max = Number(element.max_value) || 100;
+    const [val, setVal] = useState(Number(element.default_value) || min);
+
+    // Track Dimensions
+    const trackSize = isVert ? height : width;
+    const handleSize = Number(element.handle_size) || 15;
+    const effectiveTrack = trackSize - (handleSize * 2); // padding logic
+
+    // Position
+    const pct = (val - min) / (max - min);
+    // Simple positioning: center of handle. 
+    // Let's assume handle moves from 0 to width (or height).
+    const pos = pct * trackSize;
+
+    const updateVal = (newPos) => {
+        const clamped = Math.max(0, Math.min(newPos, trackSize));
+        const newPct = clamped / trackSize;
+        const newVal = min + (newPct * (max - min));
+        setVal(newVal);
+    };
+
+    return (
+        <Group {...commonProps}>
+            {/* Track Area (Clickable) */}
+            <Rect
+                x={isVert ? (width / 2 - 10) : 0}
+                y={isVert ? 0 : (height / 2 - 10)}
+                width={isVert ? 20 : width}
+                height={isVert ? height : 20}
+                fill="transparent"
+                onMouseDown={(e) => {
+                    e.cancelBubble = true;
+                    // Simple jump to click
+                    const node = e.target;
+                    const stage = node.getStage();
+                    const pointer = stage.getPointerPosition();
+                    const group = node.getParent();
+                    const transform = group.getAbsoluteTransform().copy().invert();
+                    const local = transform.point(pointer);
+                    updateVal(isVert ? local.y : local.x);
+                }}
+            />
+
+            {/* Visual Track */}
+            <Rect
+                x={isVert ? (width / 2 - 4) : 0}
+                y={isVert ? 0 : (height / 2 - 4)}
+                width={isVert ? 8 : width}
+                height={isVert ? height : 8}
+                fill={element.track_color || '#e9ecef'}
+                cornerRadius={4}
+                listening={false}
+            />
+            {/* Fill */}
+            <Rect
+                x={isVert ? (width / 2 - 4) : 0}
+                y={isVert ? pos : (height / 2 - 4)} // Vert fill from top? Or bottom? Standard sliders fill from left/bottom. Left=0. Top=0.
+                // If vert, usually bottom is min? 
+                // Let's stick to Top=Min for now as logic implies 0->Height.
+                width={isVert ? 8 : pos}
+                // Actually if Top is 0/Min, then Fill is from 0 to Pos.
+                height={isVert ? pos : 8}
+                fill={element.fill_color || '#007bff'}
+                cornerRadius={4}
+                listening={false}
+            />
+
+            {/* Handle */}
+            <Circle
+                x={isVert ? width / 2 : pos}
+                y={isVert ? pos : height / 2}
+                radius={handleSize}
+                fill={element.handle_color || '#ffffff'}
+                stroke="#ccc"
+                strokeWidth={1}
+                shadowColor="black"
+                shadowBlur={2}
+                shadowOpacity={0.2}
+                draggable
+                dragBoundFunc={(pos) => {
+                    // We can't easily constrain here without absolute knowledge.
+                    // But we can just rely on onDragMove to update state which updates position.
+                    // Return pos to allow drag, visual snap will happen on re-render.
+                    // Actually return pos causes jitter if we force position in render.
+                    // Better to just let it drag and use 'dragmove' to update value?
+                    return pos;
+                }}
+                onDragMove={(e) => {
+                    e.cancelBubble = true;
+                    const node = e.target;
+                    // We need local coord.
+                    // Node x/y is local if parent is Group? Yes.
+                    updateVal(isVert ? node.y() : node.x());
+                    // Force node back to constrained line?
+                    node.x(isVert ? width / 2 : node.x());
+                    node.y(isVert ? node.y() : height / 2);
+                }}
+            />
+            {/* Value Tooltip? */}
+            {element.labels_enabled && (
+                <Text
+                    text={Math.round(val).toString()}
+                    x={isVert ? width + 10 : pos - 10}
+                    y={isVert ? pos - 5 : height + 10}
+                    fontSize={10}
+                    fill="black"
+                />
+            )}
+        </Group>
+    );
+};
+
+const RenderInput = ({ element, commonProps, width, height, type }) => {
+    const [val, setVal] = useState(element.default_value || '');
+
+    const handleClick = (e) => {
+        e.cancelBubble = true;
+        // Simple Prompt
+        const newVal = prompt(`Enter ${type === 'Number Input' ? 'Number' : 'Text'}:`, val);
+        if (newVal !== null) {
+            setVal(newVal);
+            if (element.event_on_change) {
+                // Trigger event logic?
+            }
+        }
+    };
+
+    return (
+        <Group {...commonProps} onClick={handleClick} onTap={handleClick}>
+            <Rect
+                width={width}
+                height={height}
+                fill={element.background_color || '#ffffff'}
+                stroke={element.border_color || '#ced4da'}
+                strokeWidth={element.border_width || 1}
+                cornerRadius={element.corner_radius || 4}
+            />
+            <Text
+                text={val ? val.toString() : (element.placeholder_text || '')}
+                width={width - 10}
+                height={height}
+                x={5}
+                align={element.text_align || 'left'}
+                verticalAlign="middle"
+                fontFamily={element.font_family || 'Arial'}
+                fontSize={element.font_size || 14}
+                fontStyle={element.font_weight || 'normal'}
+                fill={element.font_color || '#495057'}
+                opacity={val ? 1 : 0.6}
+                listening={false}
+            />
+        </Group>
+    );
+};
+
 const ElementRenderer = ({ element, onClick }) => {
     const [image] = useImage(element.image_source_url);
     const [iconImage] = useImage(element.image_icon);
@@ -765,6 +1025,352 @@ const ElementRenderer = ({ element, onClick }) => {
                 );
             }
 
+
+        case 'Line Chart':
+            {
+                // Line Chart Logic
+                // Support Spline (Curved), Step, Linear (Straight), State
+                const chartTitle = element.chart_title || "Chart Title";
+                const xAxisLabel = element.x_axis_label || "X Axis";
+                const yAxisLabel = element.y_axis_label || "Y Axis";
+
+                const margin = { top: 30, right: 30, bottom: 40, left: 50 };
+                const chartWidth = width - margin.left - margin.right;
+                const chartHeight = height - margin.top - margin.bottom;
+
+                const points = element.points_list || [];
+
+                const displayPoints = points.length > 0 ? points : [
+                    { label: 'T1', value: 10 },
+                    { label: 'T2', value: 40 },
+                    { label: 'T3', value: 25 },
+                    { label: 'T4', value: 60 },
+                    { label: 'T5', value: 30 }
+                ];
+
+                const values = displayPoints.map(p => Number(p.value) || 0);
+
+                const axisColor = element.axis_color || 'black';
+                const axisThickness = Number(element.axis_thickness) || 1;
+                const tickThickness = Number(element.tick_thickness) || 1;
+                const lineColor = element.line_color || '#3498db';
+                const lineWidth = Number(element.line_width) || 2;
+                const pointRadius = Number(element.point_radius) || 3;
+
+                const lineType = element.line_type || 'spline';
+                const isState = lineType === 'state';
+
+                let yMin = 0;
+                let yMax = 100;
+
+                if (isState) {
+                    yMin = 0;
+                    yMax = 1;
+                } else if (element.y_axis_mode === 'manual') {
+                    yMin = Number(element.y_min) || 0;
+                    yMax = Number(element.y_max);
+                    if (isNaN(yMax)) yMax = 100;
+                } else {
+                    if (values.length > 0) {
+                        yMin = Math.min(...values);
+                        yMax = Math.max(...values);
+                        const range = yMax - yMin;
+                        if (range === 0) {
+                            yMax += 10;
+                            yMin = Math.max(0, yMin - 10);
+                        } else {
+                            yMax += range * 0.1;
+                            yMin = Math.max(0, yMin - range * 0.1);
+                        }
+                    }
+                }
+
+                const pointCount = displayPoints.length;
+                const xStep = pointCount > 1 ? chartWidth / (pointCount - 1) : chartWidth;
+
+                let pathData = "";
+                const coordinatePoints = displayPoints.map((p, i) => {
+                    const val = Number(p.value) || 0;
+                    const clampedVal = Math.max(yMin, Math.min(yMax, val));
+                    const ratio = (clampedVal - yMin) / (yMax - yMin);
+
+                    const py = chartHeight - (ratio * chartHeight);
+                    const px = i * xStep;
+                    return { x: px, y: py, val: val, label: p.label, point: p };
+                });
+
+                if (displayPoints.length > 0) {
+                    if (lineType === 'linear') {
+                        pathData = `M ${coordinatePoints[0].x} ${coordinatePoints[0].y}`;
+                        for (let i = 1; i < coordinatePoints.length; i++) {
+                            pathData += ` L ${coordinatePoints[i].x} ${coordinatePoints[i].y}`;
+                        }
+                    } else if (lineType === 'step' || isState) {
+                        pathData = `M ${coordinatePoints[0].x} ${coordinatePoints[0].y}`;
+                        for (let i = 1; i < coordinatePoints.length; i++) {
+                            pathData += ` L ${coordinatePoints[i].x} ${coordinatePoints[i - 1].y}`;
+                            pathData += ` L ${coordinatePoints[i].x} ${coordinatePoints[i].y}`;
+                        }
+                    }
+                }
+
+                return (
+                    <Group {...commonProps}>
+                        <Rect
+                            width={width}
+                            height={height}
+                            fill={element.background_color || 'transparent'}
+                            stroke={element.border_color || null}
+                            strokeWidth={element.border_width !== undefined ? Number(element.border_width) : 0}
+                        />
+
+                        <Group x={margin.left} y={margin.top}>
+                            <Text
+                                text={chartTitle}
+                                x={0}
+                                y={-25}
+                                width={chartWidth}
+                                align="center"
+                                fontSize={element.chart_title_font_size || 14}
+                                fontFamily={element.chart_title_font_family || 'Arial'}
+                                fontStyle={element.chart_title_font_weight || 'bold'}
+                                fill={element.chart_title_color || 'black'}
+                            />
+
+                            <Line points={[0, 0, 0, chartHeight]} stroke={axisColor} strokeWidth={axisThickness} />
+                            <Line points={[0, chartHeight, chartWidth, chartHeight]} stroke={axisColor} strokeWidth={axisThickness} />
+
+                            {(() => {
+                                const tickCount = 5;
+                                return Array.from({ length: tickCount + 1 }).map((_, i) => {
+                                    const ratio = i / tickCount;
+                                    const yPos = chartHeight - (ratio * chartHeight);
+                                    const tickVal = yMin + (ratio * (yMax - yMin));
+
+                                    return (
+                                        <Group key={`ytick-${i}`}>
+                                            <Line points={[-5, yPos, 0, yPos]} stroke={axisColor} strokeWidth={tickThickness} />
+                                            <Text
+                                                text={isState ? (Math.round(tickVal) ? 'ON' : 'OFF') : tickVal.toFixed(1)}
+                                                x={-45}
+                                                y={yPos - 5}
+                                                width={40}
+                                                align="right"
+                                                fontSize={10}
+                                                fill={axisColor}
+                                            />
+                                        </Group>
+                                    );
+                                });
+                            })()}
+
+                            {coordinatePoints.map((p, i) => (
+                                <Group key={`xtick-${i}`}>
+                                    <Line points={[p.x, chartHeight, p.x, chartHeight + 5]} stroke={axisColor} strokeWidth={tickThickness} />
+                                    <Text
+                                        text={p.label || ''}
+                                        x={p.x - 20}
+                                        y={chartHeight + 5}
+                                        width={40}
+                                        align="center"
+                                        fontSize={p.point.label_font_size || 10}
+                                        fontFamily={p.point.label_font_family || 'Arial'}
+                                        fontStyle={p.point.label_font_weight || 'normal'}
+                                        fill={p.point.label_font_color || axisColor}
+                                    />
+                                </Group>
+                            ))}
+
+                            {(lineType === 'linear' || lineType === 'spline') && (
+                                <Line
+                                    points={coordinatePoints.flatMap(p => [p.x, p.y])}
+                                    stroke={lineColor}
+                                    strokeWidth={lineWidth}
+                                    tension={lineType === 'spline' ? 0.4 : 0}
+                                    bezier={false}
+                                />
+                            )}
+
+                            {(lineType === 'step' || isState) && (
+                                <Path
+                                    data={pathData}
+                                    stroke={lineColor}
+                                    strokeWidth={lineWidth}
+                                    fill={null}
+                                />
+                            )}
+
+                            {coordinatePoints.map((p, i) => (
+                                <Circle
+                                    key={`pt-${i}`}
+                                    x={p.x}
+                                    y={p.y}
+                                    radius={pointRadius}
+                                    fill={p.point.color || lineColor}
+                                    stroke="white"
+                                    strokeWidth={1}
+                                />
+                            ))}
+
+                            <Group x={-40} y={chartHeight / 2} rotation={-90}>
+                                <Text
+                                    text={yAxisLabel}
+                                    x={-chartHeight / 2}
+                                    y={0}
+                                    width={chartHeight}
+                                    align="center"
+                                    fontSize={element.y_axis_label_font_size || 12}
+                                    fill={element.y_axis_label_font_color || axisColor}
+                                />
+                            </Group>
+
+                            <Text
+                                text={xAxisLabel}
+                                x={0}
+                                y={chartHeight + 25}
+                                width={chartWidth}
+                                align="center"
+                                fontSize={element.x_axis_label_font_size || 12}
+                                fill={element.x_axis_label_font_color || axisColor}
+                            />
+
+                        </Group>
+                    </Group>
+                );
+            }
+
+        case 'Push Button':
+        case 'Increase Button':
+        case 'Decrease Button':
+            return <RenderPushButton element={element} commonProps={commonProps} width={width} height={height} />;
+
+        case 'Toggle Button/Switch':
+            return <RenderToggleButton element={element} commonProps={commonProps} width={width} height={height} />;
+
+        case 'Slider':
+            return <RenderSlider element={element} commonProps={commonProps} width={width} height={height} />;
+
+        case 'Text Input':
+            return <RenderInput element={element} commonProps={commonProps} width={width} height={height} type="Text Input" />;
+
+        case 'Number Input':
+            return <RenderInput element={element} commonProps={commonProps} width={width} height={height} type="Number Input" />;
+
+        case 'Pie Chart':
+        case 'Donut Chart':
+            {
+                // Pie/Donut Chart Logic
+                const isDonut = element.type === 'Donut Chart';
+                const chartTitle = element.chart_title || "Chart Title";
+
+                const cx = width / 2;
+                const cy = height / 2;
+                const radius = Math.min(width, height) / 2 - 20; // 20px padding
+
+                let innerRadius = 0;
+                if (isDonut) {
+                    if (element.inner_radius) {
+                        if (String(element.inner_radius).includes('%')) {
+                            const pct = parseFloat(element.inner_radius) / 100;
+                            innerRadius = radius * pct;
+                        } else {
+                            innerRadius = Number(element.inner_radius);
+                        }
+                    } else {
+                        innerRadius = radius * 0.5;
+                    }
+                }
+
+                const slices = element.slices_list || [];
+                const effectiveSlices = slices.length > 0 ? slices : [
+                    { label: 'Slice A', value: 30, color: '#e74c3c' },
+                    { label: 'Slice B', value: 50, color: '#3498db' },
+                    { label: 'Slice C', value: 20, color: '#2ecc71' }
+                ];
+
+                const total = effectiveSlices.reduce((acc, slice) => acc + (Number(slice.value) || 0), 0);
+
+                let currentAngle = 0;
+
+                return (
+                    <Group {...commonProps}>
+                        {/* Background */}
+                        <Rect
+                            width={width}
+                            height={height}
+                            fill={element.background_color || 'transparent'}
+                            stroke={element.border_color || null}
+                            strokeWidth={element.border_width !== undefined ? Number(element.border_width) : 0}
+                        />
+
+                        {/* Title */}
+                        {element.chart_title && (
+                            <Text
+                                text={chartTitle}
+                                x={0}
+                                y={5}
+                                width={width}
+                                align="center"
+                                fontSize={element.chart_title_font_size || 14}
+                                fontFamily={element.chart_title_font_family || 'Arial'}
+                                fontStyle={element.chart_title_font_weight || 'bold'}
+                                fill={element.chart_title_color || 'black'}
+                            />
+                        )}
+
+                        {/* Slices */}
+                        <Group x={cx} y={cy}>
+                            {effectiveSlices.map((slice, i) => {
+                                const val = Number(slice.value) || 0;
+                                if (val <= 0) return null;
+
+                                const sliceAngle = (val / total) * 360;
+                                const startAngle = currentAngle;
+
+                                const midAngle = startAngle + sliceAngle / 2;
+                                const rad = (midAngle * Math.PI) / 180;
+
+                                currentAngle += sliceAngle;
+
+                                const labelRadius = innerRadius + (radius - innerRadius) / 2;
+                                const lx = labelRadius * Math.cos(rad);
+                                const ly = labelRadius * Math.sin(rad);
+
+                                // Construct Label Text: "Label: Value" or just "Value"
+                                let labelText = slice.label || '';
+                                if (labelText) labelText += ': ';
+                                labelText += val.toString(); // TODO: Formatting?
+
+                                return (
+                                    <Group key={i}>
+                                        <Arc
+                                            innerRadius={innerRadius}
+                                            outerRadius={radius}
+                                            angle={sliceAngle}
+                                            rotation={startAngle}
+                                            fill={slice.color || '#ccc'}
+                                            stroke="white"
+                                            strokeWidth={1}
+                                        />
+
+                                        <Text
+                                            text={labelText}
+                                            x={lx - 30}
+                                            y={ly - 5}
+                                            width={60}
+                                            align="center"
+                                            fontSize={slice.label_font_size || 10}
+                                            fontFamily={slice.label_font_family || 'Arial'}
+                                            fontStyle={slice.label_font_weight || 'bold'}
+                                            fill={slice.label_color || 'white'}
+                                        />
+                                    </Group>
+                                );
+                            })}
+                        </Group>
+                    </Group>
+                );
+            }
 
         case 'Bar Chart':
             {
