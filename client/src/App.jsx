@@ -4,6 +4,10 @@ import MainLayout from './components/Layout/MainLayout';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Auth/Login';
 import PageView from './pages/Preview/PageView';
+import DeviceList from './pages/Devices/DeviceList';
+import RegisterList from './pages/Devices/RegisterList';
+import PointGroupList from './pages/Points/PointGroupList';
+import PointList from './pages/Points/PointList';
 
 // Auth Guard
 const ProtectedRoute = () => {
@@ -23,6 +27,10 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/view/:pageId" element={<PageView />} />
+          <Route path="/devices" element={<DeviceList />} />
+          <Route path="/devices/:deviceId/registers" element={<RegisterList />} />
+          <Route path="/point-groups" element={<PointGroupList />} />
+          <Route path="/point-groups/:groupId/points" element={<PointList />} />
         </Route>
       </Route>
 

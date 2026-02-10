@@ -14,6 +14,11 @@ const Header = () => {
             <div style={{ flex: 1, fontSize: '18px', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
                 <span className="logo me-2"><FaDesktop /></span>
                 Smarty Viewer
+                <div className="ms-4 d-flex">
+                    <button className="btn btn-link text-white text-decoration-none me-3" onClick={() => navigate('/')}>Dashboard</button>
+                    <button className="btn btn-link text-white text-decoration-none me-3" onClick={() => navigate('/devices')}>Devices</button>
+                    <button className="btn btn-link text-white text-decoration-none" onClick={() => navigate('/point-groups')}>IO Groups</button>
+                </div>
             </div>
             <div>
                 <button className="btn btn-outline-light btn-sm d-flex align-items-center" onClick={handleLogout}>

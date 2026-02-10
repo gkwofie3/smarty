@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal, Form, Toast, ToastContainer } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getModule, getPages, createPage, duplicatePage, updatePage, patchPage } from '../../services/moduleService';
 import Header from '../../components/Header';
@@ -16,6 +16,13 @@ const ModuleDetailsPage = () => {
     // Duplicate State
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [duplicateTarget, setDuplicateTarget] = useState(null);
+
+    // Toast State
+    const [toast, setToast] = useState({ show: false, message: '', variant: 'success' });
+
+    const showToastMessage = (message, variant = 'success') => {
+        setToast({ show: true, message, variant });
+    };
 
     useEffect(() => {
         loadData();
@@ -75,26 +82,13 @@ const ModuleDetailsPage = () => {
     };
 
     const handleSetDashboard = async (page) => {
-        if (window.confirm(`Set "${page.name}" as the main Dashboard?`)) {
-            try {
-                // We use patch to update only is_dashboard field
-                // Assuming api.patch handles it.
-                // We might need updatePage service function. 
-                // Or call api directly if updatePage not imported.
-                // updatePage in valid? Check import. Assuming updatePage exists or import api.
-                // Looking at imports: import { ... } from '../../services/moduleService'.
-                // I'll assume updatePage exists or use axios directly via a new import or just rely on moduleService if I update it.
-                // The prompt didn't show moduleService.
-                // I'll inject api import and use api.patch if needed, or better, add updatePage.
-                // But safer to add updatePage import later. For now, try adding updatePage to imports and assume it exists.
-                // Wait. `createPage` exists. `updatePage` likely exists.
-                // I'll use `updatePage(page.id, { is_dashboard: true })`.
-                await patchPage(page.id, { is_dashboard: true });
-                loadData();
-            } catch (error) {
-                console.error('Error setting dashboard:', error);
-                alert('Failed to set dashboard.');
-            }
+        try {
+            await patchPage(page.id, { is_dashboard: true });
+            loadData();
+            showToastMessage(`Set "${page.name}" as Dashboard`, 'success');
+        } catch (error) {
+            console.error('Error setting dashboard:', error);
+            showToastMessage('Failed to set dashboard.', 'danger');
         }
     };
 
@@ -208,6 +202,16 @@ const ModuleDetailsPage = () => {
                     targetName={duplicateTarget?.name}
                     type="page"
                 />
+
+                <ToastContainer position="top-end" className="p-3" style={{ zIndex: 1050 }}>
+                    <Toast onClose={() => setToast({ ...toast, show: false })} show={toast.show} delay={3000} autohide bg={toast.variant}>
+                        <Toast.Header>
+                            <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                            <strong className="me-auto">Notification</strong>
+                        </Toast.Header>
+                        <Toast.Body className={toast.variant === 'light' ? '' : 'text-white'}>{toast.message}</Toast.Body>
+                    </Toast>
+                </ToastContainer>
             </div>
         </div>
     );

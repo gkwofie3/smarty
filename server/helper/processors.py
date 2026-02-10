@@ -180,8 +180,6 @@ class PointProcessor:
 
     def _handle_force_logic(self):
         val = self._cast_type(self.point.forced_value)
-        create_alarm(self.point, "Manual Override", f"{self.point.name} is forced", 'WARNING')
-        create_event(self.point, "FORCED", f"{self.point.name} set to {val}")
         return val
 
     def _handle_register_error(self):

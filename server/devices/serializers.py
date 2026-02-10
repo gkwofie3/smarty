@@ -35,5 +35,7 @@ class PointGroupSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 # Serializers for Duplication Input
-
-
+class DuplicateSerializer(serializers.Serializer):
+    count = serializers.IntegerField(required=True)
+    include_children = serializers.BooleanField(required=False, default=False)
+    names = serializers.ListField(child=serializers.CharField(), required=False)

@@ -6,8 +6,10 @@ USER_TYPE_CHOICES={
 # Protocol Choices
 # ================================================
 PROTOCOL_CHOICES = (
-    ("Modbus", "Modbus"),
-    ("Bacnet", "BACnet"),
+    ("ModbusTCP", "Modbus TCP"),
+    ("ModbusRTU", "Modbus RTU"),
+    ("BACnetIP", "BACnet IP"),
+    ("BACnetMSTP", "BACnet MS/TP"),
     ("Mqtt", "MQTT"),
 )
 
