@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, InputGroup, Row, Col, Spinner, Modal } from 'react-bootstrap';
+import { Form, Button, InputGroup, Row, Col, Spinner, Modal, Toast, ToastContainer } from 'react-bootstrap';
 import { BiTrash, BiUpload, BiChevronUp, BiChevronDown, BiEdit } from 'react-icons/bi';
 import api from '../services/api';
 import { ICON_LIST } from '../constants/icon_lists';
@@ -30,6 +30,9 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
     const [showPointModal, setShowPointModal] = React.useState(false);
     const [editingPointIndex, setEditingPointIndex] = React.useState(null);
     const [editingPointData, setEditingPointData] = React.useState({});
+
+    // Toast State
+    const [toast, setToast] = React.useState({ show: false, message: '', variant: 'danger' });
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -416,7 +419,13 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                     handleChange(prop, fileUrl);
                 } catch (err) {
                     console.error("Upload failed", err);
-                    alert("Upload failed");
+                    let message = "Upload failed";
+                    if (err.response && err.response.data) {
+                        message = `Upload failed: ${JSON.stringify(err.response.data)}`;
+                    } else if (err.message) {
+                        message = err.message;
+                    }
+                    setToast({ show: true, message: message, variant: 'danger' });
                 } finally {
                     setUploading(false);
                 }
@@ -452,7 +461,7 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
         const numberKeywords = ['width', 'height', 'radius', 'opacity', 'rotation', 'angle', 'sides', 'z_index', 'size', 'stroke', 'border', 'thickness', 'min_', 'max_', 'mid_', 'current_value', 'divisions'];
         const isNumber = (numberKeywords.some(k => prop.includes(k)) || prop === 'x_position' || prop === 'y_position') && !prop.includes('text') && !prop.includes('content') && prop !== 'data_binding_source' && prop !== 'inner_radius';
 
-        const isBoolean = ['visible', 'checked', 'enabled', 'show_', 'is_', 'toggle'].some(k => prop.includes(k)) && !prop.includes('condition');
+        const isBoolean = ['visible', 'checked', 'enabled', 'show_', 'is_', 'toggle', 'autoplay', 'loop', 'muted', 'controls'].some(k => prop.includes(k)) && !prop.includes('condition');
 
         // Exclude specific text fields from Select inference if needed
         const isSelect = ['style', 'alignment', 'align', 'type', 'orientation', 'line_type', 'font_weight'].some(k => prop.includes(k)) && !prop.includes('content') && prop !== 'tooltip_text' || prop === 'line_type';
@@ -1462,8 +1471,17 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                         setShowPointModal(false);
                     }}>Save Point</Button>
                 </Modal.Footer>
-            </Modal >
-        </div >
+            </Modal>
+
+            <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 1055 }}>
+                <Toast onClose={() => setToast({ ...toast, show: false })} show={toast.show} delay={5000} autohide bg={toast.variant}>
+                    <Toast.Header>
+                        <strong className="me-auto">Notification</strong>
+                    </Toast.Header>
+                    <Toast.Body className={toast.variant === 'danger' ? 'text-white' : ''}>{toast.message}</Toast.Body>
+                </Toast>
+            </ToastContainer>
+        </div>
     );
 };
 

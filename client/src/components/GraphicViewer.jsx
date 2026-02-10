@@ -3,6 +3,7 @@ import { Stage, Layer } from 'react-konva';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { BiZoomIn, BiZoomOut, BiReset } from 'react-icons/bi';
 import ElementRenderer from './Preview/ElementRenderer';
+import HtmlOverlayRenderer from './HtmlOverlayRenderer';
 
 const GraphicViewer = ({ elements, width, height, onNavigate }) => {
     const stageRef = useRef(null);
@@ -89,6 +90,20 @@ const GraphicViewer = ({ elements, width, height, onNavigate }) => {
                     </React.Fragment>
                 </Layer>
             </Stage>
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: width,
+                height: height,
+                transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                transformOrigin: 'top left',
+                pointerEvents: 'none' // Overlay container lets clicks through, children have auto
+            }}>
+                {elements.filter(el => el.type === 'Web View' || el.type === 'Video Player').map(el => (
+                    <HtmlOverlayRenderer key={el.id} element={el} />
+                ))}
+            </div>
         </div>
     );
 };

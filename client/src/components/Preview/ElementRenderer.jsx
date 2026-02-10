@@ -1580,6 +1580,25 @@ const ElementRenderer = ({ element, onClick }) => {
                 );
             }
 
+        case 'Web View':
+        case 'Video Player':
+            return (
+                <Group {...commonProps}>
+                    <Rect
+                        width={width}
+                        height={height}
+                        fill={element.background_color || 'transparent'}
+                        stroke={element.border_color || null}
+                        strokeWidth={element.border_width || 0}
+                        cornerRadius={element.corner_radius || 0}
+                        shadowColor={element.shadow_color || null}
+                        shadowBlur={element.shadow_offset || 0}
+                        shadowOffset={{ x: 2, y: 2 }}
+                        shadowOpacity={0.2}
+                    />
+                </Group>
+            );
+
         default:
             return (
                 <Group {...commonProps}>

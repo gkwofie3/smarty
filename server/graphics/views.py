@@ -14,4 +14,7 @@ class MediaUploadView(APIView):
             file_serializer.save()
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
+            print("UPLOAD ERROR:", file_serializer.errors)
+            print("REQUEST DATA:", request.data)
+            print("REQUEST FILES:", request.FILES)
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

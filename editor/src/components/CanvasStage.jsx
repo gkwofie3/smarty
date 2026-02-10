@@ -276,6 +276,7 @@ const CanvasStage = ({
                         />
                     </Layer>
                 </Stage>
+
             </div>
         </div>
     );
