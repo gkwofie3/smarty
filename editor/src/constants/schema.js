@@ -155,13 +155,59 @@ export const ELEMENT_SCHEMA = {
         {
             "name": "Data Table",
             "properties": [
-                "x_position", "y_position", "width", "height", "data_source", "columns", "row_height", "header_font", "cell_font", "cell_colors", "border_color", "border_width", "sortable_columns", "filterable", "pagination", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "update_interval", "export_options", "security_level", "audit_trail_enabled", "event_on_row_select"
+                "x_position", "y_position", "width", "height", "data_source", "columns",
+                "background_color", "text_color", "border_color", "border_width", "font_family", "font_size",
+                "header_background_color", "header_text_color", "header_font_size", "header_font_weight",
+                "row_background_color", "row_text_color", "row_font_size", "row_font_family", "row_font_weight", "row_text_align", "row_height", "alternate_row_color",
+                "striped_rows", "bordered", "hover_effect", "small", "pagination_enabled", "pagination_size", "search_enabled", "sortable",
+                "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "update_interval", "export_options", "security_level", "audit_trail_enabled", "event_on_row_select"
             ]
         },
         {
-            "name": "Alarm List/Table",
+            "name": "Alarm Table",
             "properties": [
-                "x_position", "y_position", "width", "height", "alarm_source", "columns", "filter_by_severity", "sort_order", "acknowledge_button", "header_font", "cell_font", "color_by_severity", "border_color", "border_width", "pagination", "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "update_interval", "audio_alert", "security_level", "audit_trail_enabled"
+                "x_position", "y_position", "width", "height", "alarm_source",
+                "background_color", "text_color", "border_color", "border_width", "font_family", "font_size",
+                "header_background_color", "header_text_color", "header_font_size", "header_font_weight",
+                "row_background_color", "row_text_color", "row_font_size", "row_font_family", "row_font_weight", "row_text_align", "row_height", "alternate_row_color",
+                "striped_rows", "bordered", "hover_effect", "small", "pagination_enabled", "pagination_size", "search_enabled", "sortable",
+                "filter_by_severity", "show_active", "show_acknowledged", "show_cleared", "acknowledge_button", "audio_alert",
+                "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "update_interval", "security_level", "audit_trail_enabled"
+            ]
+        },
+        {
+            "name": "Event Table",
+            "properties": [
+                "x_position", "y_position", "width", "height",
+                "background_color", "text_color", "border_color", "border_width", "font_family", "font_size",
+                "header_background_color", "header_text_color", "header_font_size", "header_font_weight",
+                "row_background_color", "row_text_color", "row_font_size", "row_font_family", "row_font_weight", "row_text_align", "row_height", "alternate_row_color",
+                "striped_rows", "bordered", "hover_effect", "small", "pagination_enabled", "pagination_size", "search_enabled", "sortable",
+                "show_notified",
+                "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "update_interval", "security_level", "audit_trail_enabled"
+            ]
+        },
+        {
+            "name": "Log Table",
+            "properties": [
+                "x_position", "y_position", "width", "height",
+                "background_color", "text_color", "border_color", "border_width", "font_family", "font_size",
+                "header_background_color", "header_text_color", "header_font_size", "header_font_weight",
+                "row_background_color", "row_text_color", "row_font_size", "row_font_family", "row_font_weight", "row_text_align", "row_height", "alternate_row_color",
+                "striped_rows", "bordered", "hover_effect", "small", "pagination_enabled", "pagination_size", "search_enabled", "sortable",
+                "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "update_interval", "security_level", "audit_trail_enabled"
+            ]
+        },
+        {
+            "name": "Fault Table",
+            "properties": [
+                "x_position", "y_position", "width", "height",
+                "background_color", "text_color", "border_color", "border_width", "font_family", "font_size",
+                "header_background_color", "header_text_color", "header_font_size", "header_font_weight",
+                "row_background_color", "row_text_color", "row_font_size", "row_font_family", "row_font_weight", "row_text_align", "row_height", "alternate_row_color",
+                "striped_rows", "bordered", "hover_effect", "small", "pagination_enabled", "pagination_size", "search_enabled", "sortable",
+                "show_resolved",
+                "rotation_angle", "visibility_condition", "enabled_condition", "z_index", "opacity", "tooltip_text", "name_id", "custom_metadata", "update_interval", "security_level", "audit_trail_enabled"
             ]
         },
         {

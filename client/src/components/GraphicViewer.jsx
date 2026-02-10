@@ -100,7 +100,7 @@ const GraphicViewer = ({ elements, width, height, onNavigate }) => {
                 transformOrigin: 'top left',
                 pointerEvents: 'none' // Overlay container lets clicks through, children have auto
             }}>
-                {elements.filter(el => el.type === 'Web View' || el.type === 'Video Player').map(el => (
+                {elements.filter(el => ['Web View', 'Video Player', 'Alarm Table', 'Event Table', 'Log Table', 'Fault Table'].includes(el.type)).map(el => (
                     <HtmlOverlayRenderer key={el.id} element={el} />
                 ))}
             </div>

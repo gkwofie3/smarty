@@ -295,12 +295,22 @@ const ElementRenderer = ({ element, isSelected, onSelect, onChange }) => {
 
         case 'Web View':
         case 'Video Player':
+        case 'Data Table':
+        case 'Alarm Table':
+        case 'Event Table':
+        case 'Log Table':
+        case 'Fault Table':
+            let icon = '🌐';
+            let label = element.type;
+            if (element.type === 'Video Player') icon = '▶';
+            if (element.type.includes('Table')) icon = '📅';
+
             return (
                 <Group {...commonProps}>
                     <Rect
                         width={width}
                         height={height}
-                        fill={element.background_color || '#e9ecef'}
+                        fill={element.background_color || '#ffffff'}
                         stroke={element.border_color || '#ced4da'}
                         strokeWidth={element.border_width || 1}
                         cornerRadius={element.corner_radius || 0}
@@ -309,18 +319,29 @@ const ElementRenderer = ({ element, isSelected, onSelect, onChange }) => {
                         shadowOffset={{ x: 2, y: 2 }}
                         shadowOpacity={0.2}
                     />
+                    {/* Fake Header */}
+                    <Rect
+                        x={0}
+                        y={0}
+                        width={width}
+                        height={element.row_height ? parseInt(element.row_height) : 40}
+                        fill={element.header_background_color || '#f8f9fa'}
+                        stroke={element.border_color || '#ced4da'}
+                        strokeWidth={0}
+                        strokeBottomWidth={1}
+                    />
                     {/* Icon or Label */}
                     <Text
-                        text={element.type === 'Web View' ? '🌐 Web View' : '▶ Video Player'}
+                        text={`${icon} ${label}`}
                         width={width}
                         height={height}
                         align="center"
                         verticalAlign="middle"
                         fontSize={14}
-                        fill="#6c757d"
+                        fill={element.text_color || "#6c757d"}
                     />
                     <Text
-                        text={element.url_source || element.video_source_url || 'No Source'}
+                        text="Table Placeholder"
                         y={height / 2 + 20}
                         width={width}
                         align="center"

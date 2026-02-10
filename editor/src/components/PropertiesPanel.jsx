@@ -72,6 +72,8 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
         'Arial Black', 'Impact', 'Lucida Sans Unicode', 'Tahoma',
         ...GOOGLE_FONTS
     ];
+    // Deduplicate
+    const uniqueFontFamilies = [...new Set(fontFamilies)];
 
     // Helper: Font Weights
     const fontWeights = ['normal', 'bold', 'lighter', 'bolder', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
@@ -123,7 +125,7 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                     }}
                     style={{ fontFamily: element[prop] || 'Arial' }}
                 >
-                    {fontFamilies.map(f => (
+                    {uniqueFontFamilies.map(f => (
                         <option key={f} value={f} style={{ fontFamily: f }}>{f}</option>
                     ))}
                 </Form.Select>

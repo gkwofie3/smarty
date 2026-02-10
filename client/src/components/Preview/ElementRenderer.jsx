@@ -1582,6 +1582,11 @@ const ElementRenderer = ({ element, onClick }) => {
 
         case 'Web View':
         case 'Video Player':
+        case 'Data Table':
+        case 'Alarm Table':
+        case 'Event Table':
+        case 'Log Table':
+        case 'Fault Table':
             return (
                 <Group {...commonProps}>
                     <Rect
