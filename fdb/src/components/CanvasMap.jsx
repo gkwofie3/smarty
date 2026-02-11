@@ -47,9 +47,6 @@ const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, set
             });
         } else if (portType === 'in' && tempLine) {
             // Complete connection
-            // Check if connection already exists? (Maybe allow multiple lines from same output, but logic is 1 to 1 usually for clean FBD, or 1 to many is fine for output, many to 1 for input is usually invalid)
-            // For now allow 1 to many for output, ensure 1 input has 1 source.
-
             // Check existing input connection
             const existingInput = edges.find(e => e.toNode === nodeId && e.toPort === portIndex);
             if (existingInput) {

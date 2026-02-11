@@ -59,6 +59,7 @@ const EditorPage = () => {
 
         if (dragItem.current && stagePos) {
             // Convert to relative position if stage is zoomed/panned (TODO)
+            // For now assume no zoom/pan offset for simplicity or handle in CanvasMap
             const newNode = {
                 id: uuidv4(),
                 type: dragItem.current.type,
