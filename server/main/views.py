@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from django.utils import timezone
 from .models import Alarm, Event, Log, Fault
 from .serializers import AlarmSerializer, EventSerializer, LogSerializer, FaultSerializer
+from devices.models import Device, Point, PointGroup, Register
+from modules.models import Module, Page
+from django.db.models import Count, Q
 
 class AlarmViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Alarm.objects.all().order_by('-start_time')
@@ -102,3 +105,66 @@ class FaultViewSet(viewsets.ReadOnlyModelViewSet):
         elif resolved == 'false':
             queryset = queryset.filter(is_resolved=False)
         return queryset
+
+class DashboardViewSet(viewsets.ViewSet):
+    """
+    ViewSet for Dashboard aggregation.
+    """
+    
+    @action(detail=False, methods=['get'])
+    def stats(self, request):
+        # 1. Counts
+        device_count = Device.objects.count()
+        module_count = Module.objects.count()
+        page_count = Page.objects.count()
+        point_count = Point.objects.count()
+        register_count = Register.objects.count()
+
+        # 2. Alarm Stats
+        active_alarms = Alarm.objects.filter(is_active=True).count()
+        unack_alarms = Alarm.objects.filter(is_acknowledged=False).count()
+        today_alarms = Alarm.objects.filter(start_time__date=timezone.now().date()).count()
+
+        # 3. Recent Activity (Logs) - serialized
+        recent_logs = Log.objects.order_by('-timestamp')[:5]
+        recent_logs_data = LogSerializer(recent_logs, many=True).data
+
+        # 4. Forced Points
+        forced_points = Point.objects.filter(is_forced=True).count()
+        
+        # 5. Faults
+        active_faults = Fault.objects.filter(is_resolved=False).count()
+
+        # 6. Detailed Alarm History (Last 7 Days) for charts
+        last_7_days = timezone.now() - timezone.timedelta(days=7)
+        alarm_history = Alarm.objects.filter(start_time__gte=last_7_days).values('start_time__date').annotate(count=Count('id')).order_by('start_time__date')
+        
+        # 7. Device Status
+        online_devices = Device.objects.filter(is_online=True).count()
+        offline_devices = device_count - online_devices
+
+
+        return Response({
+            'counts': {
+                'devices': device_count,
+                'modules': module_count,
+                'pages': page_count,
+                'points': point_count,
+                'registers': register_count,
+                'forced_points': forced_points
+            },
+            'alarms': {
+                'active': active_alarms,
+                'unacknowledged': unack_alarms,
+                'today': today_alarms,
+                'history': list(alarm_history)
+            },
+            'faults': {
+                'active': active_faults
+            },
+            'devices_status': {
+                'online': online_devices,
+                'offline': offline_devices
+            },
+            'recent_logs': recent_logs_data
+        })

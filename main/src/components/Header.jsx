@@ -1,6 +1,11 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
 const Header = () => {
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : { username: 'User' };
+
     return (
         <div className="app-header" id="header">
             <div className="navbar-header">
@@ -64,7 +69,7 @@ const Header = () => {
                         <img alt="" src="/assets/img/user/user-13.jpg" />
                         <span>
                             <span className="d-none d-md-inline fw-bold">
-                                User
+                                {user.username || user.email || 'User'}
                             </span>
                             <b className="caret"></b>
                         </span>
@@ -73,6 +78,9 @@ const Header = () => {
                         <a className="dropdown-item" href="#">
                             Edit Profile
                         </a>
+                        <Link className="dropdown-item" to="/users/profile">
+                            System Settings
+                        </Link>
                         <div className="dropdown-divider"></div>
                         <a className="dropdown-item" href="/login" onClick={() => localStorage.clear()}>
                             Log Out
