@@ -11,6 +11,7 @@ import ModulesPage from './pages/Modules/ModulesPage';
 import ModuleDetailsPage from './pages/Modules/ModuleDetailsPage';
 import PageView from './pages/Preview/PageView';
 import FBDProgramsPage from './pages/Programs/FBDProgramsPage';
+import FBDViewerPage from './pages/Programs/FBDViewerPage';
 import ScriptsPage from './pages/Programs/ScriptsPage';
 
 // Auth Guard
@@ -38,6 +39,7 @@ function App() {
           <Route path="/modules/:moduleId/pages" element={<ModuleDetailsPage />} />
           <Route path="/view/:pageId" element={<PageView />} />
           <Route path="/program/fbd" element={<FBDProgramsPage />} />
+          <Route path="/program/fbd/view/:id" element={<FBDViewerPage />} />
           <Route path="/program/script" element={<ScriptsPage />} />
         </Route>
       </Route>

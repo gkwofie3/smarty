@@ -181,6 +181,14 @@ const FBDProgramsPage = () => {
                                 <div>
                                     {selectedNode.id && (
                                         <>
+                                            <Button variant="success" className="me-2" onClick={() => window.open(`/view-live-placeholder/${selectedNode.id}`, '_blank')} style={{ display: 'none' }}></Button>
+                                            <Button
+                                                variant="outline-primary"
+                                                className="me-2"
+                                                onClick={() => window.open(`/program/fbd/view/${selectedNode.id}`, '_blank')}
+                                            >
+                                                <i className="fa fa-eye"></i> View Live
+                                            </Button>
                                             <Button variant="outline-info" className="me-2" onClick={handleExecute}><i className="fa fa-play"></i> Execute</Button>
                                             <Button variant="outline-secondary" className="me-2" onClick={onDuplicate}><i className="fa fa-copy"></i> Duplicate</Button>
                                             <Button variant="outline-danger" className="me-2" onClick={confirmDelete}><i className="fa fa-trash"></i> Delete</Button>
