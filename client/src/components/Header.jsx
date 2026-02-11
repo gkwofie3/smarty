@@ -17,7 +17,10 @@ const Header = () => {
                 <div className="ms-4 d-flex">
                     <button className="btn btn-link text-white text-decoration-none me-3" onClick={() => navigate('/')}>Dashboard</button>
                     <button className="btn btn-link text-white text-decoration-none me-3" onClick={() => navigate('/devices')}>Devices</button>
-                    <button className="btn btn-link text-white text-decoration-none" onClick={() => navigate('/point-groups')}>IO Groups</button>
+                    <button className="btn btn-link text-white text-decoration-none me-3" onClick={() => navigate('/point-groups')}>IO Groups</button>
+                    <button className="btn btn-link text-white text-decoration-none me-3" onClick={() => navigate('/programs/fbd')}>Programs</button>
+                    <button className="btn btn-link text-white text-decoration-none me-3" onClick={() => navigate('/programs/scripts')}>Scripts</button>
+                    <button className="btn btn-link text-white text-decoration-none" onClick={() => navigate('/programs/bindings')}>Bindings</button>
                 </div>
             </div>
             <div>

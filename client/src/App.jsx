@@ -7,7 +7,11 @@ import PageView from './pages/Preview/PageView';
 import DeviceList from './pages/Devices/DeviceList';
 import RegisterList from './pages/Devices/RegisterList';
 import PointGroupList from './pages/Points/PointGroupList';
+import PointGroupList from './pages/Points/PointGroupList';
 import PointList from './pages/Points/PointList';
+import FBDList from './pages/Programs/FBDList';
+import ScriptList from './pages/Programs/ScriptList';
+import ProgramBindings from './pages/Programs/ProgramBindings';
 
 // Auth Guard
 const ProtectedRoute = () => {
@@ -31,6 +35,9 @@ function App() {
           <Route path="/devices/:deviceId/registers" element={<RegisterList />} />
           <Route path="/point-groups" element={<PointGroupList />} />
           <Route path="/point-groups/:groupId/points" element={<PointList />} />
+          <Route path="/programs/fbd" element={<FBDList />} />
+          <Route path="/programs/scripts" element={<ScriptList />} />
+          <Route path="/programs/bindings" element={<ProgramBindings />} />
         </Route>
       </Route>
 

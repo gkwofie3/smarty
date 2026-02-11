@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/', include('modules.urls')),
     path('api/', include('main.urls')),
     path('api/graphics/', include('graphics.urls')),
+    path('api/fbd/', include('fbd.urls')),
     path('admin/', admin.site.urls),
 ]
 
