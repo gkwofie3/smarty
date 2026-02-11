@@ -5,7 +5,8 @@ import CanvasMap from '../components/CanvasMap';
 import PropertiesPanel from '../components/PropertiesPanel';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../api';
 
 const EditorPage = () => {
     const [nodes, setNodes] = useState([]);
@@ -25,7 +26,7 @@ const EditorPage = () => {
 
     const loadProgram = async (id) => {
         try {
-            const res = await axios.get(`/api/fbd/programs/${id}/`);
+            const res = await api.get(`fbd/programs/${id}/`);
             const { diagram_json } = res.data;
             if (diagram_json) {
                 setNodes(diagram_json.nodes || []);
@@ -43,7 +44,7 @@ const EditorPage = () => {
         if (!programId) return;
         try {
             const diagram_json = { nodes, edges, layout: layoutSize };
-            await axios.patch(`/api/fbd/programs/${programId}/`, { diagram_json });
+            await api.patch(`fbd/programs/${programId}/`, { diagram_json });
             alert('Saved successfully!');
         } catch (err) {
             console.error("Failed to save", err);
@@ -112,8 +113,20 @@ const EditorPage = () => {
     return (
         <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
             <div className="bg-dark text-white p-2 d-flex justify-content-between align-items-center">
-                <span className="h5 mb-0">FBD Editor {programId && `(ID: ${programId})`}</span>
-                <Button variant="success" size="sm" onClick={saveProgram}>Save</Button>
+                <div className="d-flex align-items-center">
+                    <Button
+                        variant="outline-light"
+                        size="sm"
+                        className="me-3"
+                        onClick={() => window.location.href = '/'}
+                    >
+                        <i className="fa fa-arrow-left me-1"></i> Dashboard
+                    </Button>
+                    <span className="h5 mb-0">FBD Editor {programId && `(ID: ${programId})`}</span>
+                </div>
+                <Button variant="success" size="sm" onClick={saveProgram}>
+                    <i className="fa fa-save me-1"></i> Save
+                </Button>
             </div>
             <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
                 <Sidebar onDragStart={handleDragStart} />

@@ -77,6 +77,28 @@ const Sidebar = () => {
                         </Link>
                     </div>
 
+                    <div className="menu-item has-sub">
+                        <a className="menu-link" href="#">
+                            <div className="menu-icon">
+                                <i className="fa fa-code-branch"></i>
+                            </div>
+                            <div className="menu-text">Program</div>
+                            <div className="menu-caret"></div>
+                        </a>
+                        <div className="menu-submenu">
+                            <div className="menu-item">
+                                <Link className="menu-link" to="/program/fbd">
+                                    <div className="menu-text">FBD</div>
+                                </Link>
+                            </div>
+                            <div className="menu-item">
+                                <Link className="menu-link" to="/program/script">
+                                    <div className="menu-text">Script</div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="menu-item d-flex">
                         <a
                             className="app-sidebar-minify-btn ms-auto d-flex align-items-center text-decoration-none"
