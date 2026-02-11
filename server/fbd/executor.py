@@ -84,35 +84,41 @@ class FBDExecutor:
     def _process_block(self, node, inputs):
         type_ = node['type']
         
-        # Helper to treat None as appropriate zero value
-        def val(i, default=0): 
+        # Helper
+        def get_val(i, default=0): 
             return inputs[i] if (i < len(inputs) and inputs[i] is not None) else default
+            
+        vals = [get_val(i) for i in range(len(inputs))]
+        b_vals = [bool(v) for v in vals]
+
+        # Logical Gates (N-ary)
+        if type_ == 'AND': return [all(b_vals)] # True if ALL are true
+        elif type_ == 'OR': return [any(b_vals)] # True if ANY is true
+        elif type_ == 'XOR': 
+            # Multi-input XOR: Odd number of trues? Or cascading?
+            # Typically IEC XOR is 2-input. For N-input:
+            # "Exclusive OR" usually means "exactly one is true" or "odd number is true".
+            # Mathematical XOR sum: sum(b_vals) % 2 == 1
+            return [sum(b_vals) % 2 == 1]
+        elif type_ == 'NOT': return [not b_vals[0] if b_vals else False]
+        elif type_ == 'NAND': return [not all(b_vals)]
+        elif type_ == 'NOR': return [not any(b_vals)]
+        elif type_ == 'XNOR': return [sum(b_vals) % 2 == 0]
+
+        # Arithmetic Operations (N-ary)
+        elif type_ == 'ADD': return [sum(vals)]
+        elif type_ == 'MUL':
+            res = 1
+            for v in vals: res *= v
+            return [res]
+        elif type_ == 'SUB': return [vals[0] - sum(vals[1:])] if len(vals) > 1 else [vals[0]]
+        elif type_ == 'DIV': 
+            res = vals[0]
+            for v in vals[1:]:
+                res = res / v if v != 0 else 0
+            return [res]
         
-        def b_val(i):
-            return bool(val(i, False))
-
-        # Logical Gates
-        if type_ == 'AND': return [b_val(0) and b_val(1)]
-        elif type_ == 'OR': return [b_val(0) or b_val(1)]
-        elif type_ == 'XOR': return [b_val(0) != b_val(1)]
-        elif type_ == 'NOT': return [not b_val(0)]
-        elif type_ == 'NAND': return [not (b_val(0) and b_val(1))]
-        elif type_ == 'NOR': return [not (b_val(0) or b_val(1))]
-        elif type_ == 'XNOR': return [b_val(0) == b_val(1)]
-
-        # Bitwise Operations
-        elif type_ == 'Bitwise AND': return [int(val(0)) & int(val(1))]
-        elif type_ == 'Bitwise OR': return [int(val(0)) | int(val(1))]
-        elif type_ == 'Bitwise XOR': return [int(val(0)) ^ int(val(1))]
-        elif type_ == 'Bitwise NOT': return [~int(val(0))]
-        elif type_ == 'SHL': return [int(val(0)) << int(val(1))]
-        elif type_ == 'SHR': return [int(val(0)) >> int(val(1))]
-
-        # Arithmetic Operations
-        elif type_ == 'ADD': return [val(0) + val(1)]
-        elif type_ == 'SUB': return [val(0) - val(1)]
-        elif type_ == 'MUL': return [val(0) * val(1)]
-        elif type_ == 'DIV': return [val(0) / val(1) if val(1) != 0 else 0]
+        # ... (Rest remain mostly binary or unary) ...
         elif type_ == 'MOD': return [val(0) % val(1) if val(1) != 0 else 0]
         elif type_ == 'ABS': return [abs(val(0))]
         elif type_ == 'NEG': return [-val(0)]
