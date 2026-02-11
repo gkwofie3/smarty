@@ -156,11 +156,18 @@ const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, set
         }
     };
 
+    const handleMouseDown = (e) => {
+        // Toggle stage draggable based on target
+        const isStageOrGrid = e.target === e.target.getStage() || e.target.name() === 'grid-bg';
+        e.target.getStage().draggable(isStageOrGrid);
+    };
+
     return (
         <Stage
             width={window.innerWidth - 300}
             height={window.innerHeight}
             draggable
+            onMouseDown={handleMouseDown}
             onDragEnd={handleDragEnd}
             onWheel={handleWheel}
             scaleX={scale}

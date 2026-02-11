@@ -45,10 +45,10 @@ export const BLOCK_CATEGORIES = {
         { type: "DEMUX", label: "DEMUX 1:2", inputs: 2, outputs: 2 } // IN, SEL
     ],
     "Encoders/Decoders": [
-        { type: "ENCODER", label: "ENCODER", inputs: 4, outputs: 1 },
-        { type: "DECODER", label: "DECODER", inputs: 1, outputs: 4 },
-        { type: "BIN_TO_DIG", label: "BIN -> DIG", inputs: 1, outputs: 8 },
-        { type: "DIG_TO_BIN", label: "DIG -> BIN", inputs: 8, outputs: 1 }
+        { type: "ENCODER", label: "ENCODER 4:2", inputs: 4, outputs: 2 },
+        { type: "DECODER", label: "DECODER 2:4", inputs: 2, outputs: 4 },
+        { type: "BIN_TO_DIG", label: "BIN -> DIG", inputs: 1, outputs: 8 }, // Integer to 8-bits
+        { type: "DIG_TO_BIN", label: "DIG -> BIN", inputs: 8, outputs: 1 }  // 8-bits to Integer
     ],
     "Utils": [
         { type: "SPLITTER", label: "SPLITTER", inputs: 1, outputs: 4 }

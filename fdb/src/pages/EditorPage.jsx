@@ -210,6 +210,20 @@ const EditorPage = () => {
         e.preventDefault();
     };
 
+    const handleDelete = () => {
+        if (!selectedId) return;
+        setNodes(nodes.filter(n => n.id !== selectedId));
+        setEdges(edges.filter(e => e.fromNode !== selectedId && e.toNode !== selectedId));
+        setSelectedId(null);
+    };
+
+    const handleMoveSelected = (dx, dy) => {
+        if (!selectedId) return;
+        setNodes(prevNodes => prevNodes.map(n =>
+            n.id === selectedId ? { ...n, x: n.x + dx, y: n.y + dy } : n
+        ));
+    };
+
     // Keyboard Shortcuts
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -246,6 +260,15 @@ const EditorPage = () => {
                 }
             } else if (e.key === 'Delete' || e.key === 'Backspace') {
                 if (selectedId) handleDelete();
+            } else if (e.key.startsWith('Arrow') && selectedId) {
+                e.preventDefault();
+                const step = e.shiftKey ? 1 : 5;
+                switch (e.key) {
+                    case 'ArrowUp': handleMoveSelected(0, -step); break;
+                    case 'ArrowDown': handleMoveSelected(0, step); break;
+                    case 'ArrowLeft': handleMoveSelected(-step, 0); break;
+                    case 'ArrowRight': handleMoveSelected(step, 0); break;
+                }
             }
         };
 
@@ -268,13 +291,6 @@ const EditorPage = () => {
             window.removeEventListener('paste', handleNativePaste);
         };
     }, [selectedId, nodes, edges, historyStep, history, clipboard, layoutSize, autoSaveEnabled, isSaving]);
-
-    const handleDelete = () => {
-        if (!selectedId) return;
-        setNodes(nodes.filter(n => n.id !== selectedId));
-        setEdges(edges.filter(e => e.fromNode !== selectedId && e.toNode !== selectedId));
-        setSelectedId(null);
-    };
 
     return (
         <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>

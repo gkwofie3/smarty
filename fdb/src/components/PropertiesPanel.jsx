@@ -50,8 +50,9 @@ const PropertiesPanel = ({ selectedId, nodes, setNodes, layoutSize, setLayoutSiz
         }
     };
 
-    // Check if variable inputs allowed (Logic gates, Math)
-    const isVariableInput = ['AND', 'OR', 'XOR', 'NAND', 'NOR', 'XNOR', 'ADD', 'MUL'].includes(selectedNode.type);
+    // Check if variable inputs allowed (Logic gates, Math, etc.)
+    const isVariableInput = ['AND', 'OR', 'XOR', 'NAND', 'NOR', 'XNOR', 'ADD', 'MUL', 'MUX', 'ENCODER', 'DECODER', 'DIG_TO_BIN', 'SPLITTER'].includes(selectedNode.type);
+    const isVariableOutput = ['DEMUX', 'SPLITTER', 'DECODER', 'ENCODER', 'BIN_TO_DIG', 'MUX'].includes(selectedNode.type);
 
     return (
         <div style={{ width: '250px', background: '#f8f9fa', borderLeft: '1px solid #dee2e6', padding: '10px', overflowY: 'auto' }}>
@@ -91,7 +92,7 @@ const PropertiesPanel = ({ selectedId, nodes, setNodes, layoutSize, setLayoutSiz
                                         type="number"
                                         size="sm"
                                         value={Math.round(selectedNode.width || 100)}
-                                        onChange={(e) => handleChange('width', parseInt(e.target.value))}
+                                        onChange={(e) => handleChange('width', parseInt(e.target.value) || 50)}
                                     />
                                 </Form.Group>
                                 <Form.Group className="mb-2">
@@ -100,43 +101,68 @@ const PropertiesPanel = ({ selectedId, nodes, setNodes, layoutSize, setLayoutSiz
                                         type="number"
                                         size="sm"
                                         value={Math.round(selectedNode.height || 0)}
-                                        onChange={(e) => handleChange('height', parseInt(e.target.value))}
+                                        onChange={(e) => handleChange('height', parseInt(e.target.value) || 50)}
                                     />
                                 </Form.Group>
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
 
-                    {/* Inputs Config */}
-                    {isVariableInput && (
-                        <Form.Group className="mb-2">
-                            <Form.Label>Inputs Count</Form.Label>
-                            <Form.Control
-                                type="number"
-                                min={2}
-                                max={20}
-                                size="sm"
-                                value={selectedNode.inputs}
-                                onChange={(e) => handleChange('inputs', parseInt(e.target.value))}
-                            />
-                        </Form.Group>
-                    )}
+                    {/* Configuration */}
+                    <Accordion defaultActiveKey="0" className="mb-2">
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header>Configuration</Accordion.Header>
+                            <Accordion.Body className="p-2">
+                                {isVariableInput && (
+                                    <Form.Group className="mb-2">
+                                        <Form.Label>Inputs Count</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            min={0}
+                                            max={64}
+                                            size="sm"
+                                            value={selectedNode.inputs || 0}
+                                            onChange={(e) => handleChange('inputs', Math.max(0, parseInt(e.target.value) || 0))}
+                                        />
+                                    </Form.Group>
+                                )}
+                                {isVariableOutput && (
+                                    <Form.Group className="mb-2">
+                                        <Form.Label>Outputs Count</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            min={0}
+                                            max={64}
+                                            size="sm"
+                                            value={selectedNode.outputs || 0}
+                                            onChange={(e) => handleChange('outputs', Math.max(0, parseInt(e.target.value) || 0))}
+                                        />
+                                    </Form.Group>
+                                )}
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
 
                     {/* Block Specific Params */}
-                    {selectedNode.params && Object.keys(selectedNode.params).map(key => {
-                        if (key === 'color') return null; // Already handled
-                        return (
-                            <Form.Group className="mb-2" key={key}>
-                                <Form.Label>{key.toUpperCase()}</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    size="sm"
-                                    value={selectedNode.params[key]}
-                                    onChange={(e) => setNodes(nodes.map(n => n.id === selectedId ? { ...n, params: { ...n.params, [key]: e.target.value } } : n))}
-                                />
-                            </Form.Group>
-                        );
-                    })}
+                    {selectedNode.params && Object.keys(selectedNode.params).length > 1 && (
+                        <div className="mt-2">
+                            <p className="small fw-bold mb-1">Parameters</p>
+                            {Object.keys(selectedNode.params).map(key => {
+                                if (key === 'color') return null; // Already handled
+                                return (
+                                    <Form.Group className="mb-2" key={key}>
+                                        <Form.Label className="small">{key.toUpperCase()}</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            size="sm"
+                                            value={selectedNode.params[key]}
+                                            onChange={(e) => setNodes(nodes.map(n => n.id === selectedId ? { ...n, params: { ...n.params, [key]: e.target.value } } : n))}
+                                        />
+                                    </Form.Group>
+                                );
+                            })}
+                        </div>
+                    )}
                 </Card.Body>
                 <Card.Footer className="text-center">
                     <Button variant="danger" size="sm" onClick={onDelete}>Delete Block</Button>

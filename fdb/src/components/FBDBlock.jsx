@@ -22,6 +22,9 @@ const FBDBlock = ({ node, onSelect, selected, onNodeMove, onNodeTransform, onPor
             draggable
             onClick={() => onSelect(id)}
             onTap={() => onSelect(id)}
+            onDragStart={(e) => {
+                e.cancelBubble = true;
+            }}
             onDragEnd={(e) => {
                 if (onNodeMove) onNodeMove(id, e.target.x(), e.target.y());
             }}
