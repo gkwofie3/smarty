@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Stage, Layer, Line, Rect, Transformer } from 'react-konva';
+import { Stage, Layer, Line, Rect, Transformer, Group } from 'react-konva';
 import FBDBlock from './FBDBlock';
 import Connection from './Connection';
 import { LAYOUT } from '../constants';
 
-const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, setSelectedId }) => {
+const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, setSelectedId, layoutSize }) => {
     const [tempLine, setTempLine] = useState(null);
     const [scale, setScale] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -39,14 +39,6 @@ const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, set
         // const currentHeight = height || (LAYOUT.HEADER_HEIGHT + Math.max(inputs, outputs) * LAYOUT.PORT_HEIGHT + 10);
 
         const { HEADER_HEIGHT, PORT_HEIGHT } = LAYOUT;
-
-        // Calculate port Y relative to node Y, scaling if node is resized?
-        // For simple resizing, we might just scale the whole group, OR we re-calculate positions.
-        // If we use Transform (scaleX, scaleY), the internal coords stay same but visual changes.
-        // But for connections, we need Absolute coordinates.
-        // Let's assume resizing CHANGES width/height props, not just scale.
-        // But Transformer only changes scale/rotation by default usually.
-        // We will force Transformer to update width/height and reset scale to 1.
 
         const yOffset = HEADER_HEIGHT + 10 + portIndex * PORT_HEIGHT;
 
@@ -93,30 +85,26 @@ const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, set
 
     // Grid Generation
     const GRID_SIZE = 50;
-    const renderGrid = () => {
-        // Simple infinite grid effect? 
-        // We can draw a huge rect with fillPattern or just lines.
-        // Lines are better for 'faint lines'.
-        // But creating thousands of lines is heavy.
-        // Better: Use a fill pattern on a big rect? 
-        // Or just lines for the visible area?
-        // For now, let's just make a static large grid (e.g. 5000x5000)
+    const renderGrid = (w, h) => {
         const lines = [];
-        const size = 5000;
-        for (let i = -size; i < size; i += GRID_SIZE) {
+        // Vertical
+        for (let i = 0; i <= w; i += GRID_SIZE) {
             lines.push(
                 <Line
                     key={`v${i}`}
-                    points={[i, -size, i, size]}
-                    stroke="#ddd"
+                    points={[i, 0, i, h]}
+                    stroke="#e0e0e0"
                     strokeWidth={1}
                 />
             );
+        }
+        // Horizontal
+        for (let i = 0; i <= h; i += GRID_SIZE) {
             lines.push(
                 <Line
                     key={`h${i}`}
-                    points={[-size, i, size, i]}
-                    stroke="#ddd"
+                    points={[0, i, w, i]}
+                    stroke="#e0e0e0"
                     strokeWidth={1}
                 />
             );
@@ -127,7 +115,6 @@ const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, set
 
     // ... Port Click logic same as before ... 
     const handlePortClick = (e, nodeId, portType, portIndex) => {
-        // ... (Keep existing logic, ensure getPortPosition is updated) ...
         e.cancelBubble = true;
         if (portType === 'out') {
             const startPos = getPortPosition(nodeId, 'out', portIndex);
@@ -158,21 +145,9 @@ const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, set
     const handleMouseMove = (e) => {
         if (tempLine) {
             const stage = e.target.getStage();
-            // Need to account for scale/position in pointer? 
-            // stage.getPointerPosition() returns absolute window coords relative to stage container?
-            // Actually getPointerPosition returns {x,y} of pointer.
-            // But we need to transform it to "Stage Universe" coords for the Line points if the Line is inside the Layer which is scaled.
-            // Wait, tempLine is in Layer. Layer is scaled.
-            // So we need pointer relative to stage transform.
             const transform = stage.getAbsoluteTransform().copy();
             transform.invert();
             const pos = transform.point(stage.getPointerPosition());
-
-            // Re-calc start point because node might have moved? No, tempLine stores initial points.
-            // But initial points were calculated when?
-            // getPortPosition returns coord in "World" (Node coords).
-            // So `points` should be in World coords.
-            // So `pos` (World coords) is correct.
 
             setTempLine(prev => ({
                 ...prev,
@@ -196,15 +171,26 @@ const CanvasMap = ({ nodes, edges, setNodes, setEdges, stageRef, selectedId, set
             onClick={handleStageClick}
             onTap={handleStageClick}
             onMouseMove={handleMouseMove}
-            style={{ backgroundColor: '#f8f9fa' }}
+            style={{ backgroundColor: '#e0e0e0' }}
         >
             <Layer>
+                {/* Page Boundary */}
+                <Rect
+                    x={0}
+                    y={0}
+                    width={layoutSize?.width || 1920}
+                    height={layoutSize?.height || 1080}
+                    fill={layoutSize?.backgroundColor || "#ffffff"}
+                    shadowBlur={10}
+                    shadowColor="black"
+                    shadowOpacity={0.2}
+                    name="grid-bg"
+                />
+
                 {/* Grid */}
-                <React.Fragment>
-                    {/* Background rect for clicking */}
-                    <Rect x={-5000} y={-5000} width={10000} height={10000} fill="#f8f9fa" name="grid-bg" />
-                    {renderGrid()}
-                </React.Fragment>
+                <Group clipX={0} clipY={0} clipWidth={layoutSize?.width || 1920} clipHeight={layoutSize?.height || 1080}>
+                    {renderGrid(layoutSize?.width || 1920, layoutSize?.height || 1080)}
+                </Group>
 
                 {/* Edges */}
                 {edges.map(edge => {

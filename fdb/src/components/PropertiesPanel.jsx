@@ -1,14 +1,41 @@
 
 import React from 'react';
-import { Form, Card, Accordion } from 'react-bootstrap';
+import { Form, Card, Accordion, Button } from 'react-bootstrap';
 
-const PropertiesPanel = ({ selectedId, nodes, setNodes }) => {
+const PropertiesPanel = ({ selectedId, nodes, setNodes, layoutSize, setLayoutSize, onDelete }) => {
     const selectedNode = nodes.find(n => n.id === selectedId);
 
     if (!selectedNode) {
         return (
             <div style={{ width: '250px', background: '#f8f9fa', borderLeft: '1px solid #dee2e6', padding: '10px' }}>
-                <p className="text-muted text-center mt-3">Select a block to edit properties</p>
+                <h6 className="mb-3">Program Layout</h6>
+                <Form.Group className="mb-2">
+                    <Form.Label>Width (px)</Form.Label>
+                    <Form.Control
+                        type="number"
+                        size="sm"
+                        value={layoutSize?.width || 1920}
+                        onChange={(e) => setLayoutSize({ ...layoutSize, width: parseInt(e.target.value) || 0 })}
+                    />
+                </Form.Group>
+                <Form.Group className="mb-2">
+                    <Form.Label>Height (px)</Form.Label>
+                    <Form.Control
+                        type="number"
+                        size="sm"
+                        value={layoutSize?.height || 1080}
+                        onChange={(e) => setLayoutSize({ ...layoutSize, height: parseInt(e.target.value) || 0 })}
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Background</Form.Label>
+                    <Form.Control
+                        type="color"
+                        size="sm"
+                        value={layoutSize?.backgroundColor || '#ffffff'}
+                        onChange={(e) => setLayoutSize({ ...layoutSize, backgroundColor: e.target.value })}
+                    />
+                </Form.Group>
             </div>
         );
     }
@@ -111,6 +138,9 @@ const PropertiesPanel = ({ selectedId, nodes, setNodes }) => {
                         );
                     })}
                 </Card.Body>
+                <Card.Footer className="text-center">
+                    <Button variant="danger" size="sm" onClick={onDelete}>Delete Block</Button>
+                </Card.Footer>
             </Card>
         </div>
     );

@@ -33,8 +33,12 @@ export const BLOCK_CATEGORIES = {
         { type: "LE", label: "LE", inputs: 2, outputs: 1 }
     ],
     "IO": [
-        { type: "INPUT", label: "INPUT", inputs: 0, outputs: 1, params: { pointId: null } },
-        { type: "OUTPUT", label: "OUTPUT", inputs: 1, outputs: 0, params: { pointId: null } }
+        { type: "DIGITAL_IN", label: "DIG_IN", inputs: 0, outputs: 1, params: { pointId: null } },
+        { type: "ANALOG_IN", label: "ANA_IN", inputs: 0, outputs: 1, params: { pointId: null } },
+        { type: "DIGITAL_OUT", label: "DIG_OUT", inputs: 1, outputs: 0, params: { pointId: null } },
+        { type: "ANALOG_OUT", label: "ANA_OUT", inputs: 1, outputs: 0, params: { pointId: null } },
+        { type: "CONST_DIG", label: "CONST_DIG", inputs: 0, outputs: 1, params: { value: false } },
+        { type: "CONST_ANA", label: "CONST_ANA", inputs: 0, outputs: 1, params: { value: 0 } }
     ]
 };
 

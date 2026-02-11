@@ -142,14 +142,41 @@ class FBDExecutor:
             return [max(mn, min(in_, mx))]
 
         # IO
-        elif type_ == 'INPUT': return [self._get_bound_value(node['id'])]
-        elif type_ == 'OUTPUT': return [val(0)]
+        elif type_ == 'DIGITAL_IN':
+            val = self._get_binding_value(node.get('params', {}).get('pointId'))
+            return [bool(val) if val is not None else False]
+        elif type_ == 'ANALOG_IN':
+            val = self._get_binding_value(node.get('params', {}).get('pointId'))
+            return [float(val) if val is not None else 0.0]
+        elif type_ == 'DIGITAL_OUT':
+            self._set_binding_value(node.get('params', {}).get('pointId'), bool(inputs[0] if inputs else False))
+            return []
+        elif type_ == 'ANALOG_OUT':
+            self._set_binding_value(node.get('params', {}).get('pointId'), float(inputs[0] if inputs else 0.0))
+            return []
+        
+        # Constants
+        elif type_ == 'CONST_DIG':
+            val = node.get('params', {}).get('value', False)
+            return [bool(val) if val is not None else False]
+        elif type_ == 'CONST_ANA':
+            val = node.get('params', {}).get('value', 0.0)
+            return [float(val) if val is not None else 0.0]
         
         # Default
         return [None] * (node.get('outputs', 0))
 
+    def _get_binding_value(self, point_id):
+        # In a real app, this would query the Data Point cache/DB
+        if not point_id: return 0
+        return 0 # Mock
+
+    def _set_binding_value(self, point_id, value):
+        # In a real app, this would write to the Data Point
+        if not point_id: return
+        # print(f"Writing {value} to {point_id}")
+        pass
+
     def _get_bound_value(self, node_id):
-        if node_id in self.bindings:
-            # return get_point_value(self.bindings[node_id])
-            return 1 # Mock
+        # Deprecated
         return 0
