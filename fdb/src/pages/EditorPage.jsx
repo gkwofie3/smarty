@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import CanvasMap from '../components/CanvasMap';
 import PropertiesPanel from '../components/PropertiesPanel';
+import ToastNotification from '../components/ToastNotification';
 import { v4 as uuidv4 } from 'uuid';
 import { useSearchParams } from 'react-router-dom';
 // import axios from 'axios';
@@ -18,37 +19,164 @@ const EditorPage = () => {
     const stageRef = useRef(null);
     const dragItem = useRef(null);
 
+    // History for Undo/Redo
+    const [history, setHistory] = useState([]);
+    const [historyStep, setHistoryStep] = useState(-1);
+    const [isUndoRedoAction, setIsUndoRedoAction] = useState(false);
+
+    // Clipboard
+    const [clipboard, setClipboard] = useState(null);
+
+    // Auto-save
+    const [autoSaveEnabled, setAutoSaveEnabled] = useState(() => {
+        return localStorage.getItem('autoSaveEnabled') === 'true';
+    });
+    const [isSaving, setIsSaving] = useState(false);
+    const autoSaveTimer = useRef(null);
+
+    // Toast
+    const [toast, setToast] = useState({ show: false, message: '', variant: 'success' });
+    const showToast = (message, variant = 'success') => setToast({ show: true, message, variant });
+
+    useEffect(() => {
+        localStorage.setItem('autoSaveEnabled', autoSaveEnabled);
+    }, [autoSaveEnabled]);
+
     useEffect(() => {
         if (programId) {
             loadProgram(programId);
         }
+        return () => {
+            if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+        };
     }, [programId]);
+
+    // Handle History (Undo/Redo)
+    useEffect(() => {
+        if (isUndoRedoAction) {
+            setIsUndoRedoAction(false);
+            return;
+        }
+
+        const currentState = { nodes, edges, layout: layoutSize };
+
+        // Use a functional update for history to avoid stale state in the effect
+        setHistory(prevHistory => {
+            const newHistory = prevHistory.slice(0, historyStep + 1);
+            newHistory.push(currentState);
+            if (newHistory.length > 50) newHistory.shift();
+            return newHistory;
+        });
+        setHistoryStep(prevStep => {
+            // If we shifted, the index stays the same (but points to new last element)
+            // If we didn't shift, it increments.
+            // Simplified: just point to the last element of what history will be.
+            return Math.min(historyStep + 1, 49);
+        });
+
+        // Auto-save trigger
+        if (autoSaveEnabled && programId) {
+            if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
+            autoSaveTimer.current = setTimeout(() => {
+                saveProgram(true); // silent save
+            }, 3000);
+        }
+    }, [nodes, edges, layoutSize, autoSaveEnabled]);
+
+    // Re-calculating historyStep more accurately when history changes
+    useEffect(() => {
+        if (!isUndoRedoAction) {
+            setHistoryStep(history.length - 1);
+        }
+    }, [history]);
+
+    const handleUndo = () => {
+        if (historyStep > 0) {
+            const prevStep = historyStep - 1;
+            const state = history[prevStep];
+            setIsUndoRedoAction(true);
+            setNodes(state.nodes);
+            setEdges(state.edges);
+            setLayoutSize(state.layout);
+            setHistoryStep(prevStep);
+        }
+    };
+
+    const handleRedo = () => {
+        if (historyStep < history.length - 1) {
+            const nextStep = historyStep + 1;
+            const state = history[nextStep];
+            setIsUndoRedoAction(true);
+            setNodes(state.nodes);
+            setEdges(state.edges);
+            setLayoutSize(state.layout);
+            setHistoryStep(nextStep);
+        }
+    };
+
+    const handleCopy = () => {
+        if (!selectedId) return;
+        const node = nodes.find(n => n.id === selectedId);
+        if (node) {
+            setClipboard({ ...node });
+        }
+    };
+
+    const handlePaste = () => {
+        if (!clipboard) return;
+        const newNode = {
+            ...clipboard,
+            id: uuidv4(),
+            x: (clipboard.x || 0) + 20, // Offset paste
+            y: (clipboard.y || 0) + 20
+        };
+        setNodes(prev => [...prev, newNode]);
+    };
 
     const loadProgram = async (id) => {
         try {
             const res = await api.get(`fbd/programs/${id}/`);
             const { diagram_json } = res.data;
             if (diagram_json) {
-                setNodes(diagram_json.nodes || []);
-                setEdges(diagram_json.edges || []);
-                if (diagram_json.layout) {
-                    setLayoutSize(diagram_json.layout);
-                }
+                const loadedNodes = diagram_json.nodes || [];
+                const loadedEdges = diagram_json.edges || [];
+                const loadedLayout = diagram_json.layout || layoutSize;
+
+                // Initialize state
+                setIsUndoRedoAction(true);
+                setNodes(loadedNodes);
+                setEdges(loadedEdges);
+                setLayoutSize(loadedLayout);
+
+                // Initialize history with loaded state
+                const initialState = {
+                    nodes: loadedNodes,
+                    edges: loadedEdges,
+                    layout: loadedLayout
+                };
+                setHistory([initialState]);
+                setHistoryStep(0);
             }
         } catch (err) {
             console.error("Failed to load program", err);
+            showToast("Failed to load program", "danger");
         }
     };
 
-    const saveProgram = async () => {
+    const saveProgram = async (silent = false) => {
         if (!programId) return;
+        if (isSaving) return;
+
+        setIsSaving(true);
         try {
             const diagram_json = { nodes, edges, layout: layoutSize };
             await api.patch(`fbd/programs/${programId}/`, { diagram_json });
-            alert('Saved successfully!');
+            if (!silent) showToast('Saved successfully!');
         } catch (err) {
             console.error("Failed to save", err);
-            alert('Failed to save');
+            if (!silent) showToast('Failed to save', 'danger');
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -63,8 +191,6 @@ const EditorPage = () => {
         const stagePos = stage.getPointerPosition();
 
         if (dragItem.current && stagePos) {
-            // Convert to relative position if stage is zoomed/panned (TODO)
-            // For now assume no zoom/pan offset for simplicity or handle in CanvasMap
             const newNode = {
                 id: uuidv4(),
                 type: dragItem.current.type,
@@ -84,27 +210,67 @@ const EditorPage = () => {
         e.preventDefault();
     };
 
-    // Delete Selection
+    // Keyboard Shortcuts
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId) {
-                // Focus check: Don't delete if typing in an input
-                if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+            // Focus check: Don't trigger if typing in an input
+            if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
-                handleDelete();
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key.toLowerCase()) {
+                    case 's':
+                        e.preventDefault();
+                        saveProgram();
+                        break;
+                    case 'z':
+                        e.preventDefault();
+                        if (e.shiftKey) handleRedo();
+                        else handleUndo();
+                        break;
+                    case 'u': // User specifically asked for Ctrl+U for undo
+                        e.preventDefault();
+                        handleUndo();
+                        break;
+                    case 'y': // Redo alternative
+                        e.preventDefault();
+                        handleRedo();
+                        break;
+                    case 'c':
+                        // handleCopy(); // Don't prevent default for native copy if needed?
+                        break;
+                    case 'v':
+                        // handlePaste();
+                        break;
+                    default:
+                        break;
+                }
+            } else if (e.key === 'Delete' || e.key === 'Backspace') {
+                if (selectedId) handleDelete();
             }
         };
+
+        // Listen for copy/paste separately if needed, or use the switch above
+        const handleNativeCopy = (e) => {
+            if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+            handleCopy();
+        };
+        const handleNativePaste = (e) => {
+            if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+            handlePaste();
+        };
+
         window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [selectedId, nodes, edges]);
+        window.addEventListener('copy', handleNativeCopy);
+        window.addEventListener('paste', handleNativePaste);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('copy', handleNativeCopy);
+            window.removeEventListener('paste', handleNativePaste);
+        };
+    }, [selectedId, nodes, edges, historyStep, history, clipboard, layoutSize, autoSaveEnabled, isSaving]);
 
     const handleDelete = () => {
         if (!selectedId) return;
-        // Check if it's an edge (future proofing, current selection is only nodes?)
-        // Actually we only select nodes via state. Edges are not selectable yet?
-        // If we want to delete edges, we need edge selection.
-        // For now, delete node and associated edges.
-
         setNodes(nodes.filter(n => n.id !== selectedId));
         setEdges(edges.filter(e => e.fromNode !== selectedId && e.toNode !== selectedId));
         setSelectedId(null);
@@ -120,14 +286,62 @@ const EditorPage = () => {
                         className="me-3"
                         onClick={() => window.location.href = '/'}
                     >
-                        <i className="fa fa-arrow-left me-1"></i> Dashboard
+                        <i className="fa-solid fa-arrow-left me-1"></i> Dashboard
                     </Button>
-                    <span className="h5 mb-0">FBD Editor {programId && `(ID: ${programId})`}</span>
+                    <span className="h5 mb-0 me-3">FBD Editor {programId && `(ID: ${programId})`}</span>
+
+                    <div className="btn-group me-3 shadow-sm">
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={(e) => { e.preventDefault(); handleUndo(); }}
+                            disabled={historyStep <= 0}
+                            title="Undo (Ctrl+Z)"
+                        >
+                            <i className="fa-solid fa-rotate-left me-1"></i> Undo
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={(e) => { e.preventDefault(); handleRedo(); }}
+                            disabled={historyStep >= history.length - 1}
+                            title="Redo (Ctrl+Y)"
+                        >
+                            Undo <i className="fa-solid fa-rotate-right ms-1"></i>
+                        </Button>
+                    </div>
+
+                    <div className="form-check form-switch text-white ms-2 d-flex align-items-center">
+                        <input
+                            className="form-check-input mt-0 me-2"
+                            type="checkbox"
+                            role="switch"
+                            id="autoSaveSwitch"
+                            checked={autoSaveEnabled}
+                            onChange={(e) => setAutoSaveEnabled(e.target.checked)}
+                            style={{ cursor: 'pointer' }}
+                        />
+                        <label className="form-check-label small" htmlFor="autoSaveSwitch" style={{ cursor: 'pointer' }}>
+                            Auto-save {isSaving && <span className="ms-2 text-warning italic"><i className="fa-solid fa-spinner fa-spin me-1"></i>Saving...</span>}
+                        </label>
+                    </div>
                 </div>
-                <Button variant="success" size="sm" onClick={saveProgram}>
-                    <i className="fa fa-save me-1"></i> Save
+                <Button
+                    variant="success"
+                    size="sm"
+                    onClick={() => saveProgram()}
+                    disabled={isSaving}
+                >
+                    <i className={`fa-solid ${isSaving ? 'fa-spinner fa-spin' : 'fa-save'} me-1`}></i> {isSaving ? 'Saving...' : 'Save (Ctrl+S)'}
                 </Button>
             </div>
+
+            <ToastNotification
+                show={toast.show}
+                message={toast.message}
+                variant={toast.variant}
+                onClose={() => setToast({ ...toast, show: false })}
+            />
             <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
                 <Sidebar onDragStart={handleDragStart} />
                 <div

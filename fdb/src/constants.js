@@ -39,6 +39,19 @@ export const BLOCK_CATEGORIES = {
         { type: "ANALOG_OUT", label: "ANA_OUT", inputs: 1, outputs: 0, params: { pointId: null } },
         { type: "CONST_DIG", label: "CONST_DIG", inputs: 0, outputs: 1, params: { value: false } },
         { type: "CONST_ANA", label: "CONST_ANA", inputs: 0, outputs: 1, params: { value: 0 } }
+    ],
+    "Multiplexing": [
+        { type: "MUX", label: "MUX 2:1", inputs: 3, outputs: 1 }, // IN0, IN1, SEL
+        { type: "DEMUX", label: "DEMUX 1:2", inputs: 2, outputs: 2 } // IN, SEL
+    ],
+    "Encoders/Decoders": [
+        { type: "ENCODER", label: "ENCODER", inputs: 4, outputs: 1 },
+        { type: "DECODER", label: "DECODER", inputs: 1, outputs: 4 },
+        { type: "BIN_TO_DIG", label: "BIN -> DIG", inputs: 1, outputs: 8 },
+        { type: "DIG_TO_BIN", label: "DIG -> BIN", inputs: 8, outputs: 1 }
+    ],
+    "Utils": [
+        { type: "SPLITTER", label: "SPLITTER", inputs: 1, outputs: 4 }
     ]
 };
 
