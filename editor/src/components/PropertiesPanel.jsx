@@ -491,6 +491,27 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                 );
             }
         }
+        if (prop.includes('color') || prop.includes('fill') || prop.includes('stroke') || prop.includes('background')) {
+            return (
+                <div className="d-flex align-items-center">
+                    <Form.Control
+                        type="color"
+                        size="sm"
+                        value={element[prop] || '#000000'}
+                        onChange={(e) => handleChange(prop, e.target.value)}
+                        className="me-2 form-control-color"
+                        style={{ width: '40px' }}
+                    />
+                    <Form.Control
+                        type="text"
+                        size="sm"
+                        value={element[prop] || ''}
+                        onChange={(e) => handleChange(prop, e.target.value)}
+                        placeholder="#RRGGBB"
+                    />
+                </div>
+            );
+        }
 
         if (isColor) {
             return (

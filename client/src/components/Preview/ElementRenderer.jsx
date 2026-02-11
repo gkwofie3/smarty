@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Rect, Circle, Ellipse, Line, Text, Image, Group, Arc, RegularPolygon, Path, Shape } from 'react-konva';
 import { getIconPath } from '../../utils/IconLoader';
 import { loadGoogleFont } from '../../utils/FontLoader';
+import { writeCommand } from '../../services/api';
 
 const useImage = (url) => {
     const [image, setImage] = useState(null);
@@ -65,6 +66,30 @@ const RenderPushButton = ({ element, commonProps, width, height }) => {
                 e.cancelBubble = true;
                 setPressed(true);
                 if (commonProps.onMouseDown) commonProps.onMouseDown(e);
+
+                // Write Logic
+                if (element.data_binding_source) {
+                    let valToWrite = null;
+                    if (element.type === 'Increase Button') {
+                        const step = Number(element.step_size) || 1;
+                        const current = Number(element.current_value) || 0;
+                        valToWrite = current + step;
+                    } else if (element.type === 'Decrease Button') {
+                        const step = Number(element.step_size) || 1;
+                        const current = Number(element.current_value) || 0;
+                        valToWrite = current - step;
+                    } else {
+                        // Push Button - use configured write_value or default 1
+                        valToWrite = element.write_value !== undefined ? element.write_value : 1;
+                    }
+
+                    if (valToWrite !== null) {
+                        writeCommand({
+                            point_id: element.data_binding_source,
+                            value: valToWrite
+                        }).catch(err => console.error("Write failed", err));
+                    }
+                }
             }}
             onMouseUp={(e) => {
                 e.cancelBubble = true;
@@ -97,16 +122,32 @@ const RenderPushButton = ({ element, commonProps, width, height }) => {
                 fill={element.font_color || '#ffffff'}
                 listening={false}
             />
-        </Group>
+        </Group >
     );
 };
 
 const RenderToggleButton = ({ element, commonProps, width, height }) => {
     const [isOn, setIsOn] = useState(false);
 
+    useEffect(() => {
+        if (element.current_value !== undefined && element.current_value !== null) {
+            // Flexible truthy check: '1', 1, 'true', true
+            const val = String(element.current_value).toLowerCase();
+            setIsOn(val === '1' || val === 'true' || val === 'on');
+        }
+    }, [element.current_value]);
+
     const toggle = (e) => {
         e.cancelBubble = true;
-        setIsOn(!isOn);
+        const newState = !isOn;
+        setIsOn(newState);
+
+        if (element.data_binding_source) {
+            writeCommand({
+                point_id: element.data_binding_source,
+                value: newState ? 1 : 0
+            }).catch(err => console.error("Write failed", err));
+        }
     };
 
     const label = isOn ? (element.label_on || 'ON') : (element.label_off || 'OFF');
@@ -156,6 +197,12 @@ const RenderSlider = ({ element, commonProps, width, height }) => {
     const max = Number(element.max_value) || 100;
     const [val, setVal] = useState(Number(element.default_value) || min);
 
+    useEffect(() => {
+        if (element.current_value !== undefined && element.current_value !== null) {
+            setVal(Number(element.current_value));
+        }
+    }, [element.current_value]);
+
     // Track Dimensions
     const trackSize = isVert ? height : width;
     const handleSize = Number(element.handle_size) || 15;
@@ -193,30 +240,43 @@ const RenderSlider = ({ element, commonProps, width, height }) => {
                     const transform = group.getAbsoluteTransform().copy().invert();
                     const local = transform.point(pointer);
                     updateVal(isVert ? local.y : local.x);
+
+                    // Write on click jump
+                    if (element.data_binding_source) {
+                        // Re-calculate value to be sure (or ignore slight race condition)
+                        // Actually updateVal only sets state. We need to calculate value here to send.
+                        // Or utilize useEffect? No, explicit action is better.
+                        const newPos = isVert ? local.y : local.x;
+                        const clamped = Math.max(0, Math.min(newPos, trackSize));
+                        const newPct = clamped / trackSize;
+                        const newVal = min + (newPct * (max - min));
+
+                        writeCommand({
+                            point_id: element.data_binding_source,
+                            value: newVal
+                        }).catch(err => console.error("Write failed", err));
+                    }
                 }}
             />
 
             {/* Visual Track */}
             <Rect
-                x={isVert ? (width / 2 - 4) : 0}
-                y={isVert ? 0 : (height / 2 - 4)}
-                width={isVert ? 8 : width}
-                height={isVert ? height : 8}
+                x={isVert ? (width / 2 - (element.border_width || 8) / 2) : 0}
+                y={isVert ? 0 : (height / 2 - (element.border_width || 8) / 2)}
+                width={isVert ? (element.border_width || 8) : width}
+                height={isVert ? height : (element.border_width || 8)}
                 fill={element.track_color || '#e9ecef'}
-                cornerRadius={4}
+                cornerRadius={(element.border_width || 8) / 2}
                 listening={false}
             />
             {/* Fill */}
             <Rect
-                x={isVert ? (width / 2 - 4) : 0}
-                y={isVert ? pos : (height / 2 - 4)} // Vert fill from top? Or bottom? Standard sliders fill from left/bottom. Left=0. Top=0.
-                // If vert, usually bottom is min? 
-                // Let's stick to Top=Min for now as logic implies 0->Height.
-                width={isVert ? 8 : pos}
-                // Actually if Top is 0/Min, then Fill is from 0 to Pos.
-                height={isVert ? pos : 8}
+                x={isVert ? (width / 2 - (element.border_width || 8) / 2) : 0}
+                y={isVert ? pos : (height / 2 - (element.border_width || 8) / 2)}
+                width={isVert ? (element.border_width || 8) : pos}
+                height={isVert ? pos : (element.border_width || 8)}
                 fill={element.fill_color || '#007bff'}
-                cornerRadius={4}
+                cornerRadius={(element.border_width || 8) / 2}
                 listening={false}
             />
 
@@ -240,6 +300,12 @@ const RenderSlider = ({ element, commonProps, width, height }) => {
                     // Better to just let it drag and use 'dragmove' to update value?
                     return pos;
                 }}
+                onMouseDown={(e) => {
+                    e.cancelBubble = true;
+                }}
+                onDragStart={(e) => {
+                    e.cancelBubble = true;
+                }}
                 onDragMove={(e) => {
                     e.cancelBubble = true;
                     const node = e.target;
@@ -249,6 +315,15 @@ const RenderSlider = ({ element, commonProps, width, height }) => {
                     // Force node back to constrained line?
                     node.x(isVert ? width / 2 : node.x());
                     node.y(isVert ? node.y() : height / 2);
+                }}
+                onDragEnd={(e) => {
+                    e.cancelBubble = true;
+                    if (element.data_binding_source) {
+                        writeCommand({
+                            point_id: element.data_binding_source,
+                            value: val
+                        }).catch(err => console.error("Write failed", err));
+                    }
                 }}
             />
             {/* Value Tooltip? */}
@@ -268,14 +343,23 @@ const RenderSlider = ({ element, commonProps, width, height }) => {
 const RenderInput = ({ element, commonProps, width, height, type }) => {
     const [val, setVal] = useState(element.default_value || '');
 
+    useEffect(() => {
+        if (element.current_value !== undefined && element.current_value !== null) {
+            setVal(element.current_value);
+        }
+    }, [element.current_value]);
+
     const handleClick = (e) => {
         e.cancelBubble = true;
         // Simple Prompt
         const newVal = prompt(`Enter ${type === 'Number Input' ? 'Number' : 'Text'}:`, val);
         if (newVal !== null) {
             setVal(newVal);
-            if (element.event_on_change) {
-                // Trigger event logic?
+            if (element.data_binding_source) {
+                writeCommand({
+                    point_id: element.data_binding_source,
+                    value: newVal
+                }).catch(err => console.error("Write failed", err));
             }
         }
     };
@@ -302,6 +386,127 @@ const RenderInput = ({ element, commonProps, width, height, type }) => {
                 fontStyle={element.font_weight || 'normal'}
                 fill={element.font_color || '#495057'}
                 opacity={val ? 1 : 0.6}
+                listening={false}
+            />
+        </Group>
+    );
+};
+
+const RenderKnob = ({ element, commonProps, width, height }) => {
+    const min = Number(element.min_value) || 0;
+    const max = Number(element.max_value) || 100;
+    const [val, setVal] = useState(Number(element.default_value) || min);
+
+    useEffect(() => {
+        if (element.current_value !== undefined && element.current_value !== null) {
+            setVal(Number(element.current_value));
+        }
+    }, [element.current_value]);
+
+    const startAngle = 135;
+    const endAngle = 405; // 270 degree range
+    const range = max - min;
+
+    // Calculate angle from value
+    const pct = (val - min) / range;
+    const angle = startAngle + (pct * (endAngle - startAngle));
+
+    // Calculate value from angle
+    const getValueFromAngle = (deg) => {
+        let normalized = deg;
+        if (normalized < 90) normalized += 360; // Normalize to 0-360 starting from right, but we want 135 start.
+        // Simplified: use vertical drag or atan2
+        // Let's use simple atan2 relative to center
+        return val; // Placeholder for complex drag logic
+    };
+
+    // Rotary Drag Logic
+    const handleDrag = (e) => {
+        e.cancelBubble = true;
+        const node = e.target;
+        const stage = node.getStage();
+        const ptr = stage.getPointerPosition();
+        const group = node.getParent();
+        const transform = group.getAbsoluteTransform().copy().invert();
+        const local = transform.point(ptr);
+
+        const dx = local.x - width / 2;
+        const dy = local.y - height / 2;
+        let deg = Math.atan2(dy, dx) * 180 / Math.PI;
+        deg += 90; // Rotate so top is 0? standard is right=0.
+        // Let's align 135 to be bottom-left-ish.
+        // Standard knob: 7 o'clock to 5 o'clock.
+        // 135 deg = bottom right? No. 0 is right, 90 down, 180 left, 270 up.
+        // 135 is bottom-right.
+        // We want 135 (bottom left) to 405 (bottom right) traversing top.
+        // 135 (left-down) -> 270 (top) -> 405 (right-down).
+
+        if (deg < 0) deg += 360;
+
+        // Map deg to value?
+        // This is tricky without a proper offset.
+        // Simplest is vertical drag on knob changes value.
+
+        // Vertical Drag emulation:
+        const dY = -e.evt.movementY || 0; // Up increases
+        if (dY === 0) return;
+
+        let newVal = val + (dY * (range / 100)); // Sensitivity
+        newVal = Math.max(min, Math.min(max, newVal));
+        setVal(newVal);
+    };
+
+    return (
+        <Group
+            {...commonProps}
+            onMouseDown={(e) => {
+                e.cancelBubble = true;
+                // Capture initial for drag?
+            }}
+            onMouseMove={(e) => {
+                if (e.evt.buttons === 1) { // Left click drag
+                    handleDrag(e);
+                }
+            }}
+            onMouseUp={(e) => {
+                if (element.data_binding_source) {
+                    writeCommand({
+                        point_id: element.data_binding_source,
+                        value: val
+                    }).catch(err => console.error("Write failed", err));
+                }
+            }}
+        >
+            {/* Dial Background */}
+            <Circle
+                x={width / 2}
+                y={height / 2}
+                radius={Math.min(width, height) / 2}
+                fill={element.dial_color || '#e9ecef'}
+                stroke={element.border_color || '#ced4da'}
+                strokeWidth={element.border_width || 2}
+            />
+            {/* Pointer/Indicator */}
+            <Group
+                x={width / 2}
+                y={height / 2}
+                rotation={angle}
+            >
+                <Circle
+                    x={0}
+                    y={-Math.min(width, height) / 2 + 10}
+                    radius={element.handle_size ? Number(element.handle_size) : 4}
+                    fill={element.knob_color || '#007bff'}
+                />
+            </Group>
+            <Text
+                text={Math.round(val).toString()}
+                x={0}
+                y={height / 2 - 6}
+                width={width}
+                align="center"
+                fontSize={12}
+                fill="black"
                 listening={false}
             />
         </Group>
@@ -1255,6 +1460,9 @@ const ElementRenderer = ({ element, onClick }) => {
 
         case 'Number Input':
             return <RenderInput element={element} commonProps={commonProps} width={width} height={height} type="Number Input" />;
+
+        case 'Knob':
+            return <RenderKnob element={element} commonProps={commonProps} width={width} height={height} />;
 
         case 'Pie Chart':
         case 'Donut Chart':

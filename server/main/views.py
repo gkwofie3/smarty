@@ -1,8 +1,13 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from django.utils import timezone
-from .models import Alarm, Event, Log, Fault
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+import random
+import requests
+from .models import Alarm, Event, Log, Fault, LogWrite
 from .serializers import AlarmSerializer, EventSerializer, LogSerializer, FaultSerializer
 from devices.models import Device, Point, PointGroup, Register
 from modules.models import Module, Page
@@ -168,3 +173,76 @@ class DashboardViewSet(viewsets.ViewSet):
             },
             'recent_logs': recent_logs_data
         })
+
+@csrf_exempt
+def writecommand(request):
+    # This check is now the sole enforcer of the allowed method
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            
+            point_id = data.get('point_id')
+            device_id = data.get('device')
+            register_name = data.get('register')
+            bit = data.get('bit')
+            cmd_type = data.get('type')
+            
+            print(f"Write Command Received: Point={point_id}, Dev={device_id}, Reg={register_name}, Val={data.get('value')}")
+
+            # Resolve Point to Device/Register if provided
+            if point_id:
+                try:
+                    point = Point.objects.get(id=point_id)
+                    if point.register:
+                        device_id = point.register.device.id
+                        register_name = point.register.name 
+                        # bit logic
+                        if point.is_single_bit:
+                            bit = point.bit
+                    else:
+                        print(f"Point {point_id} has no register assigned.")
+                except Point.DoesNotExist:
+                    print(f"Point {point_id} not found.")
+                    pass
+
+            if cmd_type == 'switchcommand':
+                # Toggle logic override if specific type sent
+                random_value = random.randint(0, 1)
+                value = str(random_value)
+            else:
+                raw_val = data.get('value')
+                value = str(raw_val) if raw_val is not None else None
+            
+            if device_id is None or register_name is None or value is None:
+                err_msg = f'Missing required parameters. Resolved: Dev={device_id}, Reg={register_name}, Val={value}'
+                print(err_msg)
+                return JsonResponse({'error': err_msg}, status=400)
+            
+            user = request.user if request.user.is_authenticated else None
+            
+            LogWrite.objects.create(
+                device=device_id,
+                register=register_name,
+                bit=bit,
+                value=value,
+                user=user,
+                level='INFO',
+                executed=False,
+                status='PENDING',
+                message=f"Received write request: Device {device_id}, Register {register_name}, Bit {bit}, Value {value}"
+            )
+
+            return JsonResponse({'status': 'success', 'message': 'Command received and logged.'}, status=200)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON payload'}, status=400)
+            
+        except requests.exceptions.RequestException as e:
+            return JsonResponse({'status': 'error', 'message': f'Request to external endpoint failed: {str(e)}'}, status=500)
+            
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            return JsonResponse({'status': 'error', 'message': f'Internal server error: {str(e)}'}, status=500)
+
+    # This is the crucial line: returns 405 for any method that wasn't POST
+    return JsonResponse({'error': 'Not POST request'}, status=405)

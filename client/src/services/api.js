@@ -15,4 +15,6 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
+export const writeCommand = (payload) => api.post('write-command/', payload);
+
 export default api;

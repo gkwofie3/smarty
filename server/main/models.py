@@ -160,3 +160,15 @@ class Fault(models.Model):
     def __str__(self):
         return f"Fault on {self.point.name} at {self.timestamp}"
     
+class LogWrite(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    device = models.IntegerField()
+    bit=models.IntegerField(null=True, blank=True)
+    register = models.CharField(max_length=50)
+    value = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    level = models.CharField(max_length=20)
+    status = models.CharField(max_length=20, null=True, blank=True)
+    message = models.TextField()
+    executed = models.BooleanField(default=False)
+    logged = models.BooleanField(default=False)

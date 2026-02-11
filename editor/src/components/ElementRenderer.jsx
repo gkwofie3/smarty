@@ -186,6 +186,60 @@ const ElementRenderer = ({ element, isSelected, onSelect, onChange }) => {
     const fontStyle = getFontStyle(element);
 
     switch (element.type) {
+        case 'Knob':
+            {
+                // Knob Rendering (Editor Preview - Static)
+                const min = Number(element.min_value) || 0;
+                const max = Number(element.max_value) || 100;
+                const val = Number(element.default_value) || min;
+
+                const startAngle = 135;
+                const endAngle = 405;
+                const range = max - min;
+                const pct = (val - min) / range;
+                const angle = startAngle + (pct * (endAngle - startAngle));
+
+                const radius = Math.min(width, height) / 2;
+
+                return (
+                    <Group {...commonProps}>
+                        {/* Dial Background */}
+                        <Circle
+                            x={width / 2}
+                            y={height / 2}
+                            radius={radius}
+                            fill={element.dial_color || '#e9ecef'}
+                            stroke={element.border_color || '#ced4da'}
+                            strokeWidth={element.border_width || 2}
+                        />
+                        {/* Pointer/Indicator */}
+                        <Group
+                            x={width / 2}
+                            y={height / 2}
+                            rotation={angle}
+                        >
+                            <Circle
+                                x={0}
+                                y={-radius + 10}
+                                radius={element.handle_size ? Number(element.handle_size) : 4}
+                                fill={element.knob_color || '#007bff'}
+                            />
+                        </Group>
+                        {/* Labels/Value */}
+                        {element.labels_enabled !== false && (
+                            <Text
+                                text={Math.round(val).toString()}
+                                x={0}
+                                y={height / 2 - 6}
+                                width={width}
+                                align="center"
+                                fontSize={12}
+                                fill="black"
+                            />
+                        )}
+                    </Group>
+                );
+            }
         case 'Rectangle':
             return (
                 <Rect
