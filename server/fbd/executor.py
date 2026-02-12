@@ -175,6 +175,66 @@ class FBDExecutor:
             v = node.get('params', {}).get('value', 0.0)
             res = [cast_f(v)]
 
+        # Multiplexing
+        elif type_ == 'MUX':
+            # Inputs: IN0, IN1, ..., SEL (last input is selector)
+            if len(inputs) >= 2:
+                sel = int(cast_f(inputs[-1]))
+                data_inputs = inputs[:-1]
+                if 0 <= sel < len(data_inputs):
+                    res = [data_inputs[sel]]
+                else:
+                    res = [data_inputs[0]] if data_inputs else [0.0]
+            else:
+                res = [0.0]
+
+        elif type_ == 'DEMUX':
+            # Inputs: IN, SEL
+            if len(inputs) >= 2:
+                val = inputs[0]
+                sel = int(cast_f(inputs[1]))
+                res = [0.0] * expected_outputs
+                if 0 <= sel < expected_outputs:
+                    res[sel] = val
+            else:
+                res = [0.0] * expected_outputs
+
+        # Encoders/Decoders
+        elif type_ == 'ENCODER':
+            # Inputs: D0, D1, ... -> Output: Index of first active input
+            idx = 0
+            for i, v in enumerate(b_vals):
+                if v:
+                    idx = i
+                    break
+            res = [float(idx)]
+
+        elif type_ == 'DECODER':
+            # Input: Binary Index -> Outputs: One-hot (selected pin is 1, others 0)
+            idx = int(cast_f(inputs[0])) if inputs else 0
+            res = [False] * expected_outputs
+            if 0 <= idx < expected_outputs:
+                res[idx] = True
+
+        elif type_ == 'BIN_TO_DIG':
+            # Input: Integer -> Outputs: Individual bits
+            val = int(cast_f(inputs[0])) if inputs else 0
+            res = [(val >> i) & 1 == 1 for i in range(expected_outputs)]
+
+        elif type_ == 'DIG_TO_BIN':
+            # Inputs: Individual bits -> Output: Integer
+            val = 0
+            for i, v in enumerate(b_vals):
+                if v:
+                    val |= (1 << i)
+            res = [float(val)]
+
+        # Utils
+        elif type_ == 'SPLITTER':
+            # Input: 1 -> Outputs: Many (all same as input)
+            val = inputs[0] if inputs else 0.0
+            res = [val] * expected_outputs
+
         # Displays
         elif type_ == 'ANA_DISP': res = [f_vals[0] if f_vals else 0.0]
         elif type_ == 'DIG_DISP': res = [b_vals[0] if b_vals else False]

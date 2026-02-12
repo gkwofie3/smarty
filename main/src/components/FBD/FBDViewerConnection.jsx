@@ -12,8 +12,9 @@ const FBDViewerConnection = ({ points, isActive }) => {
             pointerWidth={5}
             lineCap="round"
             lineJoin="round"
-            shadowBlur={isActive ? 5 : 0}
+            shadowBlur={isActive ? 10 : 0}
             shadowColor="#28a745"
+            hitStrokeWidth={5}
         />
     );
 };

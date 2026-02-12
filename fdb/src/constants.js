@@ -55,7 +55,8 @@ export const BLOCK_CATEGORIES = {
         { type: "DIG_TO_BIN", label: "DIG -> BIN", inputs: 8, outputs: 1 }  // 8-bits to Integer
     ],
     "Utils": [
-        { type: "SPLITTER", label: "SPLITTER", inputs: 1, outputs: 4 }
+        { type: "SPLITTER", label: "SPLITTER", inputs: 1, outputs: 4 },
+        { type: "TERMINAL", label: "TERM", inputs: 1, outputs: 1 }
     ]
 };
 

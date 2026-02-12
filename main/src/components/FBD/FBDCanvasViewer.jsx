@@ -3,6 +3,7 @@ import { Stage, Layer, Rect, Group, Line } from 'react-konva';
 import FBDViewerBlock from './FBDViewerBlock';
 import FBDViewerConnection from './FBDViewerConnection';
 import { LAYOUT } from '../../pages/Programs/fbdConstants';
+import { calculateOrthogonalPath } from '../../services/fbdUtils';
 
 const FBDCanvasViewer = ({ nodes, edges, runtimeData, layoutSize }) => {
     const stageRef = useRef(null);
@@ -34,7 +35,12 @@ const FBDCanvasViewer = ({ nodes, edges, runtimeData, layoutSize }) => {
     const getPortPosition = (nodeId, portType, portIndex) => {
         const node = nodes.find(n => n.id === nodeId);
         if (!node) return { x: 0, y: 0 };
-        const { x, y, width, height, inputs, outputs } = node;
+        const { x, y, width, height, type } = node;
+
+        if (type === 'TERMINAL') {
+            return { x: x + 6, y: y + 6 };
+        }
+
         const currentWidth = width || LAYOUT.BLOCK_WIDTH;
         const { HEADER_HEIGHT, PORT_HEIGHT } = LAYOUT;
         const yOffset = HEADER_HEIGHT + 10 + portIndex * PORT_HEIGHT;
@@ -80,10 +86,12 @@ const FBDCanvasViewer = ({ nodes, edges, runtimeData, layoutSize }) => {
                         const value = runtimeData[`${edge.fromNode}_out_${edge.fromPort}`];
                         const isActive = value === true;
 
+                        const points = calculateOrthogonalPath([start, ...(edge.waypoints || []), end]);
+
                         return (
                             <FBDViewerConnection
                                 key={edge.id}
-                                points={[start.x, start.y, end.x, end.y]}
+                                points={points}
                                 isActive={isActive}
                             />
                         );
