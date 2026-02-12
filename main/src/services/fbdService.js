@@ -8,3 +8,4 @@ export const updateFBDProgram = (id, data) => api.put(`fbd/programs/${id}/`, dat
 export const deleteFBDProgram = (id) => api.delete(`fbd/programs/${id}/`);
 export const duplicateFBDProgram = (id, data) => api.post(`fbd/programs/${id}/duplicate/`, data);
 export const executeFBDProgram = (id) => api.post(`fbd/programs/${id}/execute/`);
+export const getFBDRuntime = (id) => api.get(`fbd/programs/${id}/runtime/`);

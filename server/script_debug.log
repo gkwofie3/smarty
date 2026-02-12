@@ -1,0 +1,93 @@
+
+--- PARSE START (id: 1) ---
+Original Code:
+# Start writing your script here
+digital_input p3;
+analogue_input v1;
+digital_input p5;
+analogue_input v2;
+n;kls f;
+Declarations: [{'type': 'digital_input', 'name': 'p3'}, {'type': 'analogue_input', 'name': 'v1'}, {'type': 'digital_input', 'name': 'p5'}, {'type': 'analogue_input', 'name': 'v2'}]
+Generated Python:
+# Start writing your script here
+# digital_input p3;
+# analogue_input v1;
+# digital_input p5;
+# analogue_input v2;
+n;kls f;
+--- PARSE END ---
+
+--- PARSE START (id: 1) ---
+Original Code:
+# Start writing your script here
+digital_input p3;
+analogue_input v1;
+digital_input p5;
+analogue_input v2;
+n;kls f;
+Declarations: [{'type': 'digital_input', 'name': 'p3'}, {'type': 'analogue_input', 'name': 'v1'}, {'type': 'digital_input', 'name': 'p5'}, {'type': 'analogue_input', 'name': 'v2'}]
+Generated Python:
+# Start writing your script here
+# digital_input p3;
+# analogue_input v1;
+# digital_input p5;
+# analogue_input v2;
+n;kls f;
+--- PARSE END ---
+
+--- PARSE START (id: 1) ---
+Original Code:
+# Start writing your script here
+digital_input p3;
+analogue_input v1;
+digital_input p5;
+analogue_input v2;
+n;kls f;
+Declarations: [{'type': 'digital_input', 'name': 'p3'}, {'type': 'analogue_input', 'name': 'v1'}, {'type': 'digital_input', 'name': 'p5'}, {'type': 'analogue_input', 'name': 'v2'}]
+Generated Python:
+# Start writing your script here
+# digital_input p3;
+# analogue_input v1;
+# digital_input p5;
+# analogue_input v2;
+n;kls f;
+--- PARSE END ---
+SYNTAX ERROR: invalid syntax (<string>, line 6) at line 6
+
+--- PARSE START (id: 1) ---
+Original Code:
+# Start writing your script here
+digital_input p3;
+analogue_input v1;
+digital_input p5;
+analogue_input v2;
+n;kls f;
+Declarations: [{'type': 'digital_input', 'name': 'p3'}, {'type': 'analogue_input', 'name': 'v1'}, {'type': 'digital_input', 'name': 'p5'}, {'type': 'analogue_input', 'name': 'v2'}]
+Generated Python:
+# Start writing your script here
+# digital_input p3;
+# analogue_input v1;
+# digital_input p5;
+# analogue_input v2;
+n;kls f;
+--- PARSE END ---
+SYNTAX ERROR: invalid syntax (<string>, line 6) at line 6
+
+--- PARSE START (id: 1) ---
+Original Code:
+# Start writing your script here
+digital_input p3;
+analogue_input v1;
+digital_input p5;
+analogue_input v2;
+n;kls f;
+Declarations: [{'type': 'digital_input', 'name': 'p3'}, {'type': 'analogue_input', 'name': 'v1'}, {'type': 'digital_input', 'name': 'p5'}, {'type': 'analogue_input', 'name': 'v2'}]
+Generated Python:
+# Start writing your script here
+# digital_input p3;
+# analogue_input v1;
+# digital_input p5;
+# analogue_input v2;
+n;kls f;
+--- PARSE END ---
+SYNTAX ERROR: invalid syntax (<string>, line 6) at line 6

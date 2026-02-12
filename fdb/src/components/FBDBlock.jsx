@@ -12,6 +12,8 @@ const FBDBlock = ({ node, onSelect, selected, onNodeMove, onNodeTransform, onPor
     const minHeight = HEADER_HEIGHT + Math.max(inputs, outputs) * PORT_HEIGHT + 20;
     const currentHeight = height ? Math.max(height, minHeight) : minHeight;
     const bgColor = params?.color || '#ffffff';
+    const isForced = params?.isForced;
+    const displayValue = (type.includes('CONST') || type.includes('DISP')) ? (params?.value !== undefined ? String(params.value) : '???') : null;
 
     return (
         <Group
@@ -55,13 +57,35 @@ const FBDBlock = ({ node, onSelect, selected, onNodeMove, onNodeTransform, onPor
                 width={currentWidth}
                 height={currentHeight}
                 fill={bgColor}
-                stroke={selected ? '#0d6efd' : '#333'}
-                strokeWidth={selected ? 2 : 1}
+                stroke={selected ? '#0d6efd' : (isForced ? '#ffc107' : '#333')}
+                strokeWidth={selected ? 2 : (isForced ? 2 : 1)}
                 cornerRadius={5}
                 shadowBlur={5}
                 shadowColor="black"
                 shadowOpacity={0.1}
             />
+
+            {/* Forced Badge Indicator */}
+            {isForced && (
+                <Group x={currentWidth - 15} y={currentHeight - 15}>
+                    <Circle radius={8} fill="#ffc107" />
+                    <Text text="F" x={-3} y={-5} fontSize={10} fontStyle="bold" fill="black" />
+                </Group>
+            )}
+
+            {/* Value Display in center for relevant blocks */}
+            {displayValue !== null && (
+                <Text
+                    text={displayValue}
+                    x={0}
+                    y={HEADER_HEIGHT + (currentHeight - HEADER_HEIGHT) / 2 - 8}
+                    width={currentWidth}
+                    align="center"
+                    fontSize={14}
+                    fontStyle="bold"
+                    fill="#333"
+                />
+            )}
 
             {/* Header */}
             <Rect

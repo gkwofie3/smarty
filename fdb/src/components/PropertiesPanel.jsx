@@ -2,7 +2,7 @@
 import React from 'react';
 import { Form, Card, Accordion, Button } from 'react-bootstrap';
 
-const PropertiesPanel = ({ selectedId, nodes, setNodes, layoutSize, setLayoutSize, onDelete }) => {
+const PropertiesPanel = ({ selectedId, nodes, setNodes, layoutSize, setLayoutSize, onDelete, points }) => {
     const selectedNode = nodes.find(n => n.id === selectedId);
 
     if (!selectedNode) {
@@ -143,12 +143,95 @@ const PropertiesPanel = ({ selectedId, nodes, setNodes, layoutSize, setLayoutSiz
                         </Accordion.Item>
                     </Accordion>
 
-                    {/* Block Specific Params */}
-                    {selectedNode.params && Object.keys(selectedNode.params).length > 1 && (
-                        <div className="mt-2">
-                            <p className="small fw-bold mb-1">Parameters</p>
+                    {/* Block Specific Params - Specialized Controls */}
+                    {selectedNode.params && (
+                        <div className="mt-2 border-top pt-2">
+                            <p className="small fw-bold mb-1">Configuration</p>
+
+                            {/* Point Selection for IO Blocks */}
+                            {['DIGITAL_IN', 'ANALOG_IN', 'DIGITAL_OUT', 'ANALOG_OUT'].includes(selectedNode.type) && (
+                                <Form.Group className="mb-2">
+                                    <Form.Label className="small">IO POINT</Form.Label>
+                                    <Form.Select
+                                        size="sm"
+                                        value={selectedNode.params.pointId || ''}
+                                        onChange={(e) => handleChange('pointId', e.target.value)}
+                                    >
+                                        <option value="">Select Point...</option>
+                                        {points.map(p => (
+                                            <option key={p.id} value={p.id}>
+                                                {p.name} ({p.register?.device?.name || 'Local'})
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            )}
+
+                            {/* Forcing for Inputs */}
+                            {['DIGITAL_IN', 'ANALOG_IN'].includes(selectedNode.type) && (
+                                <>
+                                    <Form.Check
+                                        type="switch"
+                                        id="force-switch"
+                                        label="Force Value"
+                                        className="small mb-2"
+                                        checked={selectedNode.params.isForced || false}
+                                        onChange={(e) => handleChange('isForced', e.target.checked)}
+                                    />
+                                    {selectedNode.params.isForced && (
+                                        <Form.Group className="mb-2">
+                                            {selectedNode.type === 'DIGITAL_IN' ? (
+                                                <Form.Select
+                                                    size="sm"
+                                                    value={selectedNode.params.forceValue ? '1' : '0'}
+                                                    onChange={(e) => handleChange('forceValue', e.target.value === '1')}
+                                                >
+                                                    <option value="0">0 (OFF)</option>
+                                                    <option value="1">1 (ON)</option>
+                                                </Form.Select>
+                                            ) : (
+                                                <Form.Control
+                                                    type="number"
+                                                    size="sm"
+                                                    value={selectedNode.params.forceValue || 0}
+                                                    onChange={(e) => handleChange('forceValue', parseFloat(e.target.value) || 0)}
+                                                />
+                                            )}
+                                        </Form.Group>
+                                    )}
+                                </>
+                            )}
+
+                            {/* Constants Value Entry */}
+                            {selectedNode.type === 'CONST_DIG' && (
+                                <Form.Group className="mb-2">
+                                    <Form.Label className="small">VALUE</Form.Label>
+                                    <Form.Select
+                                        size="sm"
+                                        value={selectedNode.params.value ? '1' : '0'}
+                                        onChange={(e) => handleChange('value', e.target.value === '1')}
+                                    >
+                                        <option value="0">0 (FALSE)</option>
+                                        <option value="1">1 (TRUE)</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            )}
+
+                            {selectedNode.type === 'CONST_ANA' && (
+                                <Form.Group className="mb-2">
+                                    <Form.Label className="small">VALUE</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        size="sm"
+                                        value={selectedNode.params.value || 0}
+                                        onChange={(e) => handleChange('value', parseFloat(e.target.value) || 0)}
+                                    />
+                                </Form.Group>
+                            )}
+
+                            {/* Other Params (Fallback) */}
                             {Object.keys(selectedNode.params).map(key => {
-                                if (key === 'color') return null; // Already handled
+                                if (['color', 'pointId', 'isForced', 'forceValue', 'value'].includes(key)) return null;
                                 return (
                                     <Form.Group className="mb-2" key={key}>
                                         <Form.Label className="small">{key.toUpperCase()}</Form.Label>
@@ -156,7 +239,7 @@ const PropertiesPanel = ({ selectedId, nodes, setNodes, layoutSize, setLayoutSiz
                                             type="text"
                                             size="sm"
                                             value={selectedNode.params[key]}
-                                            onChange={(e) => setNodes(nodes.map(n => n.id === selectedId ? { ...n, params: { ...n.params, [key]: e.target.value } } : n))}
+                                            onChange={(e) => handleChange(key, e.target.value)}
                                         />
                                     </Form.Group>
                                 );

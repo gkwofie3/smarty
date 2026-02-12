@@ -33,12 +33,16 @@ export const BLOCK_CATEGORIES = {
         { type: "LE", label: "LE", inputs: 2, outputs: 1 }
     ],
     "IO": [
-        { type: "DIGITAL_IN", label: "DIG_IN", inputs: 0, outputs: 1, params: { pointId: null } },
-        { type: "ANALOG_IN", label: "ANA_IN", inputs: 0, outputs: 1, params: { pointId: null } },
+        { type: "DIGITAL_IN", label: "DIG_IN", inputs: 0, outputs: 1, params: { pointId: null, isForced: false, forceValue: false } },
+        { type: "ANALOG_IN", label: "ANA_IN", inputs: 0, outputs: 1, params: { pointId: null, isForced: false, forceValue: 0 } },
         { type: "DIGITAL_OUT", label: "DIG_OUT", inputs: 1, outputs: 0, params: { pointId: null } },
         { type: "ANALOG_OUT", label: "ANA_OUT", inputs: 1, outputs: 0, params: { pointId: null } },
         { type: "CONST_DIG", label: "CONST_DIG", inputs: 0, outputs: 1, params: { value: false } },
         { type: "CONST_ANA", label: "CONST_ANA", inputs: 0, outputs: 1, params: { value: 0 } }
+    ],
+    "Display": [
+        { type: "ANA_DISP", label: "ANA_DISP", inputs: 1, outputs: 0 },
+        { type: "DIG_DISP", label: "DIG_DISP", inputs: 1, outputs: 0 }
     ],
     "Multiplexing": [
         { type: "MUX", label: "MUX 2:1", inputs: 3, outputs: 1 }, // IN0, IN1, SEL

@@ -18,10 +18,19 @@ class FBDProgramViewSet(BaseDuplicateViewSet):
             fk_name=None
         )
 
-    @action(detail=True, methods=['post'])
-    def execute(self, request, pk=None):
+    @action(detail=True, methods=['get'])
+    def runtime(self, request, pk=None):
         program = self.get_object()
         from .executor import FBDExecutor
         executor = FBDExecutor(program)
-        results = executor.execute_cycle()
-        return Response({'status': 'executed', 'program': program.name, 'results': results})
+        node_values = executor.execute_cycle()
+        
+        # Flatten node_values for easier frontend consumption
+        # {node_id: [out0, out1...]} -> {node_id_out_0: val}
+        flattened = {}
+        for node_id, outputs in node_values.items():
+            if outputs is not None:
+                for i, val in enumerate(outputs):
+                    flattened[f"{node_id}_out_{i}"] = val
+                
+        return Response({'status': 'ok', 'values': flattened})

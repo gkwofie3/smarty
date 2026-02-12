@@ -5,13 +5,14 @@ import CanvasMap from '../components/CanvasMap';
 import PropertiesPanel from '../components/PropertiesPanel';
 import ToastNotification from '../components/ToastNotification';
 import { v4 as uuidv4 } from 'uuid';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 import api from '../api';
 
 const EditorPage = () => {
     const [nodes, setNodes] = useState([]);
     const [edges, setEdges] = useState([]);
+    const [points, setPoints] = useState([]);
     const [selectedId, setSelectedId] = useState(null);
     const [layoutSize, setLayoutSize] = useState({ width: 1920, height: 1080 }); // Default
     const [searchParams] = useSearchParams();
@@ -23,6 +24,8 @@ const EditorPage = () => {
     const [history, setHistory] = useState([]);
     const [historyStep, setHistoryStep] = useState(-1);
     const [isUndoRedoAction, setIsUndoRedoAction] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const navigate = useNavigate();
 
     // Clipboard
     const [clipboard, setClipboard] = useState(null);
@@ -46,10 +49,21 @@ const EditorPage = () => {
         if (programId) {
             loadProgram(programId);
         }
+        fetchPoints();
         return () => {
             if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
         };
     }, [programId]);
+
+    const fetchPoints = async () => {
+        try {
+            const res = await api.get('points/');
+            const data = Array.isArray(res.data) ? res.data : (res.data.results || []);
+            setPoints(data);
+        } catch (err) {
+            console.error("Failed to fetch points", err);
+        }
+    };
 
     // Handle History (Undo/Redo)
     useEffect(() => {
@@ -75,13 +89,13 @@ const EditorPage = () => {
         });
 
         // Auto-save trigger
-        if (autoSaveEnabled && programId) {
+        if (isLoaded && autoSaveEnabled && programId) {
             if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
             autoSaveTimer.current = setTimeout(() => {
                 saveProgram(true); // silent save
             }, 3000);
         }
-    }, [nodes, edges, layoutSize, autoSaveEnabled]);
+    }, [nodes, edges, layoutSize, autoSaveEnabled, isLoaded]);
 
     // Re-calculating historyStep more accurately when history changes
     useEffect(() => {
@@ -156,10 +170,15 @@ const EditorPage = () => {
                 };
                 setHistory([initialState]);
                 setHistoryStep(0);
+                setIsLoaded(true);
+            } else {
+                // If it's a new program with no diagram_json yet, we still mark as loaded
+                setIsLoaded(true);
             }
         } catch (err) {
             console.error("Failed to load program", err);
             showToast("Failed to load program", "danger");
+            // Don't mark as loaded on error to prevent overwriting
         }
     };
 
@@ -300,7 +319,7 @@ const EditorPage = () => {
                         variant="outline-light"
                         size="sm"
                         className="me-3"
-                        onClick={() => window.location.href = '/'}
+                        onClick={() => navigate('/')}
                     >
                         <i className="fa-solid fa-arrow-left me-1"></i> Dashboard
                     </Button>
@@ -383,6 +402,7 @@ const EditorPage = () => {
                     layoutSize={layoutSize}
                     setLayoutSize={setLayoutSize}
                     onDelete={handleDelete}
+                    points={points}
                 />
             </div>
         </div>

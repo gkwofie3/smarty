@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Container, Badge } from 'react-bootstrap';
-import { getFBDProgram, executeFBDProgram } from '../../services/fbdService';
+import { getFBDProgram, getFBDRuntime } from '../../services/fbdService';
 import FBDCanvasViewer from '../../components/FBD/FBDCanvasViewer';
 import ToastNotification from '../../components/ToastNotification';
 
@@ -33,27 +33,8 @@ const FBDViewerPage = () => {
 
     const fetchRuntimeData = async () => {
         try {
-            // In a real scenario, this would be an API call like:
-            // const res = await api.get(`fbd/programs/${id}/runtime/`);
-            // setRuntimeData(res.data.values);
-
-            // For now, let's simulate/mock some data if the endpoint doesn't exist
-            // This allows the user to see the visualization immediately.
-            const mockData = {};
-            if (program?.diagram_json?.nodes) {
-                program.diagram_json.nodes.forEach(node => {
-                    for (let i = 0; i < (node.outputs || 0); i++) {
-                        const key = `${node.id}_out_${i}`;
-                        // Random values for demo
-                        if (node.type.includes('DIGITAL') || node.type.includes('Gate')) {
-                            mockData[key] = Math.random() > 0.5;
-                        } else {
-                            mockData[key] = (Math.random() * 100).toFixed(2);
-                        }
-                    }
-                });
-            }
-            setRuntimeData(mockData);
+            const res = await getFBDRuntime(id);
+            setRuntimeData(res.data.values || {});
         } catch (error) {
             console.error("Runtime fetch failed", error);
         }

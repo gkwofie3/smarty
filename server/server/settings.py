@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'devices',
     'modules',
     'graphics',
+    'script',
 ]
 
 MIDDLEWARE = [
