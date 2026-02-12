@@ -1,5 +1,6 @@
 import logging
 import math
+import time
 from collections import deque
 
 logger = logging.getLogger(__name__)
@@ -19,6 +20,10 @@ class FBDExecutor:
         self.nodes_data = {n['id']: n for n in diagram.get('nodes', [])}
         self.edges = diagram.get('edges', [])
         self.bindings = program.bindings or {}
+        
+        # Load persistent state
+        self.runtime_state = program.runtime_state or {}
+        self.last_runtime_values = program.runtime_values or {}
         
         # Build adjacency list and in-degree map for manual topological sort
         self.adj = {nid: [] for nid in self.nodes_data}
@@ -61,6 +66,12 @@ class FBDExecutor:
         return order
 
     def execute_cycle(self):
+        now = time.time() * 1000 # Milliseconds
+        last_run = self.runtime_state.get('_last_run_ms', now)
+        delta_ms = now - last_run
+        self.runtime_state['_last_run_ms'] = now
+        self.runtime_state['_delta_ms'] = delta_ms
+
         node_values = {} # {node_id: [outputs]}
         
         for node_id in self.execution_order:
@@ -90,6 +101,7 @@ class FBDExecutor:
 
     def _process_block(self, node, inputs):
         type_ = node.get('type', 'UNKNOWN')
+        node_id = node.get('id')
         expected_outputs = node.get('outputs', 0)
         
         # Safe casting helpers for the engine core
@@ -175,6 +187,56 @@ class FBDExecutor:
             v = node.get('params', {}).get('value', 0.0)
             res = [cast_f(v)]
 
+        # Timers
+        elif type_ in ['TON', 'TOF', 'TP']:
+            # Inputs: IN, PT (Preset Time in ms) | Outputs: Q, ET (Elapsed Time)
+            in_val = b_vals[0]
+            pt = f_vals[1] if len(f_vals) > 1 else cast_f(node.get('params', {}).get('pt', 1000))
+            
+            # Node-specific state
+            state = self.runtime_state.setdefault(node_id, {'accum': 0, 'last_in': False, 'active': False})
+            delta = self.runtime_state.get('_delta_ms', 0)
+            
+            q = False
+            et = state['accum']
+
+            if type_ == 'TON':
+                if in_val:
+                    state['accum'] = min(pt, state['accum'] + delta)
+                    if state['accum'] >= pt: q = True
+                else:
+                    state['accum'] = 0
+                et = state['accum']
+
+            elif type_ == 'TOF':
+                if in_val:
+                    state['accum'] = 0
+                    q = True
+                else:
+                    state['accum'] = min(pt, state['accum'] + delta)
+                    if state['accum'] < pt: q = True
+                    else: q = False
+                et = state['accum']
+
+            elif type_ == 'TP':
+                # Rising edge detection for TP
+                if in_val and not state['last_in'] and not state['active']:
+                    state['active'] = True
+                    state['accum'] = 0
+                
+                if state['active']:
+                    state['accum'] += delta
+                    if state['accum'] >= pt:
+                        state['active'] = False
+                        state['accum'] = pt
+                        q = False
+                    else:
+                        q = True
+                et = state['accum']
+            
+            state['last_in'] = in_val
+            res = [q, et]
+
         # Multiplexing
         elif type_ == 'MUX':
             # Inputs: IN0, IN1, ..., SEL (last input is selector)
@@ -234,6 +296,9 @@ class FBDExecutor:
             # Input: 1 -> Outputs: Many (all same as input)
             val = inputs[0] if inputs else 0.0
             res = [val] * expected_outputs
+
+        elif type_ == 'TERMINAL':
+            res = [inputs[0] if inputs else 0.0]
 
         # Displays
         elif type_ == 'ANA_DISP': res = [f_vals[0] if f_vals else 0.0]

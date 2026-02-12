@@ -7,6 +7,8 @@ class FBDProgram(models.Model):
     is_active = models.BooleanField(default=False)
     diagram_json = models.JSONField(default=dict, blank=True)  # Stores nodes and edges
     bindings = models.JSONField(default=dict, blank=True)      # Stores IO bindings
+    runtime_values = models.JSONField(default=dict, blank=True) # Last cycle output values
+    runtime_state = models.JSONField(default=dict, blank=True)  # Internal block state (timers, etc)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # Assuming auth is set up, but let's keep it simple for now or check if USER wants it.

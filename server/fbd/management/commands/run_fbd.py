@@ -19,10 +19,20 @@ class Command(BaseCommand):
 
             for program in programs:
                 try:
-                    # self.stdout.write(f"Executing {program.name}...")
                     executor = FBDExecutor(program)
-                    executor.execute_cycle()
+                    node_values = executor.execute_cycle()
+                    
+                    # Persist values and state
+                    flattened = {}
+                    for node_id, outputs in node_values.items():
+                        if outputs is not None:
+                            for i, val in enumerate(outputs):
+                                flattened[f"{node_id}_out_{i}"] = val
+                    
+                    program.runtime_values = flattened
+                    program.runtime_state = executor.runtime_state
+                    program.save(update_fields=['runtime_values', 'runtime_state', 'updated_at'])
                 except Exception as e:
                     logger.error(f"Error executing {program.name}: {e}")
             
-            time.sleep(1) # Cycle time
+            time.sleep(0.1) # Shorter cycle for better timer resolution (100ms)
