@@ -99,6 +99,16 @@ const Sidebar = () => {
                         </div>
                     </div>
 
+                    <div className="menu-item">
+                        <Link className="menu-link" to="/ai">
+                            <div className="menu-icon">
+                                <i className="fa fa-robot"></i>
+                            </div>
+                            <div className="menu-text">AI Assistant</div>
+                        </Link>
+                    </div>
+
+
                     <div className="menu-item d-flex">
                         <a
                             className="app-sidebar-minify-btn ms-auto d-flex align-items-center text-decoration-none"

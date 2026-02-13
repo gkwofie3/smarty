@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash, FaPlus, FaPlay } from 'react-icons/fa';
 
-const FDBList = () => {
+const FBDList = () => {
     const [programs, setPrograms] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [currentProgram, setCurrentProgram] = useState({ name: '', description: '', is_active: false });
@@ -73,7 +73,7 @@ const FDBList = () => {
         // Actually, the plan said "Frontend FBD Editor (Editor) -> Build FBD React App".
         // Let's assume we navigate to an external URL or a specific route handled by Django that serves that app.
         // For now, I'll put a placeholder URL.
-        window.location.href = `/editor/?id=${id}`;
+        window.location.href = `http://localhost:5002/?id=${id}`;
     };
 
     return (

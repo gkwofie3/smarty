@@ -1,0 +1,38 @@
+=== Smarty Launcher Debug Log ===
+[2026-02-13 17:15:04] Initializing Smarty System from: C:\Users\ADMIN\source\smarty
+[2026-02-13 17:15:04] Starting SmartyService...
+[2026-02-13 17:15:04]   Command: C:\Users\ADMIN\source\smarty\service\SmartyService\bin\Debug\net9.0\SmartyService.exe
+[2026-02-13 17:15:04]   CWD: C:\Users\ADMIN\source\smarty\service\SmartyService\bin\Debug\net9.0
+[2026-02-13 17:15:04]   [OK] SmartyService started successfully (PID hidden).
+[2026-02-13 17:15:06] Starting Django Server...
+[2026-02-13 17:15:06]   Command: python manage.py runserver 0.0.0.0:5000
+[2026-02-13 17:15:06]   CWD: C:\Users\ADMIN\source\smarty\server
+[2026-02-13 17:15:06]   [OK] Django Server started successfully (PID hidden).
+[2026-02-13 17:15:08] Starting Main App...
+[2026-02-13 17:15:08]   Command: npm.cmd run dev
+[2026-02-13 17:15:08]   CWD: C:\Users\ADMIN\source\smarty\main
+[2026-02-13 17:15:08]   [OK] Main App started successfully (PID hidden).
+[2026-02-13 17:15:08] Starting Editor App...
+[2026-02-13 17:15:08]   Command: npm.cmd run dev
+[2026-02-13 17:15:08]   CWD: C:\Users\ADMIN\source\smarty\editor
+[2026-02-13 17:15:08]   [OK] Editor App started successfully (PID hidden).
+[2026-02-13 17:15:08] Starting FDB App...
+[2026-02-13 17:15:08]   Command: npm.cmd run dev
+[2026-02-13 17:15:08]   CWD: C:\Users\ADMIN\source\smarty\fdb
+[2026-02-13 17:15:08]   [OK] FDB App started successfully (PID hidden).
+[2026-02-13 17:15:08] Starting Client App...
+[2026-02-13 17:15:08]   Command: npm.cmd run dev
+[2026-02-13 17:15:08]   CWD: C:\Users\ADMIN\source\smarty\client
+[2026-02-13 17:15:08]   [OK] Client App started successfully (PID hidden).
+[2026-02-13 17:15:08] Starting Script App...
+[2026-02-13 17:15:08]   Command: npm.cmd run dev
+[2026-02-13 17:15:08]   CWD: C:\Users\ADMIN\source\smarty\script
+[2026-02-13 17:15:08]   [OK] Script App started successfully (PID hidden).
+[2026-02-13 17:15:08] Launch sequence completed.
+[2026-02-13 17:15:08]    Services are running in the background.
+[2026-02-13 17:15:08]    - Main:   http://localhost:5001
+[2026-02-13 17:15:08]    - Editor: http://localhost:5002
+[2026-02-13 17:15:08]    - FDB:    http://localhost:5003
+[2026-02-13 17:15:08]    - Client: http://localhost:5004
+[2026-02-13 17:15:08]    - Script: http://localhost:5005
+[2026-02-13 17:15:08]    - Django: http://localhost:5000

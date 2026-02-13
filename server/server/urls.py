@@ -26,7 +26,9 @@ urlpatterns = [
     path('api/graphics/', include('graphics.urls')),
     path('api/fbd/', include('fbd.urls')),
     path('api/script/', include('script.urls')),
+    path('api/ai/', include('ai.urls')),
     path('admin/', admin.site.urls),
+
 ]
 
 from django.conf import settings

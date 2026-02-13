@@ -1,7 +1,7 @@
 import requests
 import sys
 
-BASE_URL = "http://localhost:8000/api/script/programs/1/"
+BASE_URL = "http://localhost:5000/api/script/programs/1/"
 
 def test_validation():
     # 1. Update code with syntax error

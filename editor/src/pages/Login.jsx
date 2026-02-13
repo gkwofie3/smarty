@@ -13,21 +13,21 @@ const Login = () => {
         e.preventDefault();
         setError(null);
         try {
-            // Adjust endpoint if needed (http://localhost:8000/api-token-auth/ usually)
+            // Adjust endpoint if needed (http://localhost:5000/api-token-auth/ usually)
             // Or however your backend handles auth. Assuming standard DRF Token Auth.
             // If the backend has a specific login endpoint, use that.
             // Assuming `api/login/` or `api-token-auth/`.
             // From main app history, the backend might use `dj_rest_auth` or `rest_framework.authtoken`.
             // I'll try `api/token-auth/` or `api/login/`.
-            // Let's assume standard `http://localhost:8000/api-token-auth/` or similar.
+            // Let's assume standard `http://localhost:5000/api-token-auth/` or similar.
             // I'll check main app code if I can but here I'll try generic.
             // Wait, main app frontend `authService.js` would reveal it.
-            // I'll assume `http://localhost:8000/api-token-auth/`.
+            // I'll assume `http://localhost:5000/api-token-auth/`.
             // BUT backend urls.py in modules turn (Step 458) showed `path('api/', include('...'))`.
             // I'll use a placeholder and fix if it fails.
 
-            // Actually I'll use `http://localhost:8000/api-token-auth/` as generic guess.
-            const response = await axios.post('http://localhost:8000/api/login/', { username, password });
+            // Actually I'll use `http://localhost:5000/api-token-auth/` as generic guess.
+            const response = await axios.post('http://localhost:5000/api/login/', { username, password });
             localStorage.setItem('token', response.data.token);
             navigate('/');
         } catch (error) {

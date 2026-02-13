@@ -13,6 +13,8 @@ import PageView from './pages/Preview/PageView';
 import FBDProgramsPage from './pages/Programs/FBDProgramsPage';
 import FBDViewerPage from './pages/Programs/FBDViewerPage';
 import ScriptsPage from './pages/Programs/ScriptsPage';
+import AIChatPage from './pages/AI/AIChatPage';
+
 
 // Auth Guard
 const ProtectedRoute = () => {
@@ -41,6 +43,7 @@ function App() {
           <Route path="/program/fbd" element={<FBDProgramsPage />} />
           <Route path="/program/fbd/view/:id" element={<FBDViewerPage />} />
           <Route path="/program/script" element={<ScriptsPage />} />
+          <Route path="/ai" element={<AIChatPage />} />
         </Route>
       </Route>
 

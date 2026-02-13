@@ -182,3 +182,26 @@ EMAIL_HOST_PASSWORD = 'vctkhpkepankcgmx'
 DEFAULT_FROM_EMAIL = 'Rovid Smarty <rovidghana@gmail.com>'
 
 SMS_API_KEY='4d94779e03f1a55e06b849bb42710b568c2f3779781788425994bb8916b33f21'
+
+# ----------------------------------------------------------------------------------------------------------------------
+# AI & Celery Configuration
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Celery
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+
+# Ollama & AI
+OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_MODEL = "llama3.1:8b"  # Default model
+# RAG Persistence
+CHROMA_DB_PATH = os.path.join(BASE_DIR, 'chroma_db')
+
+# Ensure 'ai' is in INSTALLED_APPS if not already
+if 'ai' not in INSTALLED_APPS:
+    INSTALLED_APPS.append('ai')
+    INSTALLED_APPS.append('django_celery_beat')

@@ -147,7 +147,7 @@ const HtmlOverlayRenderer = ({ element }) => {
                     if (element.show_resolved) queryParams.append('resolved', 'true');
                 }
 
-                const response = await fetch(`http://localhost:8000/api/${endpointMap[element.type]}/?${queryParams.toString()}`, { headers });
+                const response = await fetch(`http://localhost:5000/api/${endpointMap[element.type]}/?${queryParams.toString()}`, { headers });
                 if (!response.ok) throw new Error('Failed to fetch data');
                 const result = await response.json();
                 const items = Array.isArray(result) ? result : (result.results || []);
@@ -169,9 +169,9 @@ const HtmlOverlayRenderer = ({ element }) => {
             try {
                 const token = localStorage.getItem('token');
                 const headers = token ? { 'Authorization': `Token ${token}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
-                let url = `http://localhost:8000/api/alarms/${action}/`; // Default list action
+                let url = `http://localhost:5000/api/alarms/${action}/`; // Default list action
                 if (id) {
-                    url = `http://localhost:8000/api/alarms/${id}/${action}/`; // Detail action
+                    url = `http://localhost:5000/api/alarms/${id}/${action}/`; // Detail action
                 }
 
                 const response = await fetch(url, { method: 'POST', headers });

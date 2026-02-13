@@ -7,7 +7,6 @@ import PageView from './pages/Preview/PageView';
 import DeviceList from './pages/Devices/DeviceList';
 import RegisterList from './pages/Devices/RegisterList';
 import PointGroupList from './pages/Points/PointGroupList';
-import PointGroupList from './pages/Points/PointGroupList';
 import PointList from './pages/Points/PointList';
 import FBDList from './pages/Programs/FBDList';
 import ScriptList from './pages/Programs/ScriptList';

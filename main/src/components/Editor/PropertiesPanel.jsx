@@ -119,16 +119,16 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                     // If Django returns relative /media/..., we can use it directly if served by same host or add Base URL.
                     // Given proxy or CORS, usually relative path is fine if <img src={url} /> hits the server.
                     // But our dev server is on 5173, backend on 8000.
-                    // So we might need full URL: http://localhost:8000/media/...
-                    // Or api.defaults.baseURL is http://localhost:8000/api/.
-                    // We need http://localhost:8000.
+                    // So we might need full URL: http://localhost:5000/media/...
+                    // Or api.defaults.baseURL is http://localhost:5000/api/.
+                    // We need http://localhost:5000.
 
                     let fileUrl = res.data.file;
                     if (fileUrl && !fileUrl.startsWith('http')) {
                         // Construct full URL if needed, or rely on proxy.
                         // For now, let's assume simple relative path and we prepend backend URL in ElementRenderer?
                         // OR we prepend it here.
-                        fileUrl = 'http://localhost:8000' + fileUrl;
+                        fileUrl = 'http://localhost:5000' + fileUrl;
                     }
 
                     handleChange(prop, fileUrl);
