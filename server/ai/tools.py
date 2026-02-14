@@ -1,4 +1,5 @@
 from langchain.tools import tool
+from typing import Union
 from django.utils.text import slugify
 from devices.models import Point, Device, Register, PointGroup
 from fbd.models import FBDProgram
@@ -16,6 +17,24 @@ def list_all_points():
     """Returns a list of all Points in the system with their IDs and names."""
     points = Point.objects.values('id', 'name', 'slug', 'point_group__name')
     return json.dumps(list(points))
+
+@tool
+def list_all_modules():
+    """Returns a list of all high-level Modules in the system."""
+    mods = Module.objects.values('id', 'name', 'slug')
+    return json.dumps(list(mods))
+
+@tool
+def list_all_scripts():
+    """Returns a list of all Python scripts in the system."""
+    scripts = ScriptProgram.objects.values('id', 'name', 'is_active')
+    return json.dumps(list(scripts))
+
+@tool
+def list_all_fbds():
+    """Returns a list of all FBD programs in the system."""
+    fbds = FBDProgram.objects.values('id', 'name', 'is_active')
+    return json.dumps(list(fbds))
 
 @tool
 def get_point_value(point_name_or_id: str):
@@ -71,15 +90,15 @@ def get_script(script_name: str):
 # ==========================================
 
 @tool
-def set_point_value(point_id: int, value: str):
+def set_point_value(point_id: Union[int, str], value: str):
     """
     Sets a forced value for a Point.
     WARNING: This tool must ONLY be called after explicit user confirmation.
     """
-    # This is a stub calling the content - the actual execution logic 
-    # should be part of the Agent's "tool execution" node which checks permissions.
     try:
-        point = Point.objects.get(id=point_id)
+        # Prevent string/int mismatch errors from LLM
+        pid = int(point_id)
+        point = Point.objects.get(id=pid)
         # Logic to write value (using existing device write mechanism)
         # For now, we simulate success or log it.
         # point.write_value = value
@@ -266,3 +285,18 @@ def create_hmi_page(module_name: str, page_name: str, content_json: str, page_ty
         return f"Error: Module '{module_name}' not found."
     except Exception as e:
         return f"Error creating HMI page: {str(e)}"
+
+@tool
+def get_hmi_page(module_name: str, page_name: str):
+    """Retrieves the content of an HMI page."""
+    try:
+        module = Module.objects.get(name=module_name)
+        page = Page.objects.get(module=module, name=page_name)
+        return json.dumps({
+            "name": page.name,
+            "module": module.name,
+            "content": page.content,
+            "page_type": page.page_type
+        })
+    except (Module.DoesNotExist, Page.DoesNotExist):
+        return "HMI Page not found."

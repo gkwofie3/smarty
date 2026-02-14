@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
-from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_chroma import Chroma
+from langchain_ollama import OllamaEmbeddings
 from langchain_core.documents import Document
 
 class VectorStoreManager:
@@ -14,36 +14,42 @@ class VectorStoreManager:
         return cls._instance
     
     def _initialize(self):
-        self.embeddings = OllamaEmbeddings(
-            base_url=settings.OLLAMA_BASE_URL,
-            model=settings.OLLAMA_EMBED_MODEL
-        )
-        self.persist_directory = settings.CHROMA_DB_PATH
-        
-        # Ensure persist directory exists
-        os.makedirs(self.persist_directory, exist_ok=True)
-        
-        self.vector_store = Chroma(
-            persist_directory=self.persist_directory,
-            embedding_function=self.embeddings,
-            collection_name="system_knowledge"
-        )
+        self.ready = False
+        try:
+            self.embeddings = OllamaEmbeddings(
+                base_url=settings.OLLAMA_BASE_URL,
+                model=settings.OLLAMA_EMBED_MODEL
+            )
+            self.persist_directory = settings.CHROMA_DB_PATH
+            
+            # Ensure persist directory exists
+            os.makedirs(self.persist_directory, exist_ok=True)
+            
+            self.vector_store = Chroma(
+                persist_directory=self.persist_directory,
+                embedding_function=self.embeddings,
+                collection_name="system_knowledge"
+            )
+            self.ready = True
+        except Exception as e:
+            print(f"DEBUG: RAG Initialization skipped: {e}. AI will run without local knowledge search.")
         
     def add_documents(self, documents: list[Document]):
         """Adds or updates documents in the vector store."""
-        if not documents:
+        if not self.ready or not documents:
             return
-        # Basic implementation: add new docs. 
-        # For a production system, we might want to track IDs and update instead of just adding.
         self.vector_store.add_documents(documents)
-        # self.vector_store.persist() # Chroma 0.4+ persists automatically or implicitly
         
     def search(self, query: str, k: int = 4):
         """Semantic search with crash resilience."""
+        if not self.ready:
+            return []
         try:
             return self.vector_store.similarity_search(query, k=k)
         except Exception as e:
-            print(f"WARNING: RAG Search failed (likely model loading issue): {e}")
+            # If search fails after init, mark as not ready to avoid loops
+            self.ready = False
+            print(f"WARNING: RAG Search failed: {e}. Disabling RAG for this session.")
             return []
     
     def clear(self):

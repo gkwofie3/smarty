@@ -193,10 +193,15 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-# Ollama & AI
-OLLAMA_BASE_URL = "http://127.0.0.1:11434"
-OLLAMA_MODEL = "llama3.1:8b"  # Superior tool calling for Engineering Mode
-OLLAMA_EMBED_MODEL = "llama3.1:8b" # Unified model to save memory
+# AI Engine Configuration
+AI_PROVIDER = "groq"  # Options: "groq", "ollama"
+GROQ_MODEL = "llama-3.3-70b-versatile" # Ultra-fast, high-logic cloud model
+
+# Legacy/Local Ollama Settings (Backup)
+OLLAMA_BASE_URL = "http://13.60.58.58:11434" 
+OLLAMA_MODEL = "llama3.2"  
+OLLAMA_EMBED_MODEL = "mxbai-embed-large" 
+
 # RAG Persistence
 CHROMA_DB_PATH = os.path.join(BASE_DIR, 'chroma_db')
 

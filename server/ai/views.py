@@ -87,14 +87,17 @@ def get_history(request, conversation_id):
             data.append({
                 "role": msg.role,
                 "content": msg.content,
-                "created_at": msg.created_at
+                "created_at": msg.created_at.isoformat() if msg.created_at else None
             })
         return Response({
             "conversation_id": conversation_id,
             "messages": data
         })
     except Exception as e:
-        return Response({"error": str(e)}, status=500)
+        import traceback
+        print(f"CRITICAL ERROR in get_history: {e}")
+        print(traceback.format_exc())
+        return Response({"error": "Internal Server Error during history serialization"}, status=500)
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
@@ -111,6 +114,6 @@ def get_conversations(request):
         data.append({
             "id": conv.id,
             "title": conv.title,
-            "created_at": conv.created_at
+            "created_at": conv.created_at.isoformat() if conv.created_at else None
         })
     return Response(data)
