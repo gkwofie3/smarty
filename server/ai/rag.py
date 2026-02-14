@@ -16,7 +16,7 @@ class VectorStoreManager:
     def _initialize(self):
         self.embeddings = OllamaEmbeddings(
             base_url=settings.OLLAMA_BASE_URL,
-            model=settings.OLLAMA_MODEL
+            model=settings.OLLAMA_EMBED_MODEL
         )
         self.persist_directory = settings.CHROMA_DB_PATH
         
@@ -39,8 +39,12 @@ class VectorStoreManager:
         # self.vector_store.persist() # Chroma 0.4+ persists automatically or implicitly
         
     def search(self, query: str, k: int = 4):
-        """Semantic search."""
-        return self.vector_store.similarity_search(query, k=k)
+        """Semantic search with crash resilience."""
+        try:
+            return self.vector_store.similarity_search(query, k=k)
+        except Exception as e:
+            print(f"WARNING: RAG Search failed (likely model loading issue): {e}")
+            return []
     
     def clear(self):
         """Clears the vector store."""
@@ -83,3 +87,25 @@ def format_script_for_rag(script) -> Document:
     {script.code_text}
     """
     return Document(page_content=content, metadata={"type": "script", "id": script.id})
+def format_alarm_for_rag(alarm) -> Document:
+    content = f"""
+    Alarm: {alarm.name}
+    Description: {alarm.description}
+    Point: {alarm.point.name if alarm.point else 'System'}
+    Severity: {alarm.severity}
+    Status: {'ACTIVE' if alarm.is_active else 'Cleared'}
+    Acknowledge: {'Yes' if alarm.is_acknowledged else 'No'}
+    Time: {alarm.start_time}
+    """
+    return Document(page_content=content, metadata={"type": "alarm", "id": alarm.id})
+
+def format_fault_for_rag(fault) -> Document:
+    content = f"""
+    Fault: {fault.name}
+    Device: {fault.device.name}
+    Description: {fault.description}
+    Point: {fault.point.name if fault.point else 'N/A'}
+    Status: {'UNRESOLVED' if not fault.is_resolved else 'Resolved'}
+    Time: {fault.timestamp}
+    """
+    return Document(page_content=content, metadata={"type": "fault", "id": fault.id})

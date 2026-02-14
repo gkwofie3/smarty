@@ -1,4 +1,4 @@
-export const chatWithAI = async (message, conversationId, onChunk, onComplete, onError) => {
+export const chatWithAI = async (message, conversationId, onChunk, onComplete, onError, onConversationCreated) => {
     try {
         const token = localStorage.getItem('token');
         const response = await fetch('/api/ai/chat/', {
@@ -14,7 +14,20 @@ export const chatWithAI = async (message, conversationId, onChunk, onComplete, o
         });
 
         if (!response.ok) {
-            throw new Error(`API Error: ${response.statusText}`);
+            let errorMessage = response.statusText;
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.error || errorMessage;
+            } catch (e) {
+                // Not JSON, use statusText
+            }
+            throw new Error(`API Error: ${errorMessage}`);
+        }
+
+        // Capture conversation ID from header
+        const serverConvId = response.headers.get('X-Conversation-Id');
+        if (serverConvId && onConversationCreated) {
+            onConversationCreated(serverConvId);
         }
 
         const reader = response.body.getReader();
@@ -36,4 +49,15 @@ export const chatWithAI = async (message, conversationId, onChunk, onComplete, o
         console.error("AI Chat Error:", error);
         if (onError) onError(error);
     }
+};
+
+export const getChatHistory = async (conversationId) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/api/ai/history/${conversationId}/`, {
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    });
+    if (!response.ok) throw new Error("Could not fetch history");
+    return await response.json();
 };

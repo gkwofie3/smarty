@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'users',
     'fbd',
     'main',
+    'ai',
+    'django_celery_beat',
     'devices',
     'modules',
     'graphics',
@@ -108,10 +110,6 @@ USE_TZ = True
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -196,12 +194,13 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
 # Ollama & AI
-OLLAMA_BASE_URL = "http://localhost:11434"
-OLLAMA_MODEL = "llama3.1:8b"  # Default model
+OLLAMA_BASE_URL = "http://127.0.0.1:11434"
+OLLAMA_MODEL = "llama3.1:8b"  # Superior tool calling for Engineering Mode
+OLLAMA_EMBED_MODEL = "llama3.1:8b" # Unified model to save memory
 # RAG Persistence
 CHROMA_DB_PATH = os.path.join(BASE_DIR, 'chroma_db')
 
 # Ensure 'ai' is in INSTALLED_APPS if not already
-if 'ai' not in INSTALLED_APPS:
-    INSTALLED_APPS.append('ai')
-    INSTALLED_APPS.append('django_celery_beat')
+# if 'ai' not in INSTALLED_APPS:
+#     INSTALLED_APPS.append('ai')
+#     INSTALLED_APPS.append('django_celery_beat')

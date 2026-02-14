@@ -8,7 +8,12 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getScripts().then(res => setScripts(res.data));
+        getScripts().then(res => setScripts(res.data))
+            .catch(err => {
+                if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+                    navigate('/login');
+                }
+            });
     }, []);
 
     return (

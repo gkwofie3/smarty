@@ -1,16 +1,38 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { chatWithAI } from '../../services/aiService';
+import { chatWithAI, getChatHistory } from '../../services/aiService';
 import { FaRobot, FaUser, FaPaperPlane, FaStop } from 'react-icons/fa';
 // import ReactMarkdown from 'react-markdown'; // Assuming installed, or use plain text for now
 
 const ChatWindow = () => {
-    const [messages, setMessages] = useState([
-        { role: 'assistant', content: 'Hello! I am your AI Assistant. How can I help you with the system today?' }
-    ]);
+    const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [currentResponse, setCurrentResponse] = useState('');
+    const [conversationId, setConversationId] = useState(localStorage.getItem('smarty_ai_conv_id'));
     const messagesEndRef = useRef(null);
+
+    // Initial Load: History
+    useEffect(() => {
+        const loadHistory = async () => {
+            if (conversationId) {
+                try {
+                    const data = await getChatHistory(conversationId);
+                    if (data.messages && data.messages.length > 0) {
+                        setMessages(data.messages);
+                    } else {
+                        // Fallback if history is empty
+                        setMessages([{ role: 'assistant', content: 'Hello! I am your AI Assistant. How can I help you today?' }]);
+                    }
+                } catch (err) {
+                    console.error("Failed to load history", err);
+                    setMessages([{ role: 'assistant', content: 'Hello! I am your AI Assistant. How can I help you today?' }]);
+                }
+            } else {
+                setMessages([{ role: 'assistant', content: 'Hello! I am your AI Assistant. How can I help you today?' }]);
+            }
+        };
+        loadHistory();
+    }, []);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -41,7 +63,7 @@ const ChatWindow = () => {
 
         await chatWithAI(
             userMsg.content,
-            null, // conversationId (implement state if needed)
+            conversationId,
             (chunk) => {
                 setCurrentResponse(prev => prev + chunk);
             },
@@ -53,8 +75,21 @@ const ChatWindow = () => {
             (error) => {
                 setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I encountered an error." }]);
                 setIsLoading(false);
+            },
+            (newConvId) => {
+                if (!conversationId) {
+                    setConversationId(newConvId);
+                    localStorage.setItem('smarty_ai_conv_id', newConvId);
+                }
             }
         );
+    };
+
+    const startNewChat = () => {
+        localStorage.removeItem('smarty_ai_conv_id');
+        setConversationId(null);
+        setMessages([{ role: 'assistant', content: 'Hello! I am your AI Assistant. How can I help you today?' }]);
+        setInput('');
     };
 
     const handleKeyPress = (e) => {
@@ -66,10 +101,17 @@ const ChatWindow = () => {
 
     return (
         <div className="card h-100 d-flex flex-column shadow-sm">
-            <div className="card-header bg-dark text-white d-flex align-items-center">
-                <FaRobot className="me-2" />
-                <h5 className="mb-0">System Assistant</h5>
-                <span className="badge bg-success ms-auto">Online</span>
+            <div className="card-header bg-dark text-white d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center">
+                    <FaRobot className="me-2" />
+                    <h5 className="mb-0">System Assistant</h5>
+                </div>
+                <div className="d-flex align-items-center gap-2">
+                    <button className="btn btn-sm btn-outline-light" onClick={startNewChat} title="New Chat">
+                        Clear
+                    </button>
+                    <span className="badge bg-success">Online</span>
+                </div>
             </div>
 
             <div className="card-body overflow-auto flex-grow-1" style={{ maxHeight: '70vh', backgroundColor: '#f8f9fa' }}>

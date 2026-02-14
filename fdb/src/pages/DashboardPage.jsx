@@ -21,6 +21,9 @@ const DashboardPage = () => {
             setPrograms(data);
         } catch (err) {
             console.error("Failed to load programs", err);
+            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+                navigate('/login');
+            }
         } finally {
             setLoading(false);
         }
