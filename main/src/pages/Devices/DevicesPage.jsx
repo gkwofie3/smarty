@@ -94,7 +94,7 @@ const DevicesPage = () => {
         setSelectedNode({ type: 'device' }); // Empty device
         setEditMode(true);
         reset({
-            name: '', device_type: 'GENERATOR', protocol: 'Modbus',
+            name: '', device_type: 'GENERATOR', protocol: 'ModbusTCP',
             ip_address: '127.0.0.1', port_number: 502, slave_id: 1,
             baud_rate: 9600, parity: 'Even', stop_bits: 1,
             is_online: false
@@ -168,10 +168,12 @@ const DevicesPage = () => {
     };
 
     const onSubmit = async (data) => {
-        // Sanitize data: convert empty strings to null for numeric fields
+        // Sanitize data: convert empty strings to null ONLY for numeric/nullable fields
         const cleanedData = { ...data };
+        const numericFields = ['port_number', 'slave_id', 'baud_rate', 'stop_bits', 'bacnet_device_instance', 'bacnet_network_number', 'module_number', 'count', 'address'];
+
         Object.keys(cleanedData).forEach(key => {
-            if (cleanedData[key] === '') {
+            if (cleanedData[key] === '' && numericFields.includes(key)) {
                 cleanedData[key] = null;
             }
         });

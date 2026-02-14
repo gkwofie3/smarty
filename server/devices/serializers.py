@@ -22,6 +22,21 @@ class PointSerializer(serializers.ModelSerializer):
     def get_live_value(self, obj):
         return obj.current_value
 
+    def to_internal_value(self, data):
+        # Convert empty strings to None for nullable float fields
+        nullable_float_fields = [
+            'range_min', 'range_max', 'scale_min', 'scale_max', 
+            'threshold_high', 'threshold_low', 'pulse_width', 'frequency',
+            'gain', 'offset', 'decimal_places', 'bit', 'bit_size'
+        ]
+        
+        data = data.copy() # Make mutable
+        for field in nullable_float_fields:
+            if field in data and data[field] == "":
+                data[field] = None
+                
+        return super().to_internal_value(data)
+
     class Meta:
         model = Point
         fields = '__all__'

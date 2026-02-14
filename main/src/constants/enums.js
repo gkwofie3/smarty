@@ -1,15 +1,30 @@
 export const DEVICE_TYPE_CHOICES = [
+    { value: 'AVR', label: 'AVR' },
+    { value: 'FIRE SYSTEM', label: 'Fire System' },
+    { value: 'ATS', label: 'ATS' },
     { value: 'GENERATOR', label: 'Generator' },
+    { value: 'HVAC SYSTEM', label: 'HVAC System' },
+    { value: 'TRANSFORMER', label: 'Transformer' },
+    { value: 'UPS', label: 'UPS' },
     { value: 'ENERGY METER', label: 'Energy Meter' },
-    { value: 'AHU', label: 'AHU' },
-    { value: 'CHILLER', label: 'Chiller' },
-    { value: 'PUMP', label: 'Pump' },
+    { value: 'WATER METER', label: 'Water Meter' },
+    { value: 'LIFT', label: 'Lift' },
+    { value: 'LIGHTING CONTROL SYSTEM', label: 'Lighting Control System' },
+    { value: 'ACCESS CONTROL', label: 'Access Control' },
+    { value: 'SECURITY SYSTEM', label: 'Security System' },
+    { value: 'SURVEILLANCE SYSTEM', label: 'Surveillance System' },
+    { value: 'ENVIRONMENTAL SENSOR', label: 'Environmental Sensor' },
+    { value: 'UTILITY MANAGEMENT', label: 'Utility Management System' },
+    { value: 'GAS DETECTION SYSTEM', label: 'Gas Detection System' },
+    { value: 'PUMP CONTROLLER', label: 'Pump Controller' },
+    { value: 'VFD', label: 'VFD' },
+    { value: 'AUDIO VISUAL SYSTEM', label: 'Audio Visual System' },
 ];
 
 export const PROTOCOL_CHOICES = [
-    { value: 'Modbus', label: 'Modbus' },
-    { value: 'BACnet', label: 'BACnet' },
-    { value: 'SNMP', label: 'SNMP' },
+    { value: 'ModbusTCP', label: 'Modbus TCP' },
+    { value: 'BACnetIP', label: 'BACnet IP' },
+    { value: 'Mqtt', label: 'MQTT' },
 ];
 
 export const BAUD_RATE_CHOICES = [

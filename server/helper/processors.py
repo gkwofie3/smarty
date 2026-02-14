@@ -48,14 +48,17 @@ class PointProcessor:
         self.point = point
         self.register = getattr(point, 'register', None)
 
-    def process(self):
+    def process(self, persist=True):
         """
         Main logic called by the Point model property.
         """
         # 1. Manual Force Priority
         if self.point.is_forced:
             val = self._handle_force_logic()
-            self._persist_value(val)
+            if persist:
+                self._persist_value(val)
+            else:
+                self.point.read_value = str(val)
             return val
 
         # 2. Register Error Status Priority
@@ -64,7 +67,10 @@ class PointProcessor:
                 self._handle_register_error()
                 # Use faulty value if point allows it, otherwise 0
                 val = self.point.faulty_value if self.point.can_be_faulty else 0
-                self._persist_value(val)
+                if persist:
+                    self._persist_value(val)
+                else:
+                    self.point.read_value = str(val)
                 return val
 
         # 3. Resolve Value based on Type
@@ -81,7 +87,10 @@ class PointProcessor:
         self._check_logic_and_alerts(resolved_val)
 
         # 5. Save state to DB (Stops the Initial_Log loop)
-        self._persist_value(resolved_val)
+        if persist:
+            self._persist_value(resolved_val)
+        else:
+            self.point.read_value = str(resolved_val)
         
         return resolved_val
 
@@ -123,10 +132,17 @@ class PointProcessor:
                 cal = (raw_val * self.point.gain) + self.point.offset
 
             # Scaling (Range to Scale Extrapolation)
-            r_span = self.point.range_max - self.point.range_min
-            s_span = self.point.scale_max - self.point.scale_min
-            if r_span != 0:
-                val = self.point.scale_min + (cal - self.point.range_min) * (s_span / r_span)
+            # Only apply scaling if all 4 parameters are set (not None)
+            if (self.point.range_min is not None and self.point.range_max is not None and 
+                self.point.scale_min is not None and self.point.scale_max is not None):
+                
+                r_span = self.point.range_max - self.point.range_min
+                s_span = self.point.scale_max - self.point.scale_min
+                
+                if r_span != 0:
+                    val = self.point.scale_min + (cal - self.point.range_min) * (s_span / r_span)
+                else:
+                    val = cal
             else:
                 val = cal
             
@@ -153,26 +169,41 @@ class PointProcessor:
         elif self.point.data_type in ['Integer', 'Float', 'Real']:
             t_high = self.point.threshold_high
             t_low = self.point.threshold_low
-            span = abs(t_high - t_low)
-            margin = span * 0.10
             
-            # Threshold Alarms (10% approaching margin)
-            if current_val >= t_high or current_val <= t_low:
-                create_alarm(self.point, "Threshold Violation", f"{self.point.name} out of bounds", 'CRITICAL')
-            elif current_val >= (t_high - margin) or current_val <= (t_low + margin):
-                create_alarm(self.point, "Threshold Warning", f"{self.point.name} approaching limit", 'MEDIUM')
+            # Calculate margin only if we have a range to work with
+            margin = 0
+            if t_high is not None and t_low is not None:
+                span = abs(t_high - t_low)
+                margin = span * 0.10
 
-            # 1% Range Event
-            r_span = abs(self.point.range_max - self.point.range_min)
-            if r_span > 0 and has_changed:
-                if (abs(current_val - old_val) / r_span) >= 0.01:
-                    create_event(self.point, "VALUE_CHANGE", f"{self.point.name} shifted to {current_val}")
+            # High Threshold Check
+            if t_high is not None:
+                if current_val >= t_high:
+                    create_alarm(self.point, "Threshold Violation", f"{self.point.name} exceeded high limit ({t_high})", 'CRITICAL')
+                elif margin > 0 and current_val >= (t_high - margin):
+                     # Only warn if margin is calculable (both set)
+                    create_alarm(self.point, "Threshold Warning", f"{self.point.name} approaching high limit", 'MEDIUM')
 
-            # 2% Scale Log
-            s_span = abs(self.point.scale_max - self.point.scale_min)
-            if s_span > 0 and has_changed:
-                if (abs(current_val - old_val) / s_span) >= 0.02:
-                    create_log(self.point, current_val, source='Historical_Log')
+            # Low Threshold Check
+            if t_low is not None:
+                if current_val <= t_low:
+                    create_alarm(self.point, "Threshold Violation", f"{self.point.name} fell below low limit ({t_low})", 'CRITICAL')
+                elif margin > 0 and current_val <= (t_low + margin):
+                    create_alarm(self.point, "Threshold Warning", f"{self.point.name} approaching low limit", 'MEDIUM')
+
+            # 1% Range Event (Only if range min/max set)
+            if self.point.range_min is not None and self.point.range_max is not None:
+                r_span = abs(self.point.range_max - self.point.range_min)
+                if r_span > 0 and has_changed:
+                    if (abs(current_val - old_val) / r_span) >= 0.01:
+                        create_event(self.point, "VALUE_CHANGE", f"{self.point.name} shifted to {current_val}")
+
+            # 2% Scale Log (Only if scale min/max set)
+            if self.point.scale_min is not None and self.point.scale_max is not None:
+                s_span = abs(self.point.scale_max - self.point.scale_min)
+                if s_span > 0 and has_changed:
+                    if (abs(current_val - old_val) / s_span) >= 0.02:
+                        create_log(self.point, current_val, source='Historical_Log')
 
         # Log initial encounter
         if old_val is None:

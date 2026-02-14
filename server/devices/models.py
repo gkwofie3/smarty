@@ -64,6 +64,11 @@ class Register(models.Model):
     can_be_faulty = models.BooleanField(default=False)
     faulty_value = models.BooleanField(null=True, blank=True)
 
+    # BACnet-specific
+    bacnet_object_type = models.IntegerField(choices=BACNET_OBJECT_TYPE_CHOICES, null=True, blank=True)
+    bacnet_instance_number = models.PositiveIntegerField(null=True, blank=True)
+    bacnet_property_id = models.PositiveIntegerField(default=85, null=True, blank=True) # 85 is Present_Value
+
     class Meta:
         verbose_name = "Register"
         verbose_name_plural = "Registers"
@@ -130,14 +135,14 @@ class Point(models.Model):
     decimal_places = models.PositiveSmallIntegerField(default=2, null=True, blank=True)
     unit = models.CharField(max_length=50, blank=True, null=True)
     
-    range_min = models.FloatField(default=4.0, null=True, blank=True)
-    range_max = models.FloatField(default=20.0, null=True, blank=True)
-    scale_min = models.FloatField(default=0.0, null=True, blank=True)
-    scale_max = models.FloatField(default=100.0, null=True, blank=True)
+    range_min = models.FloatField( null=True, blank=True)
+    range_max = models.FloatField(null=True, blank=True)
+    scale_min = models.FloatField(null=True, blank=True)
+    scale_max = models.FloatField(null=True, blank=True)
     
     # --- 6. Logic & Thresholds ---
-    threshold_high = models.FloatField(default=100.0, null=True, blank=True)
-    threshold_low = models.FloatField(default=0.0, null=True, blank=True)
+    threshold_high = models.FloatField(null=True, blank=True)
+    threshold_low = models.FloatField(null=True, blank=True)
     pulse_width = models.FloatField(null=True, blank=True)
     can_be_faulty = models.BooleanField(default=False)
     faulty_value = models.BooleanField(null=True, blank=True)

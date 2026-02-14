@@ -101,10 +101,19 @@ const RegisterList = () => {
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Address</th>
+                        {device?.protocol?.startsWith('BACnet') ? (
+                            <>
+                                <th>Object Type</th>
+                                <th>Instance</th>
+                            </>
+                        ) : (
+                            <>
+                                <th>Address</th>
+                                <th>Functions (R/W)</th>
+                            </>
+                        )}
                         <th>Signal</th>
                         <th>Direction</th>
-                        <th>Functions (R/W)</th>
                         <th>Current Value</th>
                         <th>Actions</th>
                     </tr>
@@ -113,10 +122,19 @@ const RegisterList = () => {
                     {registers.map(reg => (
                         <tr key={reg.id}>
                             <td>{reg.name}</td>
-                            <td>{reg.address}</td>
+                            {device?.protocol?.startsWith('BACnet') ? (
+                                <>
+                                    <td>{reg.bacnet_object_type}</td>
+                                    <td>{reg.bacnet_instance_number}</td>
+                                </>
+                            ) : (
+                                <>
+                                    <td>{reg.address}</td>
+                                    <td>{reg.read_function_code} / {reg.write_function_code}</td>
+                                </>
+                            )}
                             <td>{reg.signal_type}</td>
                             <td>{reg.direction}</td>
-                            <td>{reg.read_function_code} / {reg.write_function_code}</td>
                             <td>{reg.current_value}</td>
                             <td>
                                 <Button variant="warning" size="sm" className="me-2" onClick={() => handleEdit(reg)} title="Edit">
@@ -133,7 +151,7 @@ const RegisterList = () => {
                     ))}
                     {registers.length === 0 && (
                         <tr>
-                            <td colSpan="7" className="text-center">No registers found for this device.</td>
+                            <td colSpan={device?.protocol?.startsWith('BACnet') ? "7" : "7"} className="text-center">No registers found for this device.</td>
                         </tr>
                     )}
                 </tbody>
@@ -144,6 +162,7 @@ const RegisterList = () => {
                 onHide={() => setShowModal(false)}
                 register={selectedRegister}
                 deviceId={deviceId}
+                protocol={device?.protocol}
                 onSave={handleSave}
             />
         </Container>

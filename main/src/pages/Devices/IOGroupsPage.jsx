@@ -120,15 +120,21 @@ const IOGroupsPage = () => {
         setSelectedNode({ type: 'point', point_group: parentId });
         setEditMode(true);
         reset({
-            name: '', point_group: parentId, point_type: 'REGISTER',
+            name: '', slug: '', point_group: parentId, point_type: 'REGISTER',
+            register: null,
             direction: 'Input', data_type: 'Real',
             gain: 1.0, offset: 0.0, decimal_places: 2,
             is_active: true, frequency: 1.0,
             range_min: 4, range_max: 20, scale_min: 0, scale_max: 100,
             threshold_high: 100, threshold_low: 0,
-            is_writeable: true
+            is_writeable: true,
+            unit: '', pulse_width: null,
+            is_forced: false, forced_value: '',
+            can_be_faulty: false,
+            description: ''
         });
     };
+
 
     const confirmDelete = () => {
         if (!selectedNode?.id) return;
@@ -296,6 +302,29 @@ const IOGroupsPage = () => {
                                                     />
                                                 </Form.Group>
                                             </Col>
+
+                                            {/* Register Select - Moved from Hardware Tab */}
+                                            {watch('point_type') === 'REGISTER' && (
+                                                <Col md={12}>
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Label>Register (Link ID)</Form.Label>
+                                                        <Controller
+                                                            name="register"
+                                                            control={control}
+                                                            render={({ field }) => (
+                                                                <Select
+                                                                    {...field}
+                                                                    options={allRegisters}
+                                                                    value={allRegisters.find(c => c.value === field.value)}
+                                                                    onChange={val => field.onChange(val ? val.value : null)}
+                                                                    isClearable
+                                                                    placeholder="Select Register..."
+                                                                />
+                                                            )}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                            )}
                                             <Col md={6}>
                                                 <Form.Group className="mb-3">
                                                     <Form.Label>Direction</Form.Label>
@@ -337,25 +366,6 @@ const IOGroupsPage = () => {
                                     </Tab>
                                     <Tab eventKey="hardware" title="Hardware & Data">
                                         <Row>
-                                            <Col md={6}>
-                                                <Form.Group className="mb-3">
-                                                    <Form.Label>Register (Link ID)</Form.Label>
-                                                    <Controller
-                                                        name="register"
-                                                        control={control}
-                                                        render={({ field }) => (
-                                                            <Select
-                                                                {...field}
-                                                                options={allRegisters}
-                                                                value={allRegisters.find(c => c.value === field.value)}
-                                                                onChange={val => field.onChange(val ? val.value : null)}
-                                                                isClearable
-                                                                placeholder="Select Register..."
-                                                            />
-                                                        )}
-                                                    />
-                                                </Form.Group>
-                                            </Col>
                                             <Col md={6}>
                                                 <Form.Group className="mb-3">
                                                     <Form.Label>Data Type</Form.Label>

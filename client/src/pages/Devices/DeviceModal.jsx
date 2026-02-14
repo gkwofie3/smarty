@@ -12,7 +12,9 @@ const DeviceModal = ({ show, onHide, device, onSave }) => {
         slave_id: 1,
         slug: '',
         protocol: 'ModbusTCP', // Default
-        is_online: false
+        is_online: false,
+        bacnet_device_instance: 0,
+        bacnet_network_number: 0
     });
     const [error, setError] = useState(null);
 
@@ -27,7 +29,9 @@ const DeviceModal = ({ show, onHide, device, onSave }) => {
                 slave_id: device.slave_id || 1,
                 slug: device.slug || '',
                 protocol: device.protocol || 'ModbusTCP',
-                is_online: device.is_online || false
+                is_online: device.is_online || false,
+                bacnet_device_instance: device.bacnet_device_instance || 0,
+                bacnet_network_number: device.bacnet_network_number || 0
             });
         } else {
             setFormData({
@@ -39,7 +43,9 @@ const DeviceModal = ({ show, onHide, device, onSave }) => {
                 slave_id: 1,
                 slug: '',
                 protocol: 'ModbusTCP',
-                is_online: false
+                is_online: false,
+                bacnet_device_instance: 0,
+                bacnet_network_number: 0
             });
         }
         setError(null);
@@ -108,10 +114,25 @@ const DeviceModal = ({ show, onHide, device, onSave }) => {
                         <Form.Label>Port Number</Form.Label>
                         <Form.Control type="number" name="port_number" value={formData.port_number} onChange={handleChange} />
                     </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Slave ID</Form.Label>
-                        <Form.Control type="number" name="slave_id" value={formData.slave_id} onChange={handleChange} />
-                    </Form.Group>
+                    {formData.protocol.startsWith('Modbus') && (
+                        <Form.Group className="mb-3">
+                            <Form.Label>Slave ID</Form.Label>
+                            <Form.Control type="number" name="slave_id" value={formData.slave_id} onChange={handleChange} />
+                        </Form.Group>
+                    )}
+
+                    {formData.protocol.startsWith('BACnet') && (
+                        <>
+                            <Form.Group className="mb-3">
+                                <Form.Label>BACnet Device Instance</Form.Label>
+                                <Form.Control type="number" name="bacnet_device_instance" value={formData.bacnet_device_instance} onChange={handleChange} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>BACnet Network Number</Form.Label>
+                                <Form.Control type="number" name="bacnet_network_number" value={formData.bacnet_network_number} onChange={handleChange} />
+                            </Form.Group>
+                        </>
+                    )}
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="Is Online" name="is_online" checked={formData.is_online} onChange={handleChange} />
                     </Form.Group>

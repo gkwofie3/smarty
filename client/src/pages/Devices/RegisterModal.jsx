@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import { createRegister, updateRegister } from '../../services/deviceService';
 
-const RegisterModal = ({ show, onHide, register, deviceId, onSave }) => {
+const RegisterModal = ({ show, onHide, register, deviceId, protocol, onSave }) => {
     const [formData, setFormData] = useState({
         name: '',
         address: 0,
@@ -16,7 +16,10 @@ const RegisterModal = ({ show, onHide, register, deviceId, onSave }) => {
         device: deviceId,
         gain: 1.0,
         offset: 0.0,
-        unit: ''
+        unit: '',
+        bacnet_object_type: 0,
+        bacnet_instance_number: 0,
+        bacnet_property_id: 85
     });
     const [error, setError] = useState(null);
 
@@ -35,7 +38,10 @@ const RegisterModal = ({ show, onHide, register, deviceId, onSave }) => {
                 device: register.device || deviceId,
                 gain: register.gain || 1.0,
                 offset: register.offset || 0.0,
-                unit: register.unit || ''
+                unit: register.unit || '',
+                bacnet_object_type: register.bacnet_object_type || 0,
+                bacnet_instance_number: register.bacnet_instance_number || 0,
+                bacnet_property_id: register.bacnet_property_id || 85
             });
         } else {
             setFormData({
@@ -51,7 +57,10 @@ const RegisterModal = ({ show, onHide, register, deviceId, onSave }) => {
                 device: deviceId,
                 gain: 1.0,
                 offset: 0.0,
-                unit: ''
+                unit: '',
+                bacnet_object_type: 0,
+                bacnet_instance_number: 0,
+                bacnet_property_id: 85
             });
         }
         setError(null);
@@ -98,10 +107,17 @@ const RegisterModal = ({ show, onHide, register, deviceId, onSave }) => {
                             </Form.Group>
                         </Col>
                         <Col md={6}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Address</Form.Label>
-                                <Form.Control type="number" name="address" value={formData.address} onChange={handleChange} required />
-                            </Form.Group>
+                            {protocol?.startsWith('BACnet') ? (
+                                <Form.Group className="mb-3">
+                                    <Form.Label>BACnet Instance Number</Form.Label>
+                                    <Form.Control type="number" name="bacnet_instance_number" value={formData.bacnet_instance_number} onChange={handleChange} required />
+                                </Form.Group>
+                            ) : (
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Address</Form.Label>
+                                    <Form.Control type="number" name="address" value={formData.address} onChange={handleChange} required />
+                                </Form.Group>
+                            )}
                         </Col>
                     </Row>
                     <Row>
@@ -111,6 +127,7 @@ const RegisterModal = ({ show, onHide, register, deviceId, onSave }) => {
                                 <Form.Select name="signal_type" value={formData.signal_type} onChange={handleChange}>
                                     <option value="Digital">Digital</option>
                                     <option value="Analog">Analog</option>
+                                    <option value="Multistate">Multistate</option>
                                 </Form.Select>
                             </Form.Group>
                         </Col>
@@ -134,30 +151,58 @@ const RegisterModal = ({ show, onHide, register, deviceId, onSave }) => {
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md={6}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Read Function Code</Form.Label>
-                                <Form.Select name="read_function_code" value={formData.read_function_code} onChange={handleChange}>
-                                    <option value="01">01 (Read Coils)</option>
-                                    <option value="02">02 (Read Discrete Inputs)</option>
-                                    <option value="03">03 (Read Holding Registers)</option>
-                                    <option value="04">04 (Read Input Registers)</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col md={6}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Write Function Code</Form.Label>
-                                <Form.Select name="write_function_code" value={formData.write_function_code} onChange={handleChange}>
-                                    <option value="05">05 (Write Single Coil)</option>
-                                    <option value="06">06 (Write Single Register)</option>
-                                    <option value="15">15 (Write Multiple Coils)</option>
-                                    <option value="16">16 (Write Multiple Registers)</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                    {protocol?.startsWith('BACnet') ? (
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Object Type</Form.Label>
+                                    <Form.Select name="bacnet_object_type" value={formData.bacnet_object_type} onChange={handleChange}>
+                                        <option value={0}>Analog Input</option>
+                                        <option value={1}>Analog Output</option>
+                                        <option value={2}>Analog Value</option>
+                                        <option value={3}>Binary Input</option>
+                                        <option value={4}>Binary Output</option>
+                                        <option value={5}>Binary Value</option>
+                                        <option value={13}>Multi-state Input</option>
+                                        <option value={14}>Multi-state Output</option>
+                                        <option value={19}>Multi-state Value</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Property ID</Form.Label>
+                                    <Form.Control type="number" name="bacnet_property_id" value={formData.bacnet_property_id} onChange={handleChange} />
+                                    <Form.Text className="text-muted">Default 85 (Present Value)</Form.Text>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    ) : (
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Read Function Code</Form.Label>
+                                    <Form.Select name="read_function_code" value={formData.read_function_code} onChange={handleChange}>
+                                        <option value="01">01 (Read Coils)</option>
+                                        <option value="02">02 (Read Discrete Inputs)</option>
+                                        <option value="03">03 (Read Holding Registers)</option>
+                                        <option value="04">04 (Read Input Registers)</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Write Function Code</Form.Label>
+                                    <Form.Select name="write_function_code" value={formData.write_function_code} onChange={handleChange}>
+                                        <option value="05">05 (Write Single Coil)</option>
+                                        <option value="06">06 (Write Single Register)</option>
+                                        <option value="15">15 (Write Multiple Coils)</option>
+                                        <option value="16">16 (Write Multiple Registers)</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    )}
                     <Row>
                         <Col md={6}>
                             <Form.Group className="mb-3">

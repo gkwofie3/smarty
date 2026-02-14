@@ -117,6 +117,21 @@ WRITE_FUNCTION_CODES = (
     ("15", "15 - Write Multiple Coils"),
     ("16", "16 - Write Multiple Registers"),
 )
+
+# ================================================
+# BACnet Object Type Choices
+# ================================================
+BACNET_OBJECT_TYPE_CHOICES = (
+    (0, "Analog Input"),
+    (1, "Analog Output"),
+    (2, "Analog Value"),
+    (3, "Binary Input"),
+    (4, "Binary Output"),
+    (5, "Binary Value"),
+    (13, "Multi-state Input"),
+    (14, "Multi-state Output"),
+    (19, "Multi-state Value"),
+)
 # ================================================
 # Direction Choices
 # ================================================
