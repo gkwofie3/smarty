@@ -59,12 +59,11 @@ const AlphaColorInput = ({ value, onChange, title }) => {
     );
 };
 
-const PropertiesPanel = ({ element, onChange, onDelete, onMoveForward, onMoveBackward, onMoveToFront, onMoveToBack }) => {
+const PropertiesPanel = ({ elements, onChange, onDelete, onMoveForward, onMoveBackward, onMoveToFront, onMoveToBack }) => {
     const [uploading, setUploading] = React.useState(false);
     const [showIconPicker, setShowIconPicker] = React.useState(false);
     const [pages, setPages] = React.useState([]);
     const [points, setPoints] = React.useState([]);
-
 
     // Bar Chart Modal State
     const [showBarModal, setShowBarModal] = React.useState(false);
@@ -100,8 +99,33 @@ const PropertiesPanel = ({ element, onChange, onDelete, onMoveForward, onMoveBac
         fetchData();
     }, []);
 
-    if (!element) return <div className="p-3 text-muted">Select an element</div>;
+    if (!elements || elements.length === 0) return <div className="p-3 text-muted">Select elements</div>;
 
+    if (elements.length > 1) {
+        return (
+            <div className="p-3">
+                <div className="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                    <h6 className="mb-0">{elements.length} Items Selected</h6>
+                    <div className="d-flex gap-1">
+                        <Button variant="outline-secondary" size="sm" onClick={onMoveToFront} title="Bring to Front">
+                            <BiArrowToTop />
+                        </Button>
+                        <Button variant="outline-secondary" size="sm" onClick={onMoveToBack} title="Send to Back">
+                            <BiArrowToBottom />
+                        </Button>
+                        <Button variant="outline-danger" size="sm" onClick={onDelete} title="Delete Elements">
+                            <BiTrash />
+                        </Button>
+                    </div>
+                </div>
+                <div className="alert alert-info small mt-4">
+                    Multiple selection active. Move or Delete selected elements using the toolbar above. Batch properties editing is not yet supported.
+                </div>
+            </div>
+        );
+    }
+
+    const element = elements[0];
     const schemaInfo = ELEMENT_SCHEMA.elements.find(e => e.name === element.type);
     let propertiesList = schemaInfo ? [...schemaInfo.properties] : Object.keys(element);
 

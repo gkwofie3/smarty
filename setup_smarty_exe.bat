@@ -19,31 +19,38 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
+echo [2/3] Converting Icons (PNG to ICO)...
+python convert_icons.py
+if %errorlevel% neq 0 (
+    echo.
+    echo ⚠️ Icon conversion failed or skipped. Default icons may be used.
+)
+
 echo.
-echo [2/2] Building Executables...
+echo [3/3] Building Executables...
 
 echo   - Building Smarty Launcher (Background Engine)...
-pyinstaller --onefile --noconsole --name smarty smarty.py
+pyinstaller --onefile --noconsole --name smarty --icon main\public\logo.ico smarty.py
 if %errorlevel% neq 0 goto build_fail
 
 echo   - Building Smarty Main...
-pyinstaller --onefile --noconsole --name SmartyMain run_main.py
+pyinstaller --onefile --noconsole --name SmartyMain --icon main\public\logo.ico run_main.py
 if %errorlevel% neq 0 goto build_fail
 
 echo   - Building Smarty Editor...
-pyinstaller --onefile --noconsole --name SmartyEditor run_editor.py
+pyinstaller --onefile --noconsole --name SmartyEditor --icon editor\public\editor.ico run_editor.py
 if %errorlevel% neq 0 goto build_fail
 
 echo   - Building Smarty FDB...
-pyinstaller --onefile --noconsole --name SmartyFDB run_fdb.py
+pyinstaller --onefile --noconsole --name SmartyFDB --icon fdb\public\fdb.ico run_fdb.py
 if %errorlevel% neq 0 goto build_fail
 
 echo   - Building Smarty Client...
-pyinstaller --onefile --noconsole --name SmartyClient run_client.py
+pyinstaller --onefile --noconsole --name SmartyClient --icon client\public\client.ico run_client.py
 if %errorlevel% neq 0 goto build_fail
 
 echo   - Building Smarty Script...
-pyinstaller --onefile --noconsole --name SmartyScript run_script.py
+pyinstaller --onefile --noconsole --name SmartyScript --icon script\public\script.ico run_script.py
 if %errorlevel% neq 0 goto build_fail
 
 echo.

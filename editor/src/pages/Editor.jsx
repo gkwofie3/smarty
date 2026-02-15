@@ -6,6 +6,7 @@ import api from '../services/api';
 import Toolbox from '../components/Toolbox';
 import PropertiesPanel from '../components/PropertiesPanel';
 import CanvasStage from '../components/CanvasStage';
+import Header from '../components/Header';
 import ToastNotification from '../components/ToastNotification';
 import ElementsList from '../components/ElementsList';
 
@@ -16,7 +17,7 @@ const Editor = () => {
     // State
     const [page, setPage] = useState(null);
     const [elements, setElements] = useState([]);
-    const [selectedId, setSelectedId] = useState(null);
+    const [selectedIds, setSelectedIds] = useState([]);
     const [canvasSize, setCanvasSize] = useState({ width: 1920, height: 1080 });
     const [zoom, setZoom] = useState(0.8);
     const [showGrid, setShowGrid] = useState(true);
@@ -165,7 +166,7 @@ const Editor = () => {
 
         const newElements = [...elements, newElement];
         updateElements(newElements);
-        setSelectedId(newElement.id);
+        setSelectedIds([newElement.id]);
         addToast('Added', `Added new ${type}.`, 'success');
     };
 
@@ -175,60 +176,74 @@ const Editor = () => {
     };
 
     const handleDelete = () => {
-        if (selectedId) {
-            const newElements = elements.filter(el => el.id !== selectedId);
+        if (selectedIds.length > 0) {
+            const newElements = elements.filter(el => !selectedIds.includes(el.id));
             updateElements(newElements);
-            setSelectedId(null);
-            addToast('Deleted', 'Element deleted.', 'info');
+            setSelectedIds([]);
+            addToast('Deleted', `${selectedIds.length} element(s) deleted.`, 'info');
         }
     };
 
     const handleDuplicate = () => {
-        if (selectedId) {
-            const el = elements.find(e => e.id === selectedId);
-            if (el) {
-                const newEl = {
-                    ...el,
-                    id: 'el_' + Date.now(),
-                    x_position: el.x_position + 20,
-                    y_position: el.y_position + 20,
-                    name: el.name + ' (Copy)'
-                };
-                const newElements = [...elements, newEl];
-                updateElements(newElements);
-                setSelectedId(newEl.id);
-                addToast('Duplicated', 'Element duplicated.', 'success');
-            }
+        if (selectedIds.length > 0) {
+            const newEls = [];
+            selectedIds.forEach(id => {
+                const el = elements.find(e => e.id === id);
+                if (el) {
+                    newEls.push({
+                        ...el,
+                        id: 'el_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+                        x_position: el.x_position + 20,
+                        y_position: el.y_position + 20,
+                        name: el.name + ' (Copy)'
+                    });
+                }
+            });
+            const newElements = [...elements, ...newEls];
+            updateElements(newElements);
+            setSelectedIds(newEls.map(e => e.id));
+            addToast('Duplicated', `${newEls.length} element(s) duplicated.`, 'success');
         }
     };
 
-    const moveSelectedElement = (direction) => {
-        if (!selectedId) return;
-        const index = elements.findIndex(el => el.id === selectedId);
-        if (index === -1) return;
+    const moveSelectedElements = (direction) => {
+        if (selectedIds.length === 0) return;
 
         const newElements = [...elements];
-        const element = newElements.splice(index, 1)[0];
+        // Sort selected IDs by their current index to maintain relative order during move
+        const selectedIndices = selectedIds
+            .map(id => elements.findIndex(el => el.id === id))
+            .filter(idx => idx !== -1)
+            .sort((a, b) => a - b);
+
+        if (selectedIndices.length === 0) return;
+
+        const movedElements = selectedIndices.map(idx => elements[idx]);
+
+        // Remove elements from list
+        selectedIndices.reverse().forEach(idx => {
+            newElements.splice(idx, 1);
+        });
 
         switch (direction) {
             case 'front':
-                newElements.push(element);
+                newElements.push(...movedElements);
                 break;
             case 'back':
-                newElements.unshift(element);
+                newElements.unshift(...movedElements);
                 break;
             case 'forward':
-                if (index < elements.length - 1) {
-                    newElements.splice(index + 1, 0, element);
-                } else {
-                    newElements.push(element);
+                {
+                    const maxIdx = Math.max(...selectedIndices);
+                    const targetIdx = Math.min(newElements.length, maxIdx + 1 - (selectedIndices.length - 1));
+                    newElements.splice(targetIdx, 0, ...movedElements);
                 }
                 break;
             case 'backward':
-                if (index > 0) {
-                    newElements.splice(index - 1, 0, element);
-                } else {
-                    newElements.unshift(element);
+                {
+                    const minIdx = Math.min(...selectedIndices);
+                    const targetIdx = Math.max(0, minIdx - 1);
+                    newElements.splice(targetIdx, 0, ...movedElements);
                 }
                 break;
             default:
@@ -236,7 +251,7 @@ const Editor = () => {
         }
 
         updateElements(newElements);
-        addToast('Moved', `Element moved ${direction}.`, 'info');
+        addToast('Moved', `${movedElements.length} element(s) moved ${direction}.`, 'info');
     };
 
     // Keyboard Shortcuts
@@ -262,30 +277,28 @@ const Editor = () => {
             // Copy
             if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
                 e.preventDefault();
-                if (selectedId) {
-                    const el = elements.find(e => e.id === selectedId);
-                    if (el) {
-                        setClipboard(el);
-                        addToast('Copied', 'Copied to clipboard.', 'success');
-                    }
+                if (selectedIds.length > 0) {
+                    const els = elements.filter(e => selectedIds.includes(e.id));
+                    setClipboard(els);
+                    addToast('Copied', `${els.length} element(s) copied.`, 'success');
                 }
             }
 
             // Paste
             if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
                 e.preventDefault();
-                if (clipboard) {
-                    const newEl = {
-                        ...clipboard,
-                        id: 'el_' + Date.now(),
-                        x_position: clipboard.x_position + 20,
-                        y_position: clipboard.y_position + 20,
-                        name: clipboard.name + ' (Copy)'
-                    };
-                    const newElements = [...elements, newEl];
+                if (clipboard && Array.isArray(clipboard)) {
+                    const newEls = clipboard.map(el => ({
+                        ...el,
+                        id: 'el_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+                        x_position: el.x_position + 20,
+                        y_position: el.y_position + 20,
+                        name: el.name + ' (Copy)'
+                    }));
+                    const newElements = [...elements, ...newEls];
                     updateElements(newElements);
-                    setSelectedId(newEl.id);
-                    addToast('Pasted', 'Pasted from clipboard.', 'success');
+                    setSelectedIds(newEls.map(e => e.id));
+                    addToast('Pasted', `${newEls.length} element(s) pasted.`, 'success');
                 }
             }
 
@@ -302,22 +315,22 @@ const Editor = () => {
             }
 
             // Arrow Keys Movement
-            if (selectedId && (e.key.startsWith('Arrow'))) {
+            if (selectedIds.length > 0 && (e.key.startsWith('Arrow'))) {
                 e.preventDefault();
                 const step = e.shiftKey ? 10 : 1;
-                const el = elements.find(el => el.id === selectedId);
-                if (el) {
-                    let newX = el.x_position;
-                    let newY = el.y_position;
-                    if (e.key === 'ArrowUp') newY -= step;
-                    if (e.key === 'ArrowDown') newY += step;
-                    if (e.key === 'ArrowLeft') newX -= step;
-                    if (e.key === 'ArrowRight') newX += step;
-
-                    const newEl = { ...el, x_position: newX, y_position: newY };
-                    const newElements = elements.map(e => e.id === selectedId ? newEl : e);
-                    updateElements(newElements);
-                }
+                const newElements = elements.map(el => {
+                    if (selectedIds.includes(el.id)) {
+                        let newX = el.x_position;
+                        let newY = el.y_position;
+                        if (e.key === 'ArrowUp') newY -= step;
+                        if (e.key === 'ArrowDown') newY += step;
+                        if (e.key === 'ArrowLeft') newX -= step;
+                        if (e.key === 'ArrowRight') newX += step;
+                        return { ...el, x_position: newX, y_position: newY };
+                    }
+                    return el;
+                });
+                updateElements(newElements);
             }
         };
 
@@ -331,9 +344,9 @@ const Editor = () => {
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('keyup', handleKeyUp);
         };
-    }, [selectedId, elements, canvasSize, history, historyIndex, clipboard]);
+    }, [selectedIds, elements, canvasSize, history, historyIndex, clipboard]);
 
-    const selectedElement = elements.find(el => el.id === selectedId);
+    const selectedElements = elements.filter(el => selectedIds.includes(el.id));
 
     if (loading) {
         return <div className="d-flex justify-content-center align-items-center vh-100"><Spinner animation="border" /></div>;
@@ -341,17 +354,18 @@ const Editor = () => {
 
     return (
         <div className="d-flex flex-column vh-100 overflow-hidden bg-light">
+            <Header />
             <ToastNotification toasts={toasts} removeToast={removeToast} />
 
-            {/* Header */}
-            <div className="bg-white border-bottom px-3 py-2 d-flex justify-content-between align-items-center shadow-sm" style={{ zIndex: 10 }}>
+            {/* Secondary Toolbar */}
+            <div className="bg-white border-bottom px-3 py-1 d-flex justify-content-between align-items-center shadow-sm" style={{ zIndex: 10, height: '45px' }}>
                 <div className="d-flex align-items-center">
-                    <Button variant="outline-secondary" size="sm" onClick={() => navigate('/')} className="me-3 border-0">
+                    <Button variant="outline-secondary" size="sm" onClick={() => navigate('/')} className="me-3 border-0" title="Back to Dashboard">
                         <BsArrowLeft />
                     </Button>
-                    <div>
-                        <div className="fw-bold small text-uppercase text-muted">Page Editor</div>
-                        <div className="h6 mb-0">{page ? page.name : 'Untitled'}</div>
+                    <div className="border-start ps-3">
+                        <span className="fw-bold small text-muted text-uppercase d-block" style={{ fontSize: '10px', lineHeight: 1 }}>Editing Page</span>
+                        <span className="h6 mb-0">{page ? page.name : 'Untitled'}</span>
                     </div>
                 </div>
 
@@ -437,8 +451,8 @@ const Editor = () => {
                 <div className="flex-grow-1 position-relative overflow-hidden bg-secondary bg-opacity-10">
                     <CanvasStage
                         elements={elements}
-                        selectedElementId={selectedId}
-                        onSelect={setSelectedId}
+                        selectedIds={selectedIds}
+                        onSelect={(ids) => setSelectedIds(ids)}
                         onChange={handleElementChange}
                         onDropElement={handleDropElement}
                         zoom={zoom}
@@ -454,20 +468,20 @@ const Editor = () => {
                     <div style={{ height: '30%', overflowY: 'auto', borderBottom: '1px solid #dee2e6' }}>
                         <ElementsList
                             elements={elements}
-                            selectedId={selectedId}
-                            onSelect={setSelectedId}
+                            selectedIds={selectedIds}
+                            onSelect={(ids) => setSelectedIds(ids)}
                         />
                     </div>
                     <div className="flex-grow-1" style={{ height: '70%', overflowY: 'auto' }}>
-                        {selectedElement ? (
+                        {selectedIds.length > 0 ? (
                             <PropertiesPanel
-                                element={selectedElement}
+                                elements={selectedElements}
                                 onChange={handleElementChange}
                                 onDelete={handleDelete}
-                                onMoveToFront={() => moveSelectedElement('front')}
-                                onMoveToBack={() => moveSelectedElement('back')}
-                                onMoveForward={() => moveSelectedElement('forward')}
-                                onMoveBackward={() => moveSelectedElement('backward')}
+                                onMoveToFront={() => moveSelectedElements('front')}
+                                onMoveToBack={() => moveSelectedElements('back')}
+                                onMoveForward={() => moveSelectedElements('forward')}
+                                onMoveBackward={() => moveSelectedElements('backward')}
                             />
                         ) : (
                             <div className="p-3">

@@ -9,18 +9,26 @@ const getIconForType = (type) => {
     return <BiLayer />;
 };
 
-const ElementsList = ({ elements, selectedId, onSelect }) => {
-    // Reverse to Order by appearance (Top of stack first? Or Bottom first?)
-    // Usually Bottom of list = Top of stack (rendered last).
-    // Or Top of list = Top of stack.
-    // Konva renders array order 0 -> N. N is top.
-    // So usually Layer list shows N at top.
+const ElementsList = ({ elements, selectedIds, onSelect }) => {
+    // Reverse to Order by appearance: Konva renders 0 -> N. N is top.
     const reversedElements = [...elements].reverse();
+
+    const handleClick = (e, id) => {
+        if (e.ctrlKey || e.metaKey) {
+            if (selectedIds.includes(id)) {
+                onSelect(selectedIds.filter(sid => sid !== id));
+            } else {
+                onSelect([...selectedIds, id]);
+            }
+        } else {
+            onSelect([id]);
+        }
+    };
 
     return (
         <div className="d-flex flex-column h-100">
             <div className="p-2 border-bottom bg-light">
-                <small className="fw-bold text-uppercase text-muted">Layers</small>
+                <small className="fw-bold text-uppercase text-muted">Layers ({selectedIds.length} selected)</small>
             </div>
             <div className="flex-grow-1 overflow-auto">
                 {reversedElements.length === 0 && (
@@ -29,9 +37,9 @@ const ElementsList = ({ elements, selectedId, onSelect }) => {
                 {reversedElements.map((el) => (
                     <div
                         key={el.id}
-                        className={`d-flex align-items-center p-2 border-bottom cursor-pointer ${el.id === selectedId ? 'bg-primary text-white' : 'hover-bg-light'}`}
+                        className={`d-flex align-items-center p-2 border-bottom cursor-pointer ${selectedIds.includes(el.id) ? 'bg-primary text-white' : 'hover-bg-light'}`}
                         style={{ cursor: 'pointer', fontSize: '0.85rem' }}
-                        onClick={() => onSelect(el.id)}
+                        onClick={(e) => handleClick(e, el.id)}
                     >
                         <span className="me-2 opacity-75">
                             {getIconForType(el.type)}

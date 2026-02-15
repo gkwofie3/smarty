@@ -91,11 +91,11 @@ const ElementRenderer = ({ element, isSelected, onSelect, onChange }) => {
         draggable: true,
         onClick: (e) => {
             e.cancelBubble = true;
-            onSelect(element);
+            onSelect(e);
         },
         onTap: (e) => {
             e.cancelBubble = true;
-            onSelect(element);
+            onSelect(e);
         },
         onDragEnd: (e) => {
             onChange({
