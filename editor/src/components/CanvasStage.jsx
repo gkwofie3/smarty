@@ -197,8 +197,42 @@ const CanvasStage = ({
                         {/* Grid Lines */}
                         {showGrid && (
                             <React.Fragment>
-                                {/* Simple Grid using Pattern or Lines? Pattern is efficient */}
-                                {/* Keep it simple: Just dots or lines if needed. For now, white bg is clean. */}
+                                {(() => {
+                                    const gridSpacing = zoom < 0.5 ? 100 : zoom < 1.5 ? 40 : 10;
+                                    const lines = [];
+                                    const gridColor = '#f0f0f0';
+
+                                    // Vertical Lines
+                                    for (let i = 0; i <= canvasSize.width; i += gridSpacing) {
+                                        lines.push(
+                                            <Rect
+                                                key={`v-${i}`}
+                                                x={i}
+                                                y={0}
+                                                width={1 / zoom}
+                                                height={canvasSize.height}
+                                                fill={gridColor}
+                                                listening={false}
+                                            />
+                                        );
+                                    }
+
+                                    // Horizontal Lines
+                                    for (let i = 0; i <= canvasSize.height; i += gridSpacing) {
+                                        lines.push(
+                                            <Rect
+                                                key={`h-${i}`}
+                                                x={0}
+                                                y={i}
+                                                width={canvasSize.width}
+                                                height={1 / zoom}
+                                                fill={gridColor}
+                                                listening={false}
+                                            />
+                                        );
+                                    }
+                                    return lines;
+                                })()}
                             </React.Fragment>
                         )}
 

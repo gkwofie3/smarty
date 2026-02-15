@@ -112,15 +112,15 @@ const PageView = () => {
     if (!page) return <div className="p-4">Page not found</div>;
 
     return (
-        <Container fluid className="p-0" style={{ height: 'calc(100vh - 60px)', overflow: 'hidden', background: '#f8f9fa' }}>
-            <div className="d-flex justify-content-between align-items-center p-2 bg-white border-bottom shadow-sm" style={{ height: '50px' }}>
+        <Container fluid className="p-0" style={{ height: 'calc(100vh - 0px)', overflow: 'hidden', background: '#f8f9fa' }}>
+            {/* <div className="d-flex justify-content-between align-items-center p-2 bg-white border-bottom shadow-sm" style={{ height: '50px' }}>
                 <div className="d-flex align-items-center">
                     <Button variant="outline-secondary" size="sm" className="me-3" onClick={() => navigate(-1)}>
                         <i className="bi bi-arrow-left"></i> Back
                     </Button>
                     <h5 className="mb-0">{page.name} <span className="text-muted small">(Preview)</span></h5>
                 </div>
-            </div>
+            </div> */}
 
             <div style={{ width: '100%', height: 'calc(100% - 50px)', overflow: 'hidden' }}>
                 <GraphicViewer

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container, Button, Navbar, Spinner, Form, InputGroup, Row, Col } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
+import { BsArrowLeft, BsArrowCounterclockwise, BsArrowClockwise, BsSave, BsGrid, BsDash, BsPlus } from 'react-icons/bs';
 import api from '../services/api';
 import Toolbox from '../components/Toolbox';
 import PropertiesPanel from '../components/PropertiesPanel';
@@ -12,7 +13,6 @@ const Editor = () => {
     const { pageId } = useParams();
     const navigate = useNavigate();
 
-    // State
     // State
     const [page, setPage] = useState(null);
     const [elements, setElements] = useState([]);
@@ -202,6 +202,43 @@ const Editor = () => {
         }
     };
 
+    const moveSelectedElement = (direction) => {
+        if (!selectedId) return;
+        const index = elements.findIndex(el => el.id === selectedId);
+        if (index === -1) return;
+
+        const newElements = [...elements];
+        const element = newElements.splice(index, 1)[0];
+
+        switch (direction) {
+            case 'front':
+                newElements.push(element);
+                break;
+            case 'back':
+                newElements.unshift(element);
+                break;
+            case 'forward':
+                if (index < elements.length - 1) {
+                    newElements.splice(index + 1, 0, element);
+                } else {
+                    newElements.push(element);
+                }
+                break;
+            case 'backward':
+                if (index > 0) {
+                    newElements.splice(index - 1, 0, element);
+                } else {
+                    newElements.unshift(element);
+                }
+                break;
+            default:
+                break;
+        }
+
+        updateElements(newElements);
+        addToast('Moved', `Element moved ${direction}.`, 'info');
+    };
+
     // Keyboard Shortcuts
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -310,7 +347,7 @@ const Editor = () => {
             <div className="bg-white border-bottom px-3 py-2 d-flex justify-content-between align-items-center shadow-sm" style={{ zIndex: 10 }}>
                 <div className="d-flex align-items-center">
                     <Button variant="outline-secondary" size="sm" onClick={() => navigate('/')} className="me-3 border-0">
-                        <i className="bi bi-arrow-left"></i>
+                        <BsArrowLeft />
                     </Button>
                     <div>
                         <div className="fw-bold small text-uppercase text-muted">Page Editor</div>
@@ -328,7 +365,7 @@ const Editor = () => {
                             title="Undo (Ctrl+Z)"
                             className="me-1"
                         >
-                            <i className="bi bi-arrow-counterclockwise"></i>
+                            <BsArrowCounterclockwise />
                         </Button>
                         <Button
                             variant="light"
@@ -337,7 +374,7 @@ const Editor = () => {
                             disabled={historyIndex >= history.length - 1}
                             title="Redo (Ctrl+Y)"
                         >
-                            <i className="bi bi-arrow-clockwise"></i>
+                            <BsArrowClockwise />
                         </Button>
                     </div>
                     <Form.Check
@@ -356,7 +393,7 @@ const Editor = () => {
                         disabled={saving}
                         className="me-3"
                     >
-                        {saving ? <><Spinner animation="border" size="sm" /> Saving...</> : <><i className="bi bi-save"></i> Save</>}
+                        {saving ? <><Spinner animation="border" size="sm" /> Saving...</> : <><BsSave className="me-1" /> Save</>}
                     </Button>
 
                     <div className="border-start me-2" style={{ height: '20px' }}></div>
@@ -377,14 +414,14 @@ const Editor = () => {
                     </InputGroup>
 
                     <Button variant={showGrid ? "secondary" : "outline-secondary"} size="sm" onClick={() => setShowGrid(!showGrid)} title="Toggle Grid" className="ms-2">
-                        <i className="bi bi-grid-3x3"></i>
+                        <BsGrid />
                     </Button>
                     <Button variant="outline-secondary" size="sm" onClick={() => setZoom(z => Math.max(0.1, z - 0.1))} title="Zoom Out">
-                        <i className="bi bi-dash"></i>
+                        <BsDash />
                     </Button>
                     <span className="small text-muted" style={{ minWidth: '40px', textAlign: 'center' }}>{Math.round(zoom * 100)}%</span>
                     <Button variant="outline-secondary" size="sm" onClick={() => setZoom(z => Math.min(3, z + 0.1))} title="Zoom In">
-                        <i className="bi bi-plus"></i>
+                        <BsPlus />
                     </Button>
                 </div>
             </div>
@@ -427,6 +464,10 @@ const Editor = () => {
                                 element={selectedElement}
                                 onChange={handleElementChange}
                                 onDelete={handleDelete}
+                                onMoveToFront={() => moveSelectedElement('front')}
+                                onMoveToBack={() => moveSelectedElement('back')}
+                                onMoveForward={() => moveSelectedElement('forward')}
+                                onMoveBackward={() => moveSelectedElement('backward')}
                             />
                         ) : (
                             <div className="p-3">

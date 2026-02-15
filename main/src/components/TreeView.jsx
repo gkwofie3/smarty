@@ -20,6 +20,8 @@ const TreeNode = ({ node, level, onSelect, selectedId }) => {
             case 'register': return 'fa fa-microchip text-primary fa-lg';
             case 'group': return 'fa fa-cubes text-info fa-lg';
             case 'point': return 'fa fa-circle text-success fa-lg';
+            case 'module': return 'fa fa-folder text-warning fa-lg';
+            case 'page': return 'fa fa-file-code text-info fa-lg';
             default: return 'fa fa-folder text-warning fa-lg';
         }
     };

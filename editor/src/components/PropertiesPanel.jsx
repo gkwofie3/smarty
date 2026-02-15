@@ -1,15 +1,65 @@
 import React from 'react';
 import { Form, Button, InputGroup, Row, Col, Spinner, Modal, Toast, ToastContainer } from 'react-bootstrap';
-import { BiTrash, BiUpload, BiChevronUp, BiChevronDown, BiEdit } from 'react-icons/bi';
+import { BiTrash, BiUpload, BiChevronUp, BiChevronDown, BiEdit, BiArrowToTop, BiArrowToBottom, BiSearch } from 'react-icons/bi';
 import api from '../services/api';
 import { ICON_LIST } from '../constants/icon_lists';
 import IconPicker from './IconPicker';
 import { GOOGLE_FONTS } from '../constants/fonts';
 import { loadGoogleFont } from '../utils/FontLoader';
+import { HexAlphaColorPicker } from 'react-colorful';
 
 import { ELEMENT_SCHEMA } from '../constants/schema';
 
-const PropertiesPanel = ({ element, onChange, onDelete }) => {
+const AlphaColorInput = ({ value, onChange, title }) => {
+    const [show, setShow] = React.useState(false);
+    const popoverRef = React.useRef(null);
+
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (popoverRef.current && !popoverRef.current.contains(event.target)) {
+                setShow(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    return (
+        <div className="position-relative d-flex align-items-center gap-2">
+            <div
+                onClick={() => setShow(!show)}
+                style={{
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '4px',
+                    backgroundColor: value || '#000000',
+                    border: '1px solid #ced4da',
+                    cursor: 'pointer',
+                    flexShrink: 0
+                }}
+                title={title || 'Select Color'}
+            />
+            <Form.Control
+                type="text"
+                size="sm"
+                value={value || ''}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder="#RRGGBBAA"
+            />
+            {show && (
+                <div
+                    ref={popoverRef}
+                    className="position-absolute shadow rounded bg-white p-2"
+                    style={{ zIndex: 1000, top: '35px', left: 0 }}
+                >
+                    <HexAlphaColorPicker color={value || '#000000'} onChange={onChange} />
+                </div>
+            )}
+        </div>
+    );
+};
+
+const PropertiesPanel = ({ element, onChange, onDelete, onMoveForward, onMoveBackward, onMoveToFront, onMoveToBack }) => {
     const [uploading, setUploading] = React.useState(false);
     const [showIconPicker, setShowIconPicker] = React.useState(false);
     const [pages, setPages] = React.useState([]);
@@ -208,8 +258,7 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                         style={{ cursor: 'pointer' }}
                     />
                     <Button variant="outline-secondary" size="sm" onClick={() => setShowIconPicker(true)}>
-                        <bi-search />
-                        ...
+                        <BiSearch />
                     </Button>
                 </div>
             );
@@ -460,8 +509,30 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
         const isColor = prop.includes('color');
 
         // Strict Number Check (avoiding 'text' matching 'x' or similar)
-        const numberKeywords = ['width', 'height', 'radius', 'opacity', 'rotation', 'angle', 'sides', 'z_index', 'size', 'stroke', 'border', 'thickness', 'min_', 'max_', 'mid_', 'current_value', 'divisions'];
+        const numberKeywords = ['width', 'height', 'radius', 'rotation', 'angle', 'sides', 'z_index', 'size', 'stroke', 'border', 'thickness', 'min_', 'max_', 'mid_', 'current_value', 'divisions'];
         const isNumber = (numberKeywords.some(k => prop.includes(k)) || prop === 'x_position' || prop === 'y_position') && !prop.includes('text') && !prop.includes('content') && prop !== 'data_binding_source' && prop !== 'inner_radius';
+
+        if (prop === 'opacity') {
+            return (
+                <div className="d-flex align-items-center gap-2">
+                    <Form.Range
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        value={element[prop] !== undefined ? element[prop] : 1}
+                        onChange={(e) => handleChange(prop, parseFloat(e.target.value))}
+                        className="flex-grow-1"
+                    />
+                    <Form.Control
+                        type="number"
+                        size="sm"
+                        style={{ width: '60px' }}
+                        value={element[prop] !== undefined ? element[prop] : 1}
+                        onChange={(e) => handleChange(prop, parseFloat(e.target.value))}
+                    />
+                </div>
+            );
+        }
 
         const isBoolean = ['visible', 'checked', 'enabled', 'show_', 'is_', 'toggle', 'autoplay', 'loop', 'muted', 'controls'].some(k => prop.includes(k)) && !prop.includes('condition');
 
@@ -491,45 +562,12 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                 );
             }
         }
-        if (prop.includes('color') || prop.includes('fill') || prop.includes('stroke') || prop.includes('background')) {
+        if (prop.includes('color') || prop.includes('fill') || prop.includes('stroke') || prop.includes('background') || isColor) {
             return (
-                <div className="d-flex align-items-center">
-                    <Form.Control
-                        type="color"
-                        size="sm"
-                        value={element[prop] || '#000000'}
-                        onChange={(e) => handleChange(prop, e.target.value)}
-                        className="me-2 form-control-color"
-                        style={{ width: '40px' }}
-                    />
-                    <Form.Control
-                        type="text"
-                        size="sm"
-                        value={element[prop] || ''}
-                        onChange={(e) => handleChange(prop, e.target.value)}
-                        placeholder="#RRGGBB"
-                    />
-                </div>
-            );
-        }
-
-        if (isColor) {
-            return (
-                <div className="d-flex gap-2">
-                    <Form.Control
-                        type="color"
-                        value={element[prop] || '#000000'}
-                        onChange={(e) => handleChange(prop, e.target.value)}
-                        className="p-1"
-                        style={{ width: '40px', height: '31px' }}
-                    />
-                    <Form.Control
-                        type="text"
-                        size="sm"
-                        value={element[prop] || '#000000'}
-                        onChange={(e) => handleChange(prop, e.target.value)}
-                    />
-                </div>
+                <AlphaColorInput
+                    value={element[prop]}
+                    onChange={(color) => handleChange(prop, color)}
+                />
             );
         }
 
@@ -582,9 +620,23 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
         <div className="p-3">
             <div className="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
                 <h6 className="mb-0 text-truncate" title={element.name}>{element.name}</h6>
-                <Button variant="outline-danger" size="sm" onClick={onDelete} title="Delete Element">
-                    <BiTrash />
-                </Button>
+                <div className="d-flex gap-1">
+                    <Button variant="outline-secondary" size="sm" onClick={onMoveToFront} title="Bring to Front">
+                        <BiArrowToTop />
+                    </Button>
+                    <Button variant="outline-secondary" size="sm" onClick={onMoveForward} title="Move Forward">
+                        <BiChevronUp />
+                    </Button>
+                    <Button variant="outline-secondary" size="sm" onClick={onMoveToBack} title="Send to Back">
+                        <BiArrowToBottom />
+                    </Button>
+                    <Button variant="outline-secondary" size="sm" onClick={onMoveBackward} title="Move Backward">
+                        <BiChevronDown />
+                    </Button>
+                    <Button variant="outline-danger" size="sm" onClick={onDelete} title="Delete Element">
+                        <BiTrash />
+                    </Button>
+                </div>
             </div>
 
             <Form>
@@ -695,32 +747,24 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                             <Row className="g-1">
                                 <Col xs={6}>
                                     <Form.Label className="small mb-0">Colors</Form.Label>
-                                    <div className="d-flex">
-                                        <Form.Control
-                                            type="color"
-                                            size="sm"
-                                            title="Main Color (Shape Fill, Text Color, Icon, Button Bg)"
-                                            value={rule.color || '#000000'}
-                                            onChange={(e) => {
+                                    <div className="d-flex gap-1">
+                                        <AlphaColorInput
+                                            value={rule.color}
+                                            onChange={(color) => {
                                                 const newRules = [...(element.convert_values || [])];
-                                                newRules[idx] = { ...rule, color: e.target.value };
+                                                newRules[idx] = { ...rule, color: color };
                                                 handleChange('convert_values', newRules);
                                             }}
-                                            className="p-0 border-0"
-                                            style={{ width: '24px', height: '24px' }}
+                                            title="Main Color"
                                         />
-                                        <Form.Control
-                                            type="color"
-                                            size="sm"
-                                            title="Secondary Color (Shape Border, Button Text)"
-                                            value={rule.bg_color || '#ffffff'}
-                                            onChange={(e) => {
+                                        <AlphaColorInput
+                                            value={rule.bg_color}
+                                            onChange={(color) => {
                                                 const newRules = [...(element.convert_values || [])];
-                                                newRules[idx] = { ...rule, bg_color: e.target.value };
+                                                newRules[idx] = { ...rule, bg_color: color };
                                                 handleChange('convert_values', newRules);
                                             }}
-                                            className="p-0 border-0 ms-1"
-                                            style={{ width: '24px', height: '24px' }}
+                                            title="Secondary Color"
                                         />
                                     </div>
                                 </Col>
@@ -742,33 +786,25 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                             {rule.blink && (
                                 <Row className="g-1 mt-1">
                                     <Col xs={12}>
-                                        <div className="d-flex align-items-center">
-                                            <span className="small me-2">Blink Cols:</span>
-                                            <Form.Control
-                                                type="color"
-                                                size="sm"
-                                                title="Blink Text/Stroke Color"
-                                                value={rule.blink_color || '#ff0000'}
-                                                onChange={(e) => {
+                                        <div className="d-flex align-items-center gap-1">
+                                            <span className="small me-1">Blink Cols:</span>
+                                            <AlphaColorInput
+                                                value={rule.blink_color}
+                                                onChange={(color) => {
                                                     const newRules = [...(element.convert_values || [])];
-                                                    newRules[idx] = { ...rule, blink_color: e.target.value };
+                                                    newRules[idx] = { ...rule, blink_color: color };
                                                     handleChange('convert_values', newRules);
                                                 }}
-                                                className="p-0 border-0"
-                                                style={{ width: '20px', height: '20px' }}
+                                                title="Blink Text"
                                             />
-                                            <Form.Control
-                                                type="color"
-                                                size="sm"
-                                                title="Blink Background Color"
-                                                value={rule.blink_bg_color || '#ffff00'}
-                                                onChange={(e) => {
+                                            <AlphaColorInput
+                                                value={rule.blink_bg_color}
+                                                onChange={(color) => {
                                                     const newRules = [...(element.convert_values || [])];
-                                                    newRules[idx] = { ...rule, blink_bg_color: e.target.value };
+                                                    newRules[idx] = { ...rule, blink_bg_color: color };
                                                     handleChange('convert_values', newRules);
                                                 }}
-                                                className="p-0 border-0 ms-1"
-                                                style={{ width: '20px', height: '20px' }}
+                                                title="Blink Bg"
                                             />
                                         </div>
                                     </Col>
@@ -1073,17 +1109,14 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                                         </Col>
                                         <Col xs={4}>
                                             <Form.Label className="small mb-1">Color</Form.Label>
-                                            <Form.Control
-                                                type="color"
-                                                size="sm"
-                                                value={range.color || '#000000'}
-                                                onChange={(e) => {
+                                            <AlphaColorInput
+                                                value={range.color}
+                                                onChange={(color) => {
                                                     const newList = [...(element.ranges || [])];
-                                                    newList[idx] = { ...range, color: e.target.value };
+                                                    newList[idx] = { ...range, color: color };
                                                     handleChange('ranges', newList);
                                                 }}
-                                                className="w-100 p-0 border-0"
-                                                style={{ height: '31px' }}
+                                                title="Range Color"
                                             />
                                         </Col>
                                     </Row>
@@ -1154,11 +1187,10 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                             <Col md={3}>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Bar Color</Form.Label>
-                                    <Form.Control
-                                        type="color"
-                                        value={editingBarData.color || '#3498db'}
-                                        onChange={(e) => setEditingBarData({ ...editingBarData, color: e.target.value })}
-                                        style={{ height: '38px' }}
+                                    <AlphaColorInput
+                                        value={editingBarData.color}
+                                        onChange={(color) => setEditingBarData({ ...editingBarData, color: color })}
+                                        title="Bar Color"
                                     />
                                 </Form.Group>
                             </Col>
@@ -1218,21 +1250,11 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                             <Col md={12}>
                                 <Form.Group className="mb-2">
                                     <Form.Label className="small">Text Color</Form.Label>
-                                    <div className="d-flex align-items-center">
-                                        <Form.Control
-                                            type="color"
-                                            value={editingBarData.label_font_color || '#000000'}
-                                            onChange={(e) => setEditingBarData({ ...editingBarData, label_font_color: e.target.value })}
-                                            style={{ width: '40px', height: '31px', padding: 0, border: 'none' }}
-                                            className="me-2"
-                                        />
-                                        <Form.Control
-                                            type="text"
-                                            size="sm"
-                                            value={editingBarData.label_font_color || '#000000'}
-                                            onChange={(e) => setEditingBarData({ ...editingBarData, label_font_color: e.target.value })}
-                                        />
-                                    </div>
+                                    <AlphaColorInput
+                                        value={editingBarData.label_font_color}
+                                        onChange={(color) => setEditingBarData({ ...editingBarData, label_font_color: color })}
+                                        title="Text Color"
+                                    />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -1297,13 +1319,10 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                     </Form.Group>
                     <Form.Group className="mb-2">
                         <Form.Label className="small">Color</Form.Label>
-                        <Form.Control
-                            type="color"
-                            size="sm"
-                            className="w-100 p-0"
-                            value={editingSliceData.color || '#e74c3c'}
-                            onChange={(e) => setEditingSliceData({ ...editingSliceData, color: e.target.value })}
-                            style={{ height: 30 }}
+                        <AlphaColorInput
+                            value={editingSliceData.color}
+                            onChange={(color) => setEditingSliceData({ ...editingSliceData, color: color })}
+                            title="Slice Color"
                         />
                     </Form.Group>
 
@@ -1343,13 +1362,9 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
                             </Form.Select>
                         </Col>
                         <Col xs={4}>
-                            <Form.Control
-                                type="color"
-                                size="sm"
-                                className="w-100 p-0"
-                                value={editingSliceData.label_color || '#ffffff'}
-                                onChange={(e) => setEditingSliceData({ ...editingSliceData, label_color: e.target.value })}
-                                style={{ height: 31 }}
+                            <AlphaColorInput
+                                value={editingSliceData.label_color}
+                                onChange={(color) => setEditingSliceData({ ...editingSliceData, label_color: color })}
                                 title="Label Color"
                             />
                         </Col>
@@ -1406,11 +1421,10 @@ const PropertiesPanel = ({ element, onChange, onDelete }) => {
 
                         <Form.Group className="mb-3">
                             <Form.Label>Point Color</Form.Label>
-                            <Form.Control
-                                type="color"
-                                value={editingPointData.color || '#3498db'}
-                                onChange={(e) => setEditingPointData({ ...editingPointData, color: e.target.value })}
-                                style={{ height: '38px' }}
+                            <AlphaColorInput
+                                value={editingPointData.color}
+                                onChange={(color) => setEditingPointData({ ...editingPointData, color: color })}
+                                title="Point Color"
                             />
                         </Form.Group>
 

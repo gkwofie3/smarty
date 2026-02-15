@@ -6,7 +6,7 @@ const MainLayout = () => {
     return (
         <div className="app app-header-fixed" id="app">
             <Header />
-            <div className="app-content" id="content" style={{ marginLeft: 0, paddingTop: '60px', height: '100vh', paddingBottom: 0 }}>
+            <div className="app-content" id="content" style={{ marginLeft: 0, paddingTop: '50px', height: '100vh', paddingBottom: 0 }}>
                 <Outlet />
             </div>
         </div>

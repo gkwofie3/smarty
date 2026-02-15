@@ -16,7 +16,7 @@ const MainLayout = () => {
             <Header />
             <Sidebar />
 
-            <div id="content" className="app-content">
+            <div id="content" className="app-content bg-light">
                 <Outlet />
             </div>
 

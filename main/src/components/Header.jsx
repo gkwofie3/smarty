@@ -1,90 +1,63 @@
 import React from 'react';
-
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaSignOutAlt, FaArrowLeft, FaArrowRight, FaSyncAlt } from 'react-icons/fa';
 
 const Header = () => {
+    const navigate = useNavigate();
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : { username: 'User' };
 
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/login');
+    };
+
+    const goBack = () => window.history.back();
+    const goForward = () => window.history.forward();
+    const refresh = () => window.location.reload();
+
     return (
-        <div className="app-header" id="header">
-            <div className="navbar-header">
-                <a className="navbar-brand" href="/">
-                    <span className="logo"> <img src="/assets/img/logo/logo.png" alt="" /></span>
-                    <b className="me-3px">Smarty</b> Manager
-                </a>
-                <button
-                    className="navbar-mobile-toggler"
-                    type="button"
-                    data-toggle="app-sidebar-mobile"
-                >
-                    <span className="icon-bar"></span>
-                    <span className="icon-bar"></span>
-                    <span className="icon-bar"></span>
-                </button>
+        <div className="app-header" id="header" style={{ height: '50px', display: 'flex', alignItems: 'center', padding: '0 20px', background: '#fff', borderBottom: '1px solid #e0e0e0' }}>
+            <div className="navbar-header" style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                <Link className="navbar-brand" to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+                    <span className="logo"> <img src="/logo.png" alt="" style={{ width: '40px', height: '40px', marginRight: '10px' }} /></span>
+                    <b className="me-1" style={{ fontWeight: 'bold' }}>Smarty</b> Manager
+                </Link>
             </div>
 
-            <div className="navbar-nav">
-                <div className="navbar-item navbar-form">
-                    <form action="" method="POST" name="search">
-                        <div className="form-group">
-                            <input
-                                className="form-control"
-                                placeholder="Enter keyword"
-                                type="text"
-                            />
-                            <button className="btn btn-search" type="submit">
-                                <i className="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+            <div className="d-flex gap-2 align-items-center">
+                <button className="btn btn-outline-primary btn-sm d-flex align-items-center" onClick={goBack} title="Back">
+                    <FaArrowLeft />
+                </button>
+                <button className="btn btn-outline-primary btn-sm d-flex align-items-center" onClick={goForward} title="Forward">
+                    <FaArrowRight />
+                </button>
+                <button className="btn btn-outline-success btn-sm d-flex align-items-center" onClick={refresh} title="Refresh">
+                    <FaSyncAlt />
+                </button>
 
-                <div className="navbar-item dropdown">
+                <div className="navbar-item navbar-user dropdown ms-3">
                     <a
-                        className="navbar-link dropdown-toggle icon"
+                        className="navbar-link dropdown-toggle d-flex align-items-center text-decoration-none text-dark"
                         data-bs-toggle="dropdown"
                         href="#"
                     >
-                        <i className="fa fa-bell"></i>
-                        <span className="badge">5</span>
-                    </a>
-                    <div className="dropdown-menu media-list dropdown-menu-end">
-                        <div className="dropdown-header">NOTIFICATIONS (5)</div>
-                        {/* ... truncated for brevity, can add back later or keep simple ... */}
-                        <div className="dropdown-footer text-center">
-                            <a className="text-decoration-none" href="#">
-                                View more
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="navbar-item navbar-user dropdown">
-                    <a
-                        className="navbar-link dropdown-toggle d-flex align-items-center"
-                        data-bs-toggle="dropdown"
-                        href="#"
-                    >
-                        <img alt="" src="/assets/img/user/user-13.jpg" />
+                        <img alt="" src="/assets/img/user/user-13.jpg" style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '8px' }} />
                         <span>
                             <span className="d-none d-md-inline fw-bold">
                                 {user.username || user.email || 'User'}
                             </span>
-                            <b className="caret"></b>
+                            <b className="caret ms-1"></b>
                         </span>
                     </a>
-                    <div className="dropdown-menu dropdown-menu-end me-1">
-                        <a className="dropdown-item" href="#">
-                            Edit Profile
-                        </a>
+                    <div className="dropdown-menu dropdown-menu-end">
                         <Link className="dropdown-item" to="/users/profile">
                             System Settings
                         </Link>
                         <div className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="/login" onClick={() => localStorage.clear()}>
-                            Log Out
-                        </a>
+                        <button className="dropdown-item text-danger" onClick={handleLogout}>
+                            <FaSignOutAlt className="me-2" /> Log Out
+                        </button>
                     </div>
                 </div>
             </div>

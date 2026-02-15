@@ -1,6 +1,7 @@
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
 import * as BiIcons from 'react-icons/bi';
+import * as BsIcons from 'react-icons/bs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import React from 'react';
 
@@ -16,7 +17,7 @@ const toPascalCase = (str) => {
 const ICON_SETS = {
     'Font Awesome': { prefix: 'Fa', icons: FaIcons },
     'Material Icons': { prefix: 'Md', icons: MdIcons },
-    'Bootstrap Icons': { prefix: 'Bi', icons: BiIcons }
+    'Bootstrap Icons': { prefix: 'Bs', icons: BsIcons }
 };
 
 export const getIconComponent = (iconSet, iconName) => {

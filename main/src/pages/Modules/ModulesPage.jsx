@@ -1,183 +1,330 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Modal, Form } from 'react-bootstrap';
-import { getModules, createModule, updateModule, deleteModule, duplicateModule } from '../../services/moduleService';
+import { Container, Row, Col, Card, Button, Modal, Form, Tab, Tabs, InputGroup } from 'react-bootstrap';
+import { getModules, createModule, updateModule, deleteModule, duplicateModule, getPages, createPage, updatePage, deletePage, duplicatePage } from '../../services/moduleService';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
-import DuplicateModal from '../../components/DuplicateModal'; // Assuming Header component exists
+import TreeView from '../../components/TreeView';
+import DuplicateModal from '../../components/DuplicateModal';
+import ConfirmationModal from '../../components/ConfirmationModal';
+import ToastNotification from '../../components/ToastNotification';
+import { useForm, Controller } from 'react-hook-form';
+import Select from 'react-select';
 
 const ModulesPage = () => {
-    const [modules, setModules] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [editMode, setEditMode] = useState(false);
-    const [currentModule, setCurrentModule] = useState({ name: '', description: '' });
+    const [treeData, setTreeData] = useState([]);
+    const [selectedNode, setSelectedNode] = useState(null); // { type: 'module'|'page', ...data }
+    const [allModules, setAllModules] = useState([]); // For page parent selection
 
-    // Duplicate State
+    // UI State
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [duplicateTarget, setDuplicateTarget] = useState(null);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const [toast, setToast] = useState({ show: false, type: '', message: '' });
 
     const navigate = useNavigate();
+    const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm();
+
+    const showToast = (type, message) => {
+        setToast({ show: true, type, message });
+    };
 
     useEffect(() => {
-        loadModules();
+        loadData();
     }, []);
 
-    const loadModules = async () => {
+    const loadData = async () => {
         try {
             const response = await getModules();
-            setModules(response.data);
+            const modulesList = response.data;
+            setAllModules(modulesList.map(m => ({ value: m.id, label: m.name })));
+
+            const tData = buildTreeData(modulesList);
+            setTreeData(tData);
         } catch (error) {
             console.error('Error fetching modules:', error);
+            showToast('danger', 'Failed to load modules');
         }
     };
 
-    const handleSave = async () => {
+    const buildTreeData = (modules) => {
+        return modules.map(mod => ({
+            id: `module_${mod.id}`,
+            text: mod.name,
+            type: 'module',
+            data: { type: 'module', ...mod },
+            children: mod.pages ? mod.pages.map(page => ({
+                id: `page_${page.id}`,
+                text: page.name,
+                type: 'page',
+                data: { type: 'page', ...page }
+            })) : []
+        }));
+    };
+
+    const handleTreeSelect = (node) => {
+        const item = node.data;
+        setSelectedNode(item);
+
+        reset();
+        Object.keys(item).forEach(key => {
+            setValue(key, item[key]);
+        });
+
+        if (item.type === 'page') {
+            setValue('module', item.module); // Ensure FK is set
+        }
+    };
+
+    const handleCreateNewModule = () => {
+        setSelectedNode({ type: 'module' });
+        reset({ name: '', slug: '', description: '' });
+    };
+
+    const handleCreateNewPage = () => {
+        const parentModuleId = selectedNode?.type === 'module' ? selectedNode.id : selectedNode?.module;
+        setSelectedNode({ type: 'page', module: parentModuleId });
+        reset({
+            name: '', slug: '', description: '',
+            module: parentModuleId, page_type: 'CUSTOM', is_dashboard: false
+        });
+    };
+
+    const confirmDelete = () => {
+        if (!selectedNode?.id) return;
+        setItemToDelete(selectedNode);
+        setShowConfirmModal(true);
+    };
+
+    const handleDelete = async () => {
+        if (!itemToDelete) return;
         try {
-            if (editMode && currentModule.id) {
-                await updateModule(currentModule.id, currentModule);
+            if (itemToDelete.type === 'module') {
+                await deleteModule(itemToDelete.id);
             } else {
-                await createModule(currentModule);
+                await deletePage(itemToDelete.id);
             }
-            setShowModal(false);
-            loadModules();
+            loadData();
+            setSelectedNode(null);
+            showToast('success', 'Deleted successfully');
         } catch (error) {
-            console.error('Error saving module:', error);
+            showToast('danger', 'Failed to delete');
+        } finally {
+            setShowConfirmModal(false);
+            setItemToDelete(null);
         }
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this module?')) {
-            try {
-                await deleteModule(id);
-                loadModules();
-            } catch (error) {
-                console.error('Error deleting module:', error);
-            }
-        }
-    };
-
-    const handleEdit = (module) => {
-        setCurrentModule(module);
-        setEditMode(true);
-        setShowModal(true);
-    };
-
-    const handleCreate = () => {
-        setCurrentModule({ name: '', description: '' });
-        setEditMode(false);
-        setShowModal(true);
-    };
-
-    const handleOpenModule = (id) => {
-        navigate(`/modules/${id}/pages`);
-    };
-
-    const handleDuplicate = (module) => {
-        setDuplicateTarget(module);
+    const handleDuplicate = () => {
+        if (!selectedNode?.id) return;
+        setDuplicateTarget(selectedNode);
         setShowDuplicateModal(true);
     };
 
     const onDuplicateConfirm = async (count, includeChildren, names) => {
         try {
-            await duplicateModule(duplicateTarget.id, { count, include_children: includeChildren, names });
+            if (duplicateTarget.type === 'module') {
+                await duplicateModule(duplicateTarget.id, { count, include_children: includeChildren, names });
+            } else {
+                await duplicatePage(duplicateTarget.id, { count, include_children: false, names });
+            }
+            loadData();
             setShowDuplicateModal(false);
-            loadModules();
+            showToast('success', 'Duplicated successfully');
         } catch (error) {
-            console.error('Error duplicating module:', error);
-            alert('Failed to duplicate module: ' + (error.response?.data?.error || error.message));
+            showToast('danger', 'Duplication failed');
         }
     };
 
+    const onSubmit = async (data) => {
+        try {
+            if (selectedNode.type === 'module') {
+                if (selectedNode.id) {
+                    await updateModule(selectedNode.id, data);
+                } else {
+                    await createModule(data);
+                }
+            } else {
+                if (selectedNode.id) {
+                    await updatePage(selectedNode.id, data);
+                } else {
+                    await createPage(data);
+                }
+            }
+            loadData();
+            showToast('success', 'Saved successfully');
+        } catch (error) {
+            showToast('danger', 'Failed to save: ' + (error.response?.data?.error || error.message));
+        }
+    };
+
+    const handleOpenEditor = (pageId) => {
+        const editorUrl = `http://localhost:5002/editor/${pageId}`;
+        window.open(editorUrl, '_blank');
+    };
+
+    const handleOpenPreview = (pageId) => {
+        const previewUrl = `http://localhost:5004/view/${pageId}`;
+        window.open(previewUrl, '_blank');
+    };
+
     return (
-        <div className="d-flex" id="wrapper">
-            {/* Sidebar would go here */}
-            <div id="page-content-wrapper" className="w-100">
-                <Header toggleSidebar={() => { }} />
-                <Container fluid className="p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h2>System Modules</h2>
-                        <Button variant="primary" onClick={handleCreate}>
-                            <i className="bi bi-plus-lg me-2"></i>New Module
+        <div className="d-flex flex-column h-100">
+            <Header toggleSidebar={() => { }} />
+
+            <ToastNotification
+                show={toast.show}
+                type={toast.type}
+                message={toast.message}
+                onClose={() => setToast({ ...toast, show: false })}
+            />
+
+            <ConfirmationModal
+                show={showConfirmModal}
+                onHide={() => setShowConfirmModal(false)}
+                onConfirm={handleDelete}
+                title="Confirm Deletion"
+                message={`Are you sure you want to delete ${itemToDelete?.name}?`}
+            />
+
+            <Container fluid className="p-3 flex-grow-1 overflow-hidden d-flex flex-column">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h2 className="m-0">Modules & Pages</h2>
+                    <div>
+                        <Button variant="primary" size="sm" className="me-2" onClick={handleCreateNewModule}>
+                            <i className="bi bi-plus-lg me-1"></i> New Module
+                        </Button>
+                        <Button variant="info" size="sm" onClick={handleCreateNewPage} disabled={!selectedNode}>
+                            <i className="bi bi-file-earmark-plus me-1"></i> New Page
                         </Button>
                     </div>
+                </div>
 
-                    <Row>
-                        {modules.map((module) => (
-                            <Col md={4} lg={3} key={module.id} className="mb-4">
-                                <Card className="h-100 shadow-sm module-card">
-                                    <Card.Body className="d-flex flex-column">
-                                        <Card.Title className="d-flex justify-content-between align-items-start">
-                                            <span>{module.name}</span>
-                                            <div className="dropdown">
-                                                <button className="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
-                                                    <i className="bi bi-three-dots-vertical"></i>
-                                                </button>
-                                                <ul className="dropdown-menu dropdown-menu-end">
-                                                    <li><button className="dropdown-item" onClick={() => handleEdit(module)}>Edit</button></li>
-                                                    <li><button className="dropdown-item" onClick={() => handleDuplicate(module)}>Duplicate</button></li>
-                                                    <li><button className="dropdown-item text-danger" onClick={() => handleDelete(module.id)}>Delete</button></li>
-                                                </ul>
-                                            </div>
-                                        </Card.Title>
-                                        <Card.Text className="text-muted small flex-grow-1">
-                                            {module.description || 'No description provided.'}
-                                        </Card.Text>
-                                        <div className="mt-3">
-                                            <Button variant="outline-primary" className="w-100" onClick={() => handleOpenModule(module.id)}>
-                                                Open Module
-                                            </Button>
-                                        </div>
-                                    </Card.Body>
-                                    <Card.Footer className="bg-transparent border-0 text-muted small">
-                                        {module.pages ? module.pages.length : 0} Pages
-                                    </Card.Footer>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                </Container>
+                <Row className="flex-grow-1 overflow-hidden g-0 border rounded">
+                    <Col md={3} className="border-end overflow-auto h-100 bg-white p-2">
+                        <TreeView data={treeData} onSelect={handleTreeSelect} />
+                    </Col>
 
-                <Modal show={showModal} onHide={() => setShowModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{editMode ? 'Edit Module' : 'Create Module'}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={currentModule.name}
-                                    onChange={(e) => setCurrentModule({ ...currentModule, name: e.target.value })}
-                                    placeholder="Enter module name"
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Description</Form.Label>
-                                <Form.Control
-                                    as="textarea"
-                                    rows={3}
-                                    value={currentModule.description}
-                                    onChange={(e) => setCurrentModule({ ...currentModule, description: e.target.value })}
-                                    placeholder="Enter description"
-                                />
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-                        <Button variant="primary" onClick={handleSave}>{editMode ? 'Save Changes' : 'Create Module'}</Button>
-                    </Modal.Footer>
-                </Modal>
+                    <Col md={9} className="overflow-auto h-100 p-3 bg-light">
+                        {selectedNode ? (
+                            <Form onSubmit={handleSubmit(onSubmit)}>
+                                <div className="d-flex justify-content-between align-items-center mb-4">
+                                    <h3>
+                                        {selectedNode.id ? `Edit ${selectedNode.type === 'module' ? 'Module' : 'Page'}` : `New ${selectedNode.type === 'module' ? 'Module' : 'Page'}`}
+                                    </h3>
+                                    <div>
+                                        {selectedNode.id && (
+                                            <>
+                                                {selectedNode.type === 'page' && (
+                                                    <div className="d-inline-block me-3">
+                                                        <Button variant="outline-primary" size="sm" className="me-2" onClick={() => handleOpenEditor(selectedNode.id)}>
+                                                            <i className="bi bi-pencil-square me-1"></i> Design
+                                                        </Button>
+                                                        <Button variant="outline-success" size="sm" onClick={() => handleOpenPreview(selectedNode.id)}>
+                                                            <i className="bi bi-eye me-1"></i> Preview
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                                <Button variant="outline-secondary" size="sm" className="me-2" onClick={handleDuplicate}>
+                                                    <i className="bi bi-layers me-1"></i> Duplicate
+                                                </Button>
+                                                <Button variant="outline-danger" size="sm" className="me-2" onClick={confirmDelete}>
+                                                    <i className="bi bi-trash me-1"></i> Delete
+                                                </Button>
+                                            </>
+                                        )}
+                                        <Button variant="primary" size="sm" type="submit">
+                                            <i className="bi bi-save me-1"></i> Save
+                                        </Button>
+                                    </div>
+                                </div>
 
-                <DuplicateModal
-                    show={showDuplicateModal}
-                    handleClose={() => setShowDuplicateModal(false)}
-                    handleDuplicate={onDuplicateConfirm}
-                    title={`Duplicate Module provided`}
-                    targetName={duplicateTarget?.name}
-                    type="module"
-                />
-            </div>
+                                <Row>
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Name</Form.Label>
+                                            <Form.Control {...register('name', { required: true })} isInvalid={!!errors.name} />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Slug</Form.Label>
+                                            <Form.Control {...register('slug')} placeholder="auto-generated if empty" />
+                                        </Form.Group>
+                                    </Col>
+
+                                    {selectedNode.type === 'page' && (
+                                        <>
+                                            <Col md={6}>
+                                                <Form.Group className="mb-3">
+                                                    <Form.Label>Parent Module</Form.Label>
+                                                    <Controller
+                                                        name="module"
+                                                        control={control}
+                                                        rules={{ required: true }}
+                                                        render={({ field }) => (
+                                                            <Select
+                                                                {...field}
+                                                                options={allModules}
+                                                                value={allModules.find(c => c.value === field.value)}
+                                                                onChange={val => field.onChange(val.value)}
+                                                                placeholder="Select Module"
+                                                            />
+                                                        )}
+                                                    />
+                                                </Form.Group>
+                                            </Col>
+                                            <Col md={6}>
+                                                <Form.Group className="mb-3">
+                                                    <Form.Label>Page Type</Form.Label>
+                                                    <Form.Select {...register('page_type')}>
+                                                        <option value="MAIN">Main</option>
+                                                        <option value="ALARMS">Alarms</option>
+                                                        <option value="MAP">Map</option>
+                                                        <option value="ANALYSIS">Analysis</option>
+                                                        <option value="REPORTS">Reports</option>
+                                                        <option value="CUSTOM">Custom</option>
+                                                    </Form.Select>
+                                                </Form.Group>
+                                            </Col>
+                                            <Col md={12}>
+                                                <Form.Group className="mb-3">
+                                                    <Form.Check
+                                                        type="checkbox"
+                                                        label="Set as Dashboard"
+                                                        {...register('is_dashboard')}
+                                                    />
+                                                </Form.Group>
+                                            </Col>
+                                        </>
+                                    )}
+
+                                    <Col md={12}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Description</Form.Label>
+                                            <Form.Control as="textarea" rows={3} {...register('description')} />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                            </Form>
+                        ) : (
+                            <div className="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+                                <i className="bi bi-diagram-3 mb-3" style={{ fontSize: '4rem', opacity: 0.3 }}></i>
+                                <h4>Select a Module or Page to view details</h4>
+                                <p>Use the tree on the left to navigate through your HMI pages.</p>
+                            </div>
+                        )}
+                    </Col>
+                </Row>
+            </Container>
+
+            <DuplicateModal
+                show={showDuplicateModal}
+                onHide={() => setShowDuplicateModal(false)}
+                onDuplicate={onDuplicateConfirm}
+                itemName={duplicateTarget?.name}
+                hasChildren={duplicateTarget?.type === 'module'}
+            />
         </div>
     );
 };

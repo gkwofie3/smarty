@@ -30,13 +30,13 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/view/:pageId" element={<PageView />} />
-          <Route path="/devices" element={<DeviceList />} />
+          {/* <Route path="/devices" element={<DeviceList />} />
           <Route path="/devices/:deviceId/registers" element={<RegisterList />} />
           <Route path="/point-groups" element={<PointGroupList />} />
           <Route path="/point-groups/:groupId/points" element={<PointList />} />
           <Route path="/programs/fbd" element={<FBDList />} />
-          <Route path="/programs/scripts" element={<ScriptList />} />
-          <Route path="/programs/bindings" element={<ProgramBindings />} />
+          <Route path="/programs/scripts" element={<ScriptList />} /> */}
+          {/* <Route path="/programs/bindings" element={<ProgramBindings />} /> */}
         </Route>
       </Route>
 

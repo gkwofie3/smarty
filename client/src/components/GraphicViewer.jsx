@@ -20,21 +20,30 @@ const GraphicViewer = ({ elements, width, height, onNavigate }) => {
 
         if (!pointer) return;
 
-        const mousePointTo = {
-            x: (pointer.x - stage.x()) / oldScale,
-            y: (pointer.y - stage.y()) / oldScale,
-        };
+        // If Ctrl key is pressed (or pinch gesture on touchpad), zoom
+        if (e.evt.ctrlKey) {
+            const mousePointTo = {
+                x: (pointer.x - stage.x()) / oldScale,
+                y: (pointer.y - stage.y()) / oldScale,
+            };
 
-        const scaleBy = 1.1;
-        const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+            const scaleBy = 1.1;
+            const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
 
-        if (newScale < 0.1 || newScale > 10) return;
+            if (newScale < 0.1 || newScale > 10) return;
 
-        setScale(newScale);
-        setPosition({
-            x: pointer.x - mousePointTo.x * newScale,
-            y: pointer.y - mousePointTo.y * newScale,
-        });
+            setScale(newScale);
+            setPosition({
+                x: pointer.x - mousePointTo.x * newScale,
+                y: pointer.y - mousePointTo.y * newScale,
+            });
+        } else {
+            // Otherwise, perform panning
+            setPosition(pos => ({
+                x: pos.x - e.evt.deltaX,
+                y: pos.y - e.evt.deltaY
+            }));
+        }
     };
 
     const handleZoomIn = () => setScale(s => Math.min(s * 1.2, 10));

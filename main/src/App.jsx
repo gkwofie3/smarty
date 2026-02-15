@@ -8,7 +8,6 @@ import Login from './pages/Auth/Login';
 import DevicesPage from './pages/Devices/DevicesPage';
 import IOGroupsPage from './pages/Devices/IOGroupsPage';
 import ModulesPage from './pages/Modules/ModulesPage';
-import ModuleDetailsPage from './pages/Modules/ModuleDetailsPage';
 import PageView from './pages/Preview/PageView';
 import FBDProgramsPage from './pages/Programs/FBDProgramsPage';
 import FBDViewerPage from './pages/Programs/FBDViewerPage';
@@ -38,7 +37,6 @@ function App() {
           <Route path="/devices" element={<DevicesPage />} />
           <Route path="/io-groups" element={<IOGroupsPage />} />
           <Route path="/modules" element={<ModulesPage />} />
-          <Route path="/modules/:moduleId/pages" element={<ModuleDetailsPage />} />
           <Route path="/view/:pageId" element={<PageView />} />
           <Route path="/program/fbd" element={<FBDProgramsPage />} />
           <Route path="/program/fbd/view/:id" element={<FBDViewerPage />} />

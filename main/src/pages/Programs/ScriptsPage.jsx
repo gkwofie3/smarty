@@ -173,7 +173,7 @@ const ScriptsPage = () => {
                                                 variant="outline-primary"
                                                 size="sm"
                                                 className="me-1 hover-elevate"
-                                                onClick={() => window.open(`/script/editor/${s.id}`, '_blank')}
+                                                onClick={() => window.open(`http://localhost:5005/editor/${s.id}`, '_blank')}
                                             >
                                                 <i className="fa fa-code"></i> Edit Code
                                             </Button>
@@ -232,7 +232,7 @@ const ScriptsPage = () => {
                                                 <p>Analyze code in editor to detect variables for binding.</p>
                                                 <Button
                                                     variant="primary"
-                                                    onClick={() => window.open(`/script/editor/${selectedScript.id}`, '_blank')}
+                                                    onClick={() => window.open(`http://localhost:5005/editor/${selectedScript.id}`, '_blank')}
                                                 >
                                                     Go to Script Editor
                                                 </Button>

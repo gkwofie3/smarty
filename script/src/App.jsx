@@ -12,18 +12,23 @@ const ProtectedRoute = () => {
   return token ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
+import Header from './components/Header';
+
 function App() {
   return (
     <Router>
-      <div className="vh-100 d-flex flex-column bg-light">
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/editor/:id" element={<Editor />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+      <div className="vh-100 d-flex flex-column bg-light h-100">
+        <Header />
+        <div className="flex-grow-1 overflow-auto">
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/editor/:id" element={<Editor />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
         <ToastContainer position="bottom-right" theme="dark" />
       </div>
     </Router>
